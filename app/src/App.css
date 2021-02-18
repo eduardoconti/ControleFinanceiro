@@ -1,0 +1,76 @@
+.Container {
+  background-color: #DCDFE0;
+  flex: 1;
+  display: flex;
+}
+
+.Left {
+  width: 10%;
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+  box-shadow:0px 0px 5px 3px #9EBFC0
+
+}
+.Middle {
+
+  width: 50%;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  display: flex;
+
+}
+
+.Right {
+  width: 40%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+
+
+}
+.Header {
+
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  display: flex;
+  width: 100%;
+}
+.Grid{
+
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  height: 430px;
+  background-color: #F9FEFB;
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow:0px 0px 5px 3px #9EBFC0
+}
+
+
+.Foot {
+  height: 30px;
+  width: 100%;
+  background-color:#0D3530;
+  position:absolute;
+  bottom: 0;
+  display: flex;
+  
+}
+
+.Grafico {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  width: 90%;
+  height: 45%;
+  background-color:#F9FEFB;
+  border-radius: 10px;
+  box-shadow:0px 0px 5px 3px #9EBFC0
+}
