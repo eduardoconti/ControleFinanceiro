@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CreateTwoToneIcon from '@material-ui/icons/CreateTwoTone';
 import DeleteForeverTwoToneIcon from '@material-ui/icons/DeleteForeverTwoTone';
 import FiberManualRecordTwoToneIcon from '@material-ui/icons/FiberManualRecordTwoTone';
-import { getDespesas, deletaDespesa, alteraDespesa } from "../common/DepesaFuncoes";
+import { getReceitas, deletaReceita, alteraReceita } from "../common/ReceitaFuncoes";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   }
 
 });
-export default function DataGridComponent({ setTotalDespesas, stateCheckedDespesas }) {
+export default function DataGridComponent({ setTotalReceitas, stateCheckedReceitas }) {
   const [rows, setRows] = useState([]);
   const classes = useStyles();
 
@@ -27,12 +27,7 @@ export default function DataGridComponent({ setTotalDespesas, stateCheckedDespes
       width: 50,
     },
     { field: "descricao", headerName: "Descricao", width: 150 },
-    {
-      field: "categoria",
-      headerName: "Categoria",
-      type: "number",
-      width: 120,
-    },
+
     {
       field: "carteira",
       headerName: "Carteira",
@@ -65,8 +60,8 @@ export default function DataGridComponent({ setTotalDespesas, stateCheckedDespes
             <IconButton aria-label="excluir"
               className={classes.operacoes}
               onClick={() => {
-                deletaDespesa(field.row.id)
-                setTotalDespesas()
+                deletaReceita(field.row.id)
+                setTotalReceitas()
               }}>
               <DeleteForeverTwoToneIcon />
             </IconButton>
@@ -75,10 +70,10 @@ export default function DataGridComponent({ setTotalDespesas, stateCheckedDespes
               className={classes.operacoes}
               style={{ color: cor }}
               onClick={() => {
-                let despesa = field.row
-                despesa.pago = !despesa.pago
-                alteraDespesa(despesa);
-                setTotalDespesas();
+                let receita = field.row
+                receita.pago = !receita.pago
+                alteraReceita(receita);
+                setTotalReceitas();
 
               }}>
               <FiberManualRecordTwoToneIcon />
@@ -92,15 +87,15 @@ export default function DataGridComponent({ setTotalDespesas, stateCheckedDespes
 
   useEffect(() => {
 
-    async function pegaDespesa() {
+    async function pegaReceita() {
 
-      let despesas = await getDespesas(stateCheckedDespesas)
+      let receitas = await getReceitas(stateCheckedReceitas)
 
-      setRows( despesas );    
+      setRows( receitas );    
 
     }
 
-    pegaDespesa();
+    pegaReceita();
 
   });
 

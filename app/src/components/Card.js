@@ -4,56 +4,55 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import CheckboxLabels from "./CheckBox";
+import CardActionArea from '@material-ui/core/CardActionArea';
 
 const useStyles = makeStyles({
     root: {
-        width: 200,
+        width: 180,
         textAlign: "center",
         minHeight: 160,
-        display: "flex",
-        flexDirection:"column",
-        justifyContent:"center",
-        alignItems:'center',
-        boxShadow:'0px 0px 5px 3px #9EBFC0'
-     
+        boxShadow: '0px 0px 5px 1px #9EBFC0',
+        flexDirection: 'row',
+        margin: 0,
+        padding: 0
 
-    },
-    text: {
-        fontSize: 16,
-        fontWeight: "bold",
     },
     cabecalho: {
         fontSize: 26,
         fontWeight: "bold",
+        fontFamily: 'Arial',
     },
     valor: {
-        fontSize: 32,
+        fontFamily: 'Arial',
+        fontSize: 30,
         fontWeight: "bold",
     },
     checkBox: {
-        justifyContent: "center",
-        display: "flex",
-        alignItens: "center",
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 });
 
-export default function Cards({ descricao, cor, valor, radioButton }) {
+export default function Cards({ descricao, cor, valor, radioButton, setStateChecked, stateChecked, setStateCurrentDataGrid }) {
+
     const classes = useStyles();
     var checkBox;
 
     if (radioButton) {
-        checkBox = <CheckboxLabels className={classes.checkBox}/>;
+        checkBox = <CheckboxLabels setStateChecked={setStateChecked} stateChecked={stateChecked} />;
     }
 
     return (
         <Card className={classes.root} variant="outlined">
-            <CardContent > 
-                <Typography className={classes.cabecalho} style={{ color: cor }}>
-                    {descricao}
-                </Typography>
-
-                <Typography className={classes.valor}>{valor} R$</Typography>
-            </CardContent>
+            <CardActionArea 
+            onClick={ setStateCurrentDataGrid }	>
+                <CardContent >
+                    <Typography className={classes.cabecalho} style={{ color: cor }}>
+                        {descricao}
+                    </Typography>
+                    <Typography className={classes.valor}>{valor} R$</Typography>
+                </CardContent>
+            </CardActionArea>
             {checkBox}
         </Card>
     );

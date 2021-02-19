@@ -1,9 +1,7 @@
-export interface DespesasDTO {
+export interface ReceitasDTO {
     id?: number;
     descricao?: string;
-    categoria?: number;
     valor?: number;
-    vencimento?:Date;
     pagamento?:Date;
     pago?: boolean;
     carteira?:number;

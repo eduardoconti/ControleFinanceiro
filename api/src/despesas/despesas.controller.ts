@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Patch, Body, Delete, Post } from '@nestjs/common';
+import { Controller, Get, Param, Put, Body, Delete, Post } from '@nestjs/common';
 import { DespesaService } from './despesas.service'
 import { Despesas } from './despesas.entity'
 import { DespesasDTO } from './despesas.dto'
@@ -41,12 +41,12 @@ export class DespesasController {
         return this.despesaService.getOne(id);
     }
 
-    @Patch()
-    async alteraDespesa(@Body() despesa: DespesasDTO): Promise<Despesas> {
+    @Put('/:id')
+    async alteraDespesa(@Param('id') id: number, @Body() despesa: DespesasDTO): Promise<Despesas> {
         return this.despesaService.alteraDespesa(despesa);
     }
 
-    @Delete()
+    @Delete('/:id')
     async deletaDespesa(@Param('id') id: number): Promise<{ deleted: boolean }> {
         return this.despesaService.deletaDespesa(id);
     }

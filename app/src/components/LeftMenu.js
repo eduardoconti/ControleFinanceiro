@@ -1,10 +1,19 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import { makeStyles } from "@material-ui/core/styles";
 
+const useStyles = makeStyles({
+    botao: {
+        backgroundColor: '#F9FEFB',
+        fontFamily: 'Arial',
+
+    },
+
+});
 
 export default function GroupOrientation() {
-
+    const classes = useStyles();
 
     return (
 
@@ -13,11 +22,10 @@ export default function GroupOrientation() {
             aria-label="vertical contained primary button group"
             variant="contained"
             fullWidth
-            
         >
-            <Button>Menu 1</Button>
-            <Button>Menu 2</Button>
-            <Button>Menu 2</Button>
+            <Button className={classes.botao}>Menu 1</Button>
+            <Button className={classes.botao}>Menu 2</Button>
+            <Button className={classes.botao}>Menu 2</Button>
         </ButtonGroup>
 
     );

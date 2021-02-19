@@ -1,5 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
+import {Categorias} from '../categorias/categorias.entity'
 @Entity()
 export class Despesas {
   @PrimaryGeneratedColumn()
@@ -15,6 +15,7 @@ export class Despesas {
   valor: number;
 
   @Column()
+
   vencimento:Date;
 
   @Column()
@@ -24,6 +25,6 @@ export class Despesas {
   pago: boolean;
 
   @Column()
-  tipoPagamento: number;
+  carteira: number;
 
 }

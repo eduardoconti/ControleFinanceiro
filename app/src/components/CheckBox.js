@@ -1,53 +1,60 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
-import { green } from "@material-ui/core/colors";
-import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import IconButton from '@material-ui/core/IconButton';
+import AddCircleTwoToneIcon from '@material-ui/icons/AddCircleTwoTone';
 import Checkbox from "@material-ui/core/Checkbox";
 
-const GreenCheckbox = withStyles({
-  root: {
-    color: green[400],
-    "&$checked": {
-      color: green[600],
-    },
-  },
-  checked: {},
-})((props) => <Checkbox color="default" {...props} />);
+export default function CheckboxLabels( {setStateChecked, stateChecked }  ) {
 
-export default function CheckboxLabels() {
-  const [state, setState] = React.useState({
-    checkedPago: true,
-    checkedAberto: true,
-  });
-
-  const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
+  const handleChange = (event) => { 
+    var resultado = 0;
+    var name = event.target.name
+    function readProp(obj, prop) {
+      return obj[prop]
+    }  
+      
+    for (var i in stateChecked) {
+      if (stateChecked[i]) {
+          resultado ++;
+      }
+    }
+    if ( !( resultado == Object.keys( stateChecked ).length -1 && readProp( stateChecked, name ) ) ){
+      setStateChecked({ ...stateChecked, [event.target.name]: event.target.checked })
+    }
+   
   };
 
   return (
-    <FormGroup row>
+
+    <div style={{ alignItems: 'center', justifyContent:'center', display:'flex' }}>
       <FormControlLabel
         control={
-          <GreenCheckbox
-            checked={state.checkedPago}
+          <Checkbox
+            checked={stateChecked.checkedPago}
             onChange={handleChange}
             name="checkedPago"
+            style={{color:'green'}}
           />
         }
-        label="Pago"
+        style={{margin:0, padding:0}}
       />
       <FormControlLabel
         control={
           <Checkbox
-            checked={state.checkedAberto}
+            checked={stateChecked.checkedAberto}
             onChange={handleChange}
             name="checkedAberto"
-            color="secondary"
+            style={{color:'DarkRed'}}
           />
         }
-        label="Aberto"
+        style={{margin:0, padding:0}}
       />
-    </FormGroup>
+      <IconButton aria-label="inserir"
+            style={{ color: '#216260', margin:0, padding:8 }}
+            onClick={() => { }}>
+            <AddCircleTwoToneIcon />
+          </IconButton>
+    </div>
+
   );
 }

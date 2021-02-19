@@ -2,8 +2,17 @@ import API from "./Api"
 
 const ENDPOINT = "despesas/"
 
-async function getDespesas() {
-    const res = await API.get(ENDPOINT);
+async function getDespesas(stateCheckedDespesas) {
+ 
+    var res = new Array(0)
+    if( stateCheckedDespesas.checkedPago && stateCheckedDespesas.checkedAberto || !stateCheckedDespesas.checkedPago && !stateCheckedDespesas.checkedAberto){
+       res = await API.get(ENDPOINT);
+    }else if ( stateCheckedDespesas.checkedPago ){
+        res = await API.get(ENDPOINT + 'pago')
+    }else if ( stateCheckedDespesas.checkedAberto ){
+        res = await API.get(ENDPOINT + 'aberto')
+    }
+
     return res.data;
 }
 
@@ -24,17 +33,32 @@ async function alteraDespesa(despesa) {
 }
 
 async function retornaTotalDespesas() {
-    const data = await getDespesas()
-    let total = 0
-    data.forEach(element => {
-        total += element.valor
-    });
-    return total
+    const total = await API.get(ENDPOINT + 'total/');
+
+    return total.data
+}
+
+async function retornaTotalDespesasPagas() {
+    const total = await API.get(ENDPOINT + 'pago/valor');
+    if (!total.data) {
+        return 0
+    }
+    return total.data
+}
+
+async function retornaTotalDespesasAbertas() {
+    const total = await API.get(ENDPOINT + 'aberto/valor');
+    if (!total.data) {
+        return 0
+    }
+    return total.data
 }
 export {
     getDespesas,
     deletaDespesa,
     insereDespesa,
     alteraDespesa,
-    retornaTotalDespesas
+    retornaTotalDespesas,
+    retornaTotalDespesasPagas,
+    retornaTotalDespesasAbertas
 }
