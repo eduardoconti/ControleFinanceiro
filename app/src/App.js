@@ -7,13 +7,14 @@ import { retornaTotalDespesasPagas, retornaTotalDespesasAbertas } from './common
 import { retornaTotalReceitasPagas, retornaTotalReceitasAbertas } from './common/ReceitaFuncoes'
 import React, { useState, useEffect } from "react"
 import LeftMenu from './components/LeftMenu'
-
+import FormularioDespesas from './components/FormDespesas'
 function App() {
 
   const [totalDespesas, setTotalDespesas] = useState(0)
   const [totalReceitas, setTotalReceitas] = useState(0)
   const [saldo, setSaldo] = useState(0)
   const [balanco, setBalanco] = useState(0)
+
   const [stateCheckedDespesas, setStateChecked] = useState({
     checkedPago: true,
     checkedAberto: true,
@@ -25,7 +26,8 @@ function App() {
   });
 
   const [stateCurrentDataGrid, setStateCurrentDataGrid] = useState(0)
-
+  const [stateCurrentForm, setStateCurrentForm] = useState(0)
+  const [ isCadastro, setIsCadastro ] = useState(false)
   var CurrentDataGrid
 
   if (stateCurrentDataGrid === 0) {
@@ -42,6 +44,23 @@ function App() {
         stateCheckedReceitas={stateCheckedReceitas} >
 
       </GridReceitas>
+  }
+
+  var CurrentForm 
+
+  if (stateCurrentForm === 0) {
+    CurrentForm =
+      <FormularioDespesas></FormularioDespesas>
+  } else if (stateCurrentForm === 1) {
+    CurrentForm =
+    <FormularioDespesas></FormularioDespesas>
+  }
+
+  var Body 
+  if(isCadastro){
+    Body = CurrentForm
+  }else {
+    Body = CurrentDataGrid
   }
 
   useEffect(() => {
@@ -66,7 +85,7 @@ function App() {
       setTotalDespesas(totalDespesas)
       setTotalReceitas(totalReceitas)
       setSaldo(totalReceitasPagas - totalDespesasPagas)
-      setBalanco( totalReceitas - totalDespesas )
+      setBalanco((totalReceitasAbertas+totalReceitasPagas) - ( totalDespesasPagas + totalDespesasAbertas ))
 
     }
     setTotais();
@@ -82,37 +101,43 @@ function App() {
       </div>
       <div className="Middle">
         <div className="Header" >
-          <Card descricao='Despesas'
+          <Card
+            descricao='Despesas'
             cor='DarkRed'
             valor={totalDespesas}
             radioButton
             setStateChecked={(stateChecked) => setStateChecked(stateChecked)}
             stateChecked={stateCheckedDespesas}
-            setStateCurrentDataGrid={() => setStateCurrentDataGrid(0)}>
+            setStateCurrentDataGrid={() => setStateCurrentDataGrid(0)}
+            setIsCadastro={(isCadastro)=>setIsCadastro(isCadastro)}>
           </Card>
 
-          <Card descricao='Receitas'
+          <Card
+            descricao='Receitas'
             cor='green'
             valor={totalReceitas}
             radioButton
             setStateChecked={(stateCheckedReceitas) => setStateCheckedReceita(stateCheckedReceitas)}
             stateChecked={stateCheckedReceitas}
-            setStateCurrentDataGrid={() => setStateCurrentDataGrid(1)}>
+            setStateCurrentDataGrid={() => setStateCurrentDataGrid(1)}
+            setIsCadastro={(isCadastro)=>setIsCadastro(isCadastro)}>
           </Card>
 
-          <Card descricao='Saldo'
+          <Card
+            descricao='Saldo'
             cor='DarkGoldenRod'
             valor={saldo}>
           </Card>
 
-          <Card descricao='Balanço'
+          <Card
+            descricao='Balanço'
             cor='DarkSlateGrey'
             valor={balanco}>
           </Card>
 
         </div>
-        <div className="Grid">
-          {CurrentDataGrid}
+        <div className="Body">
+          {Body}
         </div>
 
       </div>

@@ -33,19 +33,24 @@ const useStyles = makeStyles({
     },
 });
 
-export default function Cards({ descricao, cor, valor, radioButton, setStateChecked, stateChecked, setStateCurrentDataGrid }) {
+export default function Cards({ descricao, cor, valor, radioButton, setStateChecked, stateChecked, setStateCurrentDataGrid, setIsCadastro }) {
 
     const classes = useStyles();
     var checkBox;
 
     if (radioButton) {
-        checkBox = <CheckboxLabels setStateChecked={setStateChecked} stateChecked={stateChecked} />;
+        checkBox = <CheckboxLabels setStateChecked={setStateChecked} stateChecked={stateChecked} setIsCadastro={setIsCadastro} />;
+    }
+
+    function onClik(){
+        setStateCurrentDataGrid()
+        setIsCadastro(false)
     }
 
     return (
         <Card className={classes.root} variant="outlined">
             <CardActionArea 
-            onClick={ setStateCurrentDataGrid }	>
+            onClick={ ()=> onClik() }	>
                 <CardContent >
                     <Typography className={classes.cabecalho} style={{ color: cor }}>
                         {descricao}
