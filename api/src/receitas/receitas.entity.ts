@@ -1,12 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {Carteiras} from '../carteiras/carteiras.entity'
 @Entity()
 export class Receitas {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ length: 255 })
-  descricao: string;
+  descricao: string; 
 
   @Column()
   valor: number;
@@ -17,7 +17,7 @@ export class Receitas {
   @Column()
   pago: boolean;
 
-  @Column()
-  carteira:number;
+  @ManyToOne(() => Carteiras, carteiras => carteiras.descricao )
+  carteira: Carteiras;
 
 }

@@ -2,7 +2,15 @@ import { Injectable, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Receitas } from './receitas.entity';
 import { ReceitasDTO } from './receitas.dto'
-import { from } from 'rxjs';
+
+const select = [
+  "receitas.id",
+  "receitas.descricao",
+  "receitas.valor",
+  "receitas.pago",
+  "receitas.carteira",
+  "carteira"
+]
 
 @Injectable()
 export class ReceitaService {
@@ -11,11 +19,40 @@ export class ReceitaService {
     private receitaRepository: Repository<Receitas>,
   ) { }
 
-  async retornaTodasReceitas(): Promise<Receitas[]> {
-    return await this.receitaRepository.find();
+  async retornaTodasReceitas() {
+    let receitas = await this.receitaRepository
+      .createQueryBuilder("receitas")
+      .select(select)
+      .innerJoin("receitas.carteira", "carteira")
+      .getMany();
+
+    return receitas
   }
+
+  async retornaReceitasPagas() {
+    let receitas = await this.receitaRepository
+      .createQueryBuilder("receitas")
+      .select(select)
+      .innerJoin("receitas.carteira", "carteira")
+      .where("receitas.pago=true")
+      .getMany();
+
+    return receitas
+  }
+
+  async retornaReceitasEmAberto() {
+    let receitas = await this.receitaRepository
+      .createQueryBuilder("receitas")
+      .select(select)
+      .innerJoin("receitas.carteira", "carteira")
+      .where("receitas.pago=false")
+      .getMany();
+
+    return receitas
+  }
+
   async getOne(id: number): Promise<Receitas> {
-    return this.receitaRepository.findOneOrFail({ id });
+    return this.receitaRepository.findOneOrFail({ id }, { relations: ['carteira'] });
   }
 
   async insereReceita(receita: ReceitasDTO): Promise<Receitas> {
@@ -30,6 +67,12 @@ export class ReceitaService {
     return this.getOne(id);
   }
 
+  async alteraFlagPago(despesa): Promise<{ id: number, pago: boolean }> {
+    const { id } = despesa;
+    await this.receitaRepository.update({ id }, despesa);
+    return this.getOne(id);
+  }
+
   async deletaReceita(id: number): Promise<{ deleted: boolean; message?: string }> {
     try {
       await this.receitaRepository.delete({ id });
@@ -39,51 +82,35 @@ export class ReceitaService {
     }
   }
 
-  async retornaReceitasPagas( ){
-    return await from( this.receitaRepository.find({
-      where:{
-        pago: true,
-      },
-    } ) )
+  async retornaTotalReceitas() {
+
+    let { sum } = await this.receitaRepository
+      .createQueryBuilder("RECEITAS")
+      .select("SUM(RECEITAS.valor)", "sum")
+      .getRawOne();
+
+    return sum
   }
 
-  async retornaReceitasEmAberto( ){
-    return from(this.receitaRepository.find({
-      where: {
-        pago: false,
-      },
-    }))
+  async retornaTotalReceitasPagas() {
+
+    let { sum } = await this.receitaRepository
+      .createQueryBuilder("RECEITAS")
+      .select("SUM(RECEITAS.valor)", "sum")
+      .where("RECEITAS.pago = true")
+      .getRawOne();
+
+    return sum
   }
 
-  async retornaTotalReceitas(){
+  async retornaTotalReceitasAbertas() {
 
-    let {sum}  = await this.receitaRepository
-            .createQueryBuilder("RECEITAS")
-            .select("SUM(RECEITAS.valor)", "sum")
-            .getRawOne(); 
+    let { sum } = await this.receitaRepository
+      .createQueryBuilder("RECEITAS")
+      .select("SUM(RECEITAS.valor)", "sum")
+      .where("RECEITAS.pago = false")
+      .getRawOne();
 
-    return  sum
-  }
-
-  async retornaTotalReceitasPagas(){
-
-    let {sum}  = await this.receitaRepository
-            .createQueryBuilder("RECEITAS")
-            .select("SUM(RECEITAS.valor)", "sum")
-            .where("RECEITAS.pago = true")
-            .getRawOne(); 
-
-    return  sum
-  }
-
-  async retornaTotalReceitasAbertas(){
-
-    let {sum}  = await this.receitaRepository
-            .createQueryBuilder("RECEITAS")
-            .select("SUM(RECEITAS.valor)", "sum")
-            .where("RECEITAS.pago = false")
-            .getRawOne(); 
-
-    return  sum
+    return sum
   }
 }

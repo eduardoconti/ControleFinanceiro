@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CreateTwoToneIcon from '@material-ui/icons/CreateTwoTone';
 import DeleteForeverTwoToneIcon from '@material-ui/icons/DeleteForeverTwoTone';
 import FiberManualRecordTwoToneIcon from '@material-ui/icons/FiberManualRecordTwoTone';
-import { getReceitas, deletaReceita, alteraReceita } from "../common/ReceitaFuncoes";
+import { getReceitas, deletaReceita, alteraFlagPago } from "../common/ReceitaFuncoes";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
@@ -20,18 +20,12 @@ export default function DataGridComponent({ setTotalReceitas, stateCheckedReceit
   const classes = useStyles();
 
   const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-      type: "number",
-      width: 50,
-    },
+
     { field: "descricao", headerName: "Descricao", width: 150 },
 
     {
       field: "carteira",
       headerName: "Carteira",
-      type: "number",
       width: 120,
     },
     {
@@ -70,9 +64,11 @@ export default function DataGridComponent({ setTotalReceitas, stateCheckedReceit
               className={classes.operacoes}
               style={{ color: cor }}
               onClick={() => {
-                let receita = field.row
-                receita.pago = !receita.pago
-                alteraReceita(receita);
+                let receita = {
+                  id: field.row.id,
+                  pago: !field.row.pago
+                }
+                alteraFlagPago(receita);
                 setTotalReceitas();
 
               }}>
@@ -91,7 +87,7 @@ export default function DataGridComponent({ setTotalReceitas, stateCheckedReceit
 
       let receitas = await getReceitas(stateCheckedReceitas)
 
-      setRows( receitas );    
+      setRows(receitas);
 
     }
 

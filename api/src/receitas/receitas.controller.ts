@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Put, Body, Delete, Post } from '@nestjs/common';
+import { Controller, Get, Param, Put, Body, Delete, Post,Patch } from '@nestjs/common';
 import { ReceitaService } from './receitas.service'
 import { Receitas } from './receitas.entity'
 import { ReceitasDTO } from './receitas.dto'
@@ -9,7 +9,7 @@ export class ReceitasController {
     constructor(private readonly receitaService: ReceitaService) { }
 
     @Get()
-    async getAll(): Promise<Receitas[]> {
+    async getAll() {
         return await this.receitaService.retornaTodasReceitas();
     }
     @Get('/pago')
@@ -44,6 +44,11 @@ export class ReceitasController {
     @Put('/:id')
     async alteraReceita(@Param('id') id: number, @Body() receita: ReceitasDTO): Promise<Receitas> {
         return this.receitaService.alteraReceita(receita);
+    }
+
+    @Patch('flag/:id')
+    async alteraFlagPago(@Param('id') id: number, @Body() receita: { id:number, pago:boolean}): Promise<{ id:number, pago:boolean}> {
+        return this.receitaService.alteraFlagPago(receita);
     }
 
     @Delete('/:id')

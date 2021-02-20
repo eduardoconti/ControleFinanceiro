@@ -1,7 +1,7 @@
 
 import './App.css';
 import Card from './components/Card'
-import Grid from './components/DataGrid'
+import Grid from './components/DataGridDespesas'
 import GridReceitas from './components/DataGridReceitas'
 import { retornaTotalDespesasPagas, retornaTotalDespesasAbertas } from './common/DepesaFuncoes'
 import { retornaTotalReceitasPagas, retornaTotalReceitasAbertas } from './common/ReceitaFuncoes'

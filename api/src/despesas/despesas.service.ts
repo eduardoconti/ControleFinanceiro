@@ -9,8 +9,8 @@ const select = [
   "despesas.valor",
   "despesas.pago",
   "despesas.carteira",
-  "categoria.descricao",
-  "carteira.descricao"
+  "categoria",
+  "carteira"
 ]
 
 @Injectable()
@@ -26,13 +26,41 @@ export class DespesaService {
       .select(select)
       .innerJoin("despesas.categoria", "categoria")
       .innerJoin("despesas.carteira", "carteira")
+      .orderBy("despesas.descricao")
+      .getMany();
+
+    return despesas
+  }
+
+  async retornaDespesasPagas() {
+    let despesas = await this.despesaRepository
+      .createQueryBuilder("despesas")
+      .select(select)
+      .innerJoin("despesas.categoria", "categoria")
+      .innerJoin("despesas.carteira", "carteira")
+      .where('despesas.pago=true')
+      .orderBy("despesas.descricao")
+      .getMany();
+
+    return despesas
+  }
+
+  async retornaDespesasEmAberto() {
+
+    let despesas = await this.despesaRepository
+      .createQueryBuilder("despesas")
+      .select(select)
+      .innerJoin("despesas.categoria", "categoria")
+      .innerJoin("despesas.carteira", "carteira")
+      .where('despesas.pago=false')
+      .orderBy("despesas.descricao")
       .getMany();
 
     return despesas
   }
 
   async getOne(id: number): Promise<Despesas> {
-    return this.despesaRepository.findOneOrFail({ id });
+    return this.despesaRepository.findOneOrFail({ id }, { relations: ['carteira', 'categoria'] });
   }
 
   async insereDespesa(despesa: DespesasDTO): Promise<Despesas> {
@@ -60,31 +88,6 @@ export class DespesaService {
     } catch (err) {
       return { deleted: false, message: err.message };
     }
-  }
-
-  async retornaDespesasPagas() {
-    let despesas = await this.despesaRepository
-    .createQueryBuilder("despesas")
-    .select(select)
-    .innerJoin("despesas.categoria", "categoria")
-    .innerJoin("despesas.carteira", "carteira")
-    .where('despesas.pago=true')
-    .getMany();
-
-  return despesas
-  }
-
-  async retornaDespesasEmAberto() { 
-    
-    let despesas = await this.despesaRepository
-    .createQueryBuilder("despesas")
-    .select(select)
-    .innerJoin("despesas.categoria", "categoria")
-    .innerJoin("despesas.carteira", "carteira")
-    .where('despesas.pago=false')
-    .getMany();
-
-  return despesas
   }
 
   async retornaTotalDespesas() {
@@ -117,23 +120,5 @@ export class DespesaService {
       .getRawOne();
 
     return sum
-  }
-
-  async retornaTudoTeste() {
-    let despesas = await this.despesaRepository
-      .createQueryBuilder("despesas")
-      .select([
-        "despesas.id",
-        "despesas.descricao",
-        "despesas.valor",
-        "despesas.pago",
-        "despesas.carteira",
-        "categoria.descricao"
-      ])
-      .innerJoin("despesas.categoria", "categoria")
-      .where('')
-      .getMany();
-
-    return despesas
   }
 }

@@ -32,7 +32,7 @@ export class DespesasController {
     }
 
     @Get('/total')
-    async retornaTotalDespesas(): Promise<Despesas[]>{
+    async retornaTotalDespesas(){
         return this.despesaService.retornaTotalDespesas()
     }
 

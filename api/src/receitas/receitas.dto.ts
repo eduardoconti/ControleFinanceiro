@@ -4,5 +4,5 @@ export interface ReceitasDTO {
     valor?: number;
     pagamento?:Date;
     pago?: boolean;
-    carteira?:number;
+    carteiraId?:number;
   }

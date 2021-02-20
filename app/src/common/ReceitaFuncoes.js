@@ -2,6 +2,13 @@ import API from "./Api"
 
 const ENDPOINT = "receitas/"
 
+function returnRows(receitas) {
+
+    return receitas.map((receita) => {
+        return {...receita, carteira: receita.carteira.descricao }
+    });
+}
+
 async function getReceitas(stateCheckedReceitas) {
  
     var res = new Array(0)
@@ -13,7 +20,7 @@ async function getReceitas(stateCheckedReceitas) {
         res = await API.get(ENDPOINT + 'aberto')
     }
 
-    return res.data;
+    return returnRows( res.data );
 }
 
 async function deletaReceita(id) {
@@ -28,10 +35,15 @@ async function insereReceita(receita) {
 }
 async function alteraReceita(receita) {
 
-    const res = await API.put(ENDPOINT + receita.id, receita)
+    const res = await API.patch(ENDPOINT + receita.id, receita)
     return res.status.valueOf();
 }
+async function alteraFlagPago(receita) {
 
+    const res = await API.patch(ENDPOINT +'flag/' + receita.id, receita)
+    console.log( res )
+    return res.status.valueOf();
+}
 async function retornaTotalReceitas() {
     const total = await API.get(ENDPOINT + 'total/');
 
@@ -60,5 +72,6 @@ export {
     alteraReceita,
     retornaTotalReceitas,
     retornaTotalReceitasPagas,
-    retornaTotalReceitasAbertas
+    retornaTotalReceitasAbertas,
+    alteraFlagPago
 }

@@ -20,12 +20,7 @@ export default function DataGridComponent({ setTotalDespesas, stateCheckedDespes
   const classes = useStyles();
 
   const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-      type: "number",
-      width: 50,
-    },
+
     { field: "descricao", headerName: "Descricao", width: 150 },
     {
       field: "categoria",
