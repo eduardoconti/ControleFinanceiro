@@ -5,7 +5,7 @@ const ENDPOINT = "despesas/"
 function returnRows(despesas) {
 
     return despesas.map((despesa) => {
-        return {...despesa, categoria: despesa.categoria.descricao}
+        return {...despesa, categoria: despesa.categoria.descricao, carteira: despesa.carteira.descricao }
     });
 }
 
@@ -19,7 +19,7 @@ async function getDespesas(stateCheckedDespesas) {
     }else if ( stateCheckedDespesas.checkedAberto ){
         res = await API.get(ENDPOINT + 'aberto')
     }
-
+    console.log(res)
     return returnRows(res.data);
 } 
 

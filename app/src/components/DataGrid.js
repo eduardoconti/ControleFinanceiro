@@ -35,7 +35,6 @@ export default function DataGridComponent({ setTotalDespesas, stateCheckedDespes
     {
       field: "carteira",
       headerName: "Carteira",
-      type: "number",
       width: 120,
     },
     {

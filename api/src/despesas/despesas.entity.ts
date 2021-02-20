@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
 import {Categorias} from '../categorias/categorias.entity'
+import {Carteiras} from '../carteiras/carteiras.entity'
 @Entity()
 export class Despesas {
   @PrimaryGeneratedColumn()
@@ -15,7 +16,6 @@ export class Despesas {
   valor: number;
 
   @Column()
-
   vencimento:Date;
 
   @Column()
@@ -24,7 +24,7 @@ export class Despesas {
   @Column()
   pago: boolean;
 
-  @Column()
-  carteira: number;
+  @ManyToOne(() => Carteiras, carteiras => carteiras.descricao )
+  carteira: Carteiras;
 
 }

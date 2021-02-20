@@ -9,5 +9,5 @@ export class Carteiras {
   descricao: string;
 
   @OneToMany(() => Despesas, despesas => despesas.carteira)
-  carteira: Despesas[];
+  carteira: Despesas[]; 
 }

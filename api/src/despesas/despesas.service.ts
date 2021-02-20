@@ -9,7 +9,8 @@ const select = [
   "despesas.valor",
   "despesas.pago",
   "despesas.carteira",
-  "categoria.descricao"
+  "categoria.descricao",
+  "carteira.descricao"
 ]
 
 @Injectable()
@@ -24,7 +25,7 @@ export class DespesaService {
       .createQueryBuilder("despesas")
       .select(select)
       .innerJoin("despesas.categoria", "categoria")
-      .where('')
+      .innerJoin("despesas.carteira", "carteira")
       .getMany();
 
     return despesas
@@ -66,6 +67,7 @@ export class DespesaService {
     .createQueryBuilder("despesas")
     .select(select)
     .innerJoin("despesas.categoria", "categoria")
+    .innerJoin("despesas.carteira", "carteira")
     .where('despesas.pago=true')
     .getMany();
 
@@ -78,6 +80,7 @@ export class DespesaService {
     .createQueryBuilder("despesas")
     .select(select)
     .innerJoin("despesas.categoria", "categoria")
+    .innerJoin("despesas.carteira", "carteira")
     .where('despesas.pago=false')
     .getMany();
 

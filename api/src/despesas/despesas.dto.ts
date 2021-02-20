@@ -6,5 +6,5 @@ export interface DespesasDTO {
     vencimento?:Date;
     pagamento?:Date;
     pago?: boolean;
-    carteira?:number;
+    carteiraId?:number;
   }
