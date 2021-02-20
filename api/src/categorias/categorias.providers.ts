@@ -1,4 +1,4 @@
-import { Connection, Repository } from 'typeorm';
+import { Connection } from 'typeorm';
 import { Categorias } from './categorias.entity';
 
 export const categoriasProviders = [

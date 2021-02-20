@@ -20,10 +20,8 @@ const useStyles = makeStyles({
     cabecalho: {
         fontSize: 26,
         fontWeight: "bold",
-        fontFamily: 'Arial',
     },
     valor: {
-        fontFamily: 'Arial',
         fontSize: 30,
         fontWeight: "bold",
     },

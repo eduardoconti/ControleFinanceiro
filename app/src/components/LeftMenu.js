@@ -6,8 +6,6 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
     botao: {
         backgroundColor: '#F9FEFB',
-        fontFamily: 'Arial',
-
     },
 
 });

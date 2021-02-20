@@ -2,7 +2,6 @@ import { Injectable, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Categorias } from './categorias.entity';
 import { CategoriasDTO } from './categorias.dto'
-import { from } from 'rxjs';
 
 @Injectable()
 export class CategoriasService {
