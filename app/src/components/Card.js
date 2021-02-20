@@ -8,7 +8,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 
 const useStyles = makeStyles({
     root: {
-        width: 180,
+        width: 170,
         textAlign: "center",
         minHeight: 160,
         boxShadow: '0px 0px 5px 1px #9EBFC0',

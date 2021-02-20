@@ -126,13 +126,18 @@ function App() {
           <Card
             descricao='Saldo'
             cor='DarkGoldenRod'
-            valor={saldo}>
+            valor={saldo}
+            setStateCurrentDataGrid={() => setStateCurrentDataGrid(stateCurrentDataGrid)}
+            setIsCadastro={(isCadastro)=>setIsCadastro(isCadastro)}>
+              
           </Card>
 
           <Card
             descricao='Balanço'
             cor='DarkSlateGrey'
-            valor={balanco}>
+            valor={balanco}
+            setStateCurrentDataGrid={() => setStateCurrentDataGrid(stateCurrentDataGrid)}
+            setIsCadastro={(isCadastro)=>setIsCadastro(isCadastro)}>
           </Card>
 
         </div>
