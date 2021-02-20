@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CreateTwoToneIcon from '@material-ui/icons/CreateTwoTone';
 import DeleteForeverTwoToneIcon from '@material-ui/icons/DeleteForeverTwoTone';
 import FiberManualRecordTwoToneIcon from '@material-ui/icons/FiberManualRecordTwoTone';
-import { getDespesas, deletaDespesa, alteraDespesa } from "../common/DepesaFuncoes";
+import { getDespesas, deletaDespesa, alteraFlagPago } from "../common/DepesaFuncoes";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
@@ -30,7 +30,6 @@ export default function DataGridComponent({ setTotalDespesas, stateCheckedDespes
     {
       field: "categoria",
       headerName: "Categoria",
-      type: "number",
       width: 120,
     },
     {
@@ -75,9 +74,12 @@ export default function DataGridComponent({ setTotalDespesas, stateCheckedDespes
               className={classes.operacoes}
               style={{ color: cor }}
               onClick={() => {
-                let despesa = field.row
-                despesa.pago = !despesa.pago
-                alteraDespesa(despesa);
+                let despesa = {
+                  id: field.row.id,
+                  pago: !field.row.pago
+                }
+
+                alteraFlagPago(despesa);
                 setTotalDespesas();
 
               }}>
@@ -96,7 +98,7 @@ export default function DataGridComponent({ setTotalDespesas, stateCheckedDespes
 
       let despesas = await getDespesas(stateCheckedDespesas)
 
-      setRows( despesas );    
+      setRows(despesas);
 
     }
 

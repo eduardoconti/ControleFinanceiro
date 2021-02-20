@@ -8,4 +8,6 @@ export class Categorias {
   @Column({ length: 255 })
   descricao: string;
 
+  @OneToMany(() => Despesas, despesas => despesas.categoria)
+  categoria: Despesas[];
 }

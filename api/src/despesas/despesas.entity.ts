@@ -8,8 +8,8 @@ export class Despesas {
   @Column({ length: 255 })
   descricao: string;
 
-  @Column()
-  categoria: number;
+  @ManyToOne(() => Categorias, categorias => categorias.descricao )
+  categoria: Categorias;
 
   @Column()
   valor: number;

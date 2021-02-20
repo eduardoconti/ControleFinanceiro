@@ -2,19 +2,26 @@ import API from "./Api"
 
 const ENDPOINT = "despesas/"
 
+function returnRows(despesas) {
+
+    return despesas.map((despesa) => {
+        return {...despesa, categoria: despesa.categoria.descricao}
+    });
+}
+
 async function getDespesas(stateCheckedDespesas) {
  
     var res = new Array(0)
     if( stateCheckedDespesas.checkedPago && stateCheckedDespesas.checkedAberto || !stateCheckedDespesas.checkedPago && !stateCheckedDespesas.checkedAberto){
-       res = await API.get(ENDPOINT);
+       res = await API.get(ENDPOINT );
     }else if ( stateCheckedDespesas.checkedPago ){
         res = await API.get(ENDPOINT + 'pago')
     }else if ( stateCheckedDespesas.checkedAberto ){
         res = await API.get(ENDPOINT + 'aberto')
     }
 
-    return res.data;
-}
+    return returnRows(res.data);
+} 
 
 async function deletaDespesa(id) {
     const res = await API.delete(ENDPOINT + id)
@@ -26,9 +33,10 @@ async function insereDespesa(despesa) {
     const res = await API.post(ENDPOINT, despesa)
     return res.status.valueOf();
 }
-async function alteraDespesa(despesa) {
+async function alteraFlagPago(despesa) {
 
-    const res = await API.put(ENDPOINT + despesa.id, despesa)
+    const res = await API.patch(ENDPOINT +'flag/' + despesa.id, despesa)
+    console.log( res )
     return res.status.valueOf();
 }
 
@@ -57,7 +65,7 @@ export {
     getDespesas,
     deletaDespesa,
     insereDespesa,
-    alteraDespesa,
+    alteraFlagPago,
     retornaTotalDespesas,
     retornaTotalDespesasPagas,
     retornaTotalDespesasAbertas

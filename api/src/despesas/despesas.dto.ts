@@ -1,7 +1,7 @@
 export interface DespesasDTO {
     id?: number;
     descricao?: string;
-    categoria?: number;
+    categoriaId?: number;
     valor?: number;
     vencimento?:Date;
     pagamento?:Date;

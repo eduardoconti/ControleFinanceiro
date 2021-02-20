@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Put, Body, Delete, Post } from '@nestjs/common';
+import { Controller, Get, Param, Put, Body, Delete, Post, Patch } from '@nestjs/common';
 import { DespesaService } from './despesas.service'
 import { Despesas } from './despesas.entity'
 import { DespesasDTO } from './despesas.dto'
@@ -9,7 +9,7 @@ export class DespesasController {
     constructor(private readonly despesaService: DespesaService) { }
 
     @Get()
-    async getAll(): Promise<Despesas[]> {
+    async getAll() {
         return await this.despesaService.retornaTodasDespesas();
     }
     @Get('/pago')
@@ -41,6 +41,11 @@ export class DespesasController {
         return this.despesaService.getOne(id);
     }
 
+    @Patch('flag/:id')
+    async alteraFlagPago(@Param('id') id: number, @Body() despesa: { id:number, pago:boolean}): Promise<{ id:number, pago:boolean}> {
+        return this.despesaService.alteraFlagPago(despesa);
+    }
+    
     @Put('/:id')
     async alteraDespesa(@Param('id') id: number, @Body() despesa: DespesasDTO): Promise<Despesas> {
         return this.despesaService.alteraDespesa(despesa);
