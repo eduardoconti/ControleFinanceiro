@@ -15,9 +15,10 @@ const useStyles = makeStyles({
   }
 
 });
-export default function DataGridComponent({ setTotalDespesas, stateCheckedDespesas }) {
+export default function DataGridComponent({ stateCheckedDespesas }) {
   const [rows, setRows] = useState([]);
   const classes = useStyles();
+  const [selectedRow, setSelectedRow] = useState([])
 
   const columns = [
 
@@ -45,8 +46,7 @@ export default function DataGridComponent({ setTotalDespesas, stateCheckedDespes
       width: 120,
       sortable: false,
       renderCell: function operacoes(field) {
-        let cor
-        field.row.pago ? cor = 'green' : cor = 'DarkRed'
+
         return (
           <div>
             <IconButton aria-label="alterar"
@@ -57,25 +57,29 @@ export default function DataGridComponent({ setTotalDespesas, stateCheckedDespes
 
             <IconButton aria-label="excluir"
               className={classes.operacoes}
-              onClick={() => {
-                deletaDespesa(field.row.id)
-                setTotalDespesas()
+              onClick={async () => {
+               
+                await deletaDespesa(field.row.id) ;    
+                pegaDespesas(); 
+              
               }}>
               <DeleteForeverTwoToneIcon />
             </IconButton>
 
             <IconButton aria-label="pago"
               className={classes.operacoes}
-              style={{ color: cor }}
-              onClick={() => {
+              style={{ color:  field.row.pago ?  'green' :  'DarkRed' }}
+              onClick={async() => {
+
                 let despesa = {
                   id: field.row.id,
                   pago: !field.row.pago
                 }
 
-                alteraFlagPago(despesa);
-                setTotalDespesas();
-
+                await alteraFlagPago(despesa);  
+                pegaDespesas();
+                
+                
               }}>
               <FiberManualRecordTwoToneIcon />
             </IconButton>
@@ -86,16 +90,46 @@ export default function DataGridComponent({ setTotalDespesas, stateCheckedDespes
     },
   ];
 
+  async function pegaDespesas() {
+    let despesas = await getDespesas(stateCheckedDespesas)
+    setRows(despesas);
+  }
+
   useEffect(() => {
     
-    async function pegaDespesa() {
-      let despesas = await getDespesas(stateCheckedDespesas)
-      setRows(despesas);
+    pegaDespesas();
 
+  },[stateCheckedDespesas]);
+
+  /*useEffect(() => {
+    let rows=[]
+    let totalDespesa = 0
+    if( stateCheckedDespesas.checkedPago && stateCheckedDespesas.checkedAberto ){
+      rows = despesas 
+      despesas.forEach( despesa =>{
+        totalDespesa += despesa.valor  
+      })
+    }else if ( stateCheckedDespesas.checkedPago ){
+      despesas.forEach( despesa =>{
+        if(despesa.pago){
+          totalDespesa += despesa.valor
+          rows.push(despesa)
+        }
+      })
+    }else if ( stateCheckedDespesas.checkedAberto ){
+      despesas.forEach( despesa =>{
+        if(!despesa.pago){
+          totalDespesa += despesa.valor
+          rows.push(despesa)
+        }
+      })
     }
-    pegaDespesa();
+    setRows(rows)
+    setStateTotais({...stateTotais, totalDespesas:totalDespesa})
+  },[stateCheckedDespesas]);*/
 
-  },[]);
+  
+
 
   return (
 
@@ -108,6 +142,7 @@ export default function DataGridComponent({ setTotalDespesas, stateCheckedDespes
       disableColumnMenu
       hideFooter
       hideFooterPagination
+      onRowSelected={(selectedRow) => setSelectedRow(selectedRow.data)}
 
     />
 

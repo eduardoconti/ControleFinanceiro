@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   }
 
 });
-export default function DataGridComponent({ setTotalReceitas, stateCheckedReceitas }) {
+export default function DataGridComponent({ stateCheckedReceitas }) {
   const [rows, setRows] = useState([]);
   const classes = useStyles();
 
@@ -53,9 +53,9 @@ export default function DataGridComponent({ setTotalReceitas, stateCheckedReceit
 
             <IconButton aria-label="excluir"
               className={classes.operacoes}
-              onClick={() => {
-                deletaReceita(field.row.id)
-                setTotalReceitas()
+              onClick={async () => {
+                await deletaReceita(field.row.id)
+                pegaReceitas();
               }}>
               <DeleteForeverTwoToneIcon />
             </IconButton>
@@ -63,14 +63,13 @@ export default function DataGridComponent({ setTotalReceitas, stateCheckedReceit
             <IconButton aria-label="pago"
               className={classes.operacoes}
               style={{ color: cor }}
-              onClick={() => {
+              onClick={async () => {
                 let receita = {
                   id: field.row.id,
                   pago: !field.row.pago
                 }
-                alteraFlagPago(receita);
-                setTotalReceitas();
-
+                await alteraFlagPago(receita);
+                pegaReceitas();
               }}>
               <FiberManualRecordTwoToneIcon />
             </IconButton>
@@ -81,18 +80,17 @@ export default function DataGridComponent({ setTotalReceitas, stateCheckedReceit
     },
   ];
 
+  async function pegaReceitas() {
+
+    let receitas = await getReceitas(stateCheckedReceitas)
+    setRows(receitas);
+
+  }
   useEffect(() => {
 
-    async function pegaReceita() {
+    pegaReceitas();
 
-      let receitas = await getReceitas(stateCheckedReceitas)
-      setRows(receitas);
-
-    }
-
-    pegaReceita();
-
-  }, []);
+  }, [stateCheckedReceitas]);
 
   return (
 

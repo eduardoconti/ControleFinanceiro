@@ -127,7 +127,18 @@ export default function FormDespesas() {
         variant="contained"
         size="small"
         style={{ margin: 5 }}
-        onClick={async () => await insereDespesa(formulario)}
+        onClick={async () => {
+          await insereDespesa(formulario)
+          setFormulario({
+            descricao: "",
+            categoria: 0,
+            carteira: 0,
+            valor: 0,
+            pago: false,
+            pagamento: new Date(),
+            vencimento: new Date(),
+          })
+        }}
       >
         CADASTRAR
       </Button>
