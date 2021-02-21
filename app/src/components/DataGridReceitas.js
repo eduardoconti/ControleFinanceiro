@@ -86,14 +86,13 @@ export default function DataGridComponent({ setTotalReceitas, stateCheckedReceit
     async function pegaReceita() {
 
       let receitas = await getReceitas(stateCheckedReceitas)
-
       setRows(receitas);
 
     }
 
     pegaReceita();
 
-  });
+  }, []);
 
   return (
 

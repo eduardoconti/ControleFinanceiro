@@ -18,7 +18,7 @@ export default function CheckboxLabels( {setStateChecked, stateChecked, setIsCad
           resultado ++;
       }
     }
-    if ( !( resultado == Object.keys( stateChecked ).length -1 && readProp( stateChecked, name ) ) ){
+    if ( !( resultado === Object.keys( stateChecked ).length -1 && readProp( stateChecked, name ) ) ){
       setStateChecked({ ...stateChecked, [event.target.name]: event.target.checked })
     }
    

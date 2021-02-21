@@ -12,14 +12,14 @@ function returnRows(despesas) {
 async function getDespesas(stateCheckedDespesas) {
  
     var res = new Array(0)
-    if( stateCheckedDespesas.checkedPago && stateCheckedDespesas.checkedAberto || !stateCheckedDespesas.checkedPago && !stateCheckedDespesas.checkedAberto){
+    if( ( stateCheckedDespesas.checkedPago && stateCheckedDespesas.checkedAberto ) || ( !stateCheckedDespesas.checkedPago && !stateCheckedDespesas.checkedAberto)){
        res = await API.get(ENDPOINT );
     }else if ( stateCheckedDespesas.checkedPago ){
         res = await API.get(ENDPOINT + 'pago')
     }else if ( stateCheckedDespesas.checkedAberto ){
         res = await API.get(ENDPOINT + 'aberto')
     }
-    console.log(res)
+
     return returnRows(res.data);
 } 
 
@@ -36,7 +36,6 @@ async function insereDespesa(despesa) {
 async function alteraFlagPago(despesa) {
 
     const res = await API.patch(ENDPOINT +'flag/' + despesa.id, despesa)
-    console.log( res )
     return res.status.valueOf();
 }
 
@@ -61,6 +60,7 @@ async function retornaTotalDespesasAbertas() {
     }
     return total.data
 }
+
 export {
     getDespesas,
     deletaDespesa,

@@ -5,22 +5,22 @@ const ENDPOINT = "receitas/"
 function returnRows(receitas) {
 
     return receitas.map((receita) => {
-        return {...receita, carteira: receita.carteira.descricao }
+        return { ...receita, carteira: receita.carteira.descricao }
     });
 }
 
 async function getReceitas(stateCheckedReceitas) {
- 
+
     var res = new Array(0)
-    if( stateCheckedReceitas.checkedPago && stateCheckedReceitas.checkedAberto || !stateCheckedReceitas.checkedPago && !stateCheckedReceitas.checkedAberto){
-       res = await API.get(ENDPOINT);
-    }else if ( stateCheckedReceitas.checkedPago ){
+    if ( ( stateCheckedReceitas.checkedPago && stateCheckedReceitas.checkedAberto ) || (!stateCheckedReceitas.checkedPago && !stateCheckedReceitas.checkedAberto) ) {
+        res = await API.get(ENDPOINT);
+    } else if (stateCheckedReceitas.checkedPago) {
         res = await API.get(ENDPOINT + 'pago')
-    }else if ( stateCheckedReceitas.checkedAberto ){
+    } else if (stateCheckedReceitas.checkedAberto) {
         res = await API.get(ENDPOINT + 'aberto')
     }
 
-    return returnRows( res.data );
+    return returnRows(res.data);
 }
 
 async function deletaReceita(id) {
@@ -40,8 +40,7 @@ async function alteraReceita(receita) {
 }
 async function alteraFlagPago(receita) {
 
-    const res = await API.patch(ENDPOINT +'flag/' + receita.id, receita)
-    console.log( res )
+    const res = await API.patch(ENDPOINT + 'flag/' + receita.id, receita)
     return res.status.valueOf();
 }
 async function retornaTotalReceitas() {

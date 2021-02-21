@@ -87,18 +87,15 @@ export default function DataGridComponent({ setTotalDespesas, stateCheckedDespes
   ];
 
   useEffect(() => {
-
+    
     async function pegaDespesa() {
-
       let despesas = await getDespesas(stateCheckedDespesas)
-
       setRows(despesas);
 
     }
-
     pegaDespesa();
 
-  });
+  },[]);
 
   return (
 
