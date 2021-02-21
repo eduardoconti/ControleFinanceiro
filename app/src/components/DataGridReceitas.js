@@ -6,7 +6,7 @@ import DeleteForeverTwoToneIcon from '@material-ui/icons/DeleteForeverTwoTone';
 import FiberManualRecordTwoToneIcon from '@material-ui/icons/FiberManualRecordTwoTone';
 import { getReceitas, deletaReceita, alteraFlagPago } from "../common/ReceitaFuncoes";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { calculaSaldo } from '../common/Funcoes'
 const useStyles = makeStyles({
   operacoes: {
     color: '#216260',
@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   }
 
 });
-export default function DataGridComponent({ stateCheckedReceitas }) {
+export default function DataGridComponent({ stateCheckedReceitas, setStateTotais, stateTotais }) {
   const [rows, setRows] = useState([]);
   const classes = useStyles();
 
@@ -55,7 +55,8 @@ export default function DataGridComponent({ stateCheckedReceitas }) {
               className={classes.operacoes}
               onClick={async () => {
                 await deletaReceita(field.row.id)
-                pegaReceitas();
+                await pegaReceitas();
+                setStateTotais({ ...stateTotais, saldo: await calculaSaldo() })
               }}>
               <DeleteForeverTwoToneIcon />
             </IconButton>
@@ -69,7 +70,8 @@ export default function DataGridComponent({ stateCheckedReceitas }) {
                   pago: !field.row.pago
                 }
                 await alteraFlagPago(receita);
-                pegaReceitas();
+                await pegaReceitas();
+                setStateTotais({ ...stateTotais, saldo: await calculaSaldo() })
               }}>
               <FiberManualRecordTwoToneIcon />
             </IconButton>

@@ -29,14 +29,19 @@ function App() {
   const [stateCurrentDataGrid, setStateCurrentDataGrid] = useState(0)
   const [stateCurrentForm, setStateCurrentForm] = useState(0)
   const [isCadastro, setIsCadastro] = useState(false)
-  
+
   var CurrentDataGrid
 
   if (stateCurrentDataGrid === 0) {
-    CurrentDataGrid = <Grid stateCheckedDespesas={stateCheckedDespesas} />
+    CurrentDataGrid = <Grid 
+    stateCheckedDespesas={stateCheckedDespesas} 
+    setStateTotais={ (stateTotais)=>{setStateTotais(stateTotais)}}
+    stateTotais={stateTotais} />
 
   } else if (stateCurrentDataGrid === 1) {
-    CurrentDataGrid = <GridReceitas stateCheckedReceitas={stateCheckedReceitas} />
+    CurrentDataGrid = <GridReceitas stateCheckedReceitas={stateCheckedReceitas}
+    setStateTotais={ (stateTotais)=>{setStateTotais(stateTotais)}}
+    stateTotais={stateTotais}  />
   }
 
   var CurrentForm

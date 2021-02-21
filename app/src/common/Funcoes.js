@@ -29,6 +29,15 @@ async function calculaTotais( stateCheckedDespesas, stateCheckedReceitas ) {
 
 }
 
+async function calculaSaldo(){
+    let  totalReceitasPagas = await retornaTotalReceitasPagas()
+    let totalDespesasPagas = await retornaTotalDespesasPagas()
+
+    return totalReceitasPagas - totalDespesasPagas 
+}
+
+
 export {
-    calculaTotais
+    calculaTotais,
+    calculaSaldo
 }
