@@ -1,12 +1,15 @@
 
 import './App.css';
 import Card from './components/Card'
-import Grid from './components/DataGridDespesas'
+import GridDespesas from './components/DataGridDespesas'
 import GridReceitas from './components/DataGridReceitas'
 import { calculaTotais } from './common/Funcoes'
 import React, { useState, useEffect } from "react"
-import LeftMenu from './components/LeftMenu'
 import FormularioDespesas from './components/FormDespesas'
+import { Grid, Box } from '@material-ui/core';
+import LeftMenu from './components/LeftMenu'
+import Grafico from './components/Grafico'
+
 function App() {
 
   const [stateTotais, setStateTotais] = useState({
@@ -33,24 +36,24 @@ function App() {
   var CurrentDataGrid
 
   if (stateCurrentDataGrid === 0) {
-    CurrentDataGrid = <Grid 
-    stateCheckedDespesas={stateCheckedDespesas} 
-    setStateTotais={ (stateTotais)=>{setStateTotais(stateTotais)}}
-    stateTotais={stateTotais} />
+    CurrentDataGrid = <GridDespesas
+      stateCheckedDespesas={stateCheckedDespesas}
+      setStateTotais={(stateTotais) => { setStateTotais(stateTotais) }}
+      stateTotais={stateTotais} />
 
   } else if (stateCurrentDataGrid === 1) {
     CurrentDataGrid = <GridReceitas stateCheckedReceitas={stateCheckedReceitas}
-    setStateTotais={ (stateTotais)=>{setStateTotais(stateTotais)}}
-    stateTotais={stateTotais}  />
+      setStateTotais={(stateTotais) => { setStateTotais(stateTotais) }}
+      stateTotais={stateTotais} />
   }
 
   var CurrentForm
 
   if (stateCurrentForm === 0) {
-    CurrentForm =  <FormularioDespesas/>
-     
+    CurrentForm = <FormularioDespesas />
+
   } else if (stateCurrentForm === 1) {
-    CurrentForm = <FormularioDespesas/>    
+    CurrentForm = <FormularioDespesas />
   }
 
   var Body
@@ -70,65 +73,76 @@ function App() {
   )
   return (
 
-    <div className="Container" >
-      <div className="Left">
-        <div className="LeftMenu">
-          <LeftMenu />
-        </div>
-      </div>
-      <div className="Middle">
-        <div className="Header" >
-          <Card
-            descricao='Despesas'
-            cor='DarkRed'
-            valor={stateTotais.totalDespesas}
-            radioButton
-            setStateChecked={(stateChecked) => setStateChecked(stateChecked)}
-            stateChecked={stateCheckedDespesas}
-            setStateCurrentDataGrid={() => setStateCurrentDataGrid(0)}
-            setIsCadastro={(isCadastro) => setIsCadastro(isCadastro)}>
-          </Card>
+    <Box className="Container">
 
-          <Card
-            descricao='Receitas'
-            cor='green'
-            valor={stateTotais.totalReceitas}
-            radioButton
-            setStateChecked={(stateCheckedReceitas) => setStateCheckedReceita(stateCheckedReceitas)}
-            stateChecked={stateCheckedReceitas}
-            setStateCurrentDataGrid={() => setStateCurrentDataGrid(1)}
-            setIsCadastro={(isCadastro) => setIsCadastro(isCadastro)}>
-          </Card>
+      <Grid container direction='row' spacing={1}>
 
-          <Card
-            descricao='Saldo'
-            cor='DarkGoldenRod'
-            valor={stateTotais.saldo}
-            setStateCurrentDataGrid={() => setStateCurrentDataGrid(stateCurrentDataGrid)}
-            setIsCadastro={(isCadastro) => setIsCadastro(isCadastro)}>
+        <Grid item xs={12} sm={12} md={12} lg={1} xl={1}>{/* LEFT */}
+          <LeftMenu></LeftMenu>
+        </Grid>
 
-          </Card>
+        <Grid item xs={12} sm={12} md={12} lg={8} xl={8}> {/* MID */}
 
-          <Card
-            descricao='Balanço'
-            cor='DarkSlateGrey'
-            valor={stateTotais.balanco}
-            setStateCurrentDataGrid={() => setStateCurrentDataGrid(stateCurrentDataGrid)}
-            setIsCadastro={(isCadastro) => setIsCadastro(isCadastro)}>
-          </Card>
+          <Grid container spacing={1} >
+            <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
+              <Card
+                descricao='Despesas'
+                cor='DarkRed'
+                valor={stateTotais.totalDespesas}
+                radioButton
+                setStateChecked={(stateChecked) => setStateChecked(stateChecked)}
+                stateChecked={stateCheckedDespesas}
+                setStateCurrentDataGrid={() => setStateCurrentDataGrid(0)}
+                setIsCadastro={(isCadastro) => setIsCadastro(isCadastro)}>
+              </Card>
+            </Grid>
+            <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
+              <Card
+                descricao='Receitas'
+                cor='green'
+                valor={stateTotais.totalReceitas}
+                radioButton
+                setStateChecked={(stateCheckedReceitas) => setStateCheckedReceita(stateCheckedReceitas)}
+                stateChecked={stateCheckedReceitas}
+                setStateCurrentDataGrid={() => setStateCurrentDataGrid(1)}
+                setIsCadastro={(isCadastro) => setIsCadastro(isCadastro)}>
+              </Card>
+            </Grid>
+            <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
+              <Card
+                descricao='Saldo'
+                cor='DarkGoldenRod'
+                valor={stateTotais.saldo}
+                setStateCurrentDataGrid={() => setStateCurrentDataGrid(stateCurrentDataGrid)}
+                setIsCadastro={(isCadastro) => setIsCadastro(isCadastro)}>
+              </Card>
+            </Grid>
+            <Grid item xs={6} sm={6} md={6} lg={3} xl={3} >
+              <Card
+                descricao='Balanço'
+                cor='DarkSlateGrey'
+                valor={stateTotais.balanco}
+                setStateCurrentDataGrid={() => setStateCurrentDataGrid(stateCurrentDataGrid)}
+                setIsCadastro={(isCadastro) => setIsCadastro(isCadastro)}>
+              </Card>
+            </Grid>
+            
+          </Grid>
 
-        </div>
-        <div className="Body">
-          {Body}
-        </div>
+          <Grid container spacing={1} >
+            <Grid item xs={12} >
+              {Body}
+            </Grid>
+          </Grid>
+        </Grid>
 
-      </div>
-      <div className="Right">
-        <div className="Grafico" />
-        <div className="Grafico" />
-      </div>
-    </div>
+        <Grid item xs={12} sm={12} md={12} lg={3} xl={3}> {/* RIGHT */}
+         <Grafico></Grafico>
+        
+        </Grid>
 
+      </Grid>
+    </Box>
   );
 }
 

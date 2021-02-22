@@ -5,7 +5,7 @@ const ENDPOINT = "despesas/"
 function returnRows(despesas) {
 
     return despesas.map((despesa) => {
-        return {...despesa, categoria: despesa.categoria.descricao, carteira: despesa.carteira.descricao }
+        return {...despesa, categoria: despesa.categoria.descricao, carteira: despesa.carteira.descricao, vencimento: new Date(despesa.vencimento).toISOString().slice(0, 10) }
     });
 }
 

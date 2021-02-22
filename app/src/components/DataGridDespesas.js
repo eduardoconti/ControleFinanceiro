@@ -32,6 +32,11 @@ export default function DataGridComponent({ stateCheckedDespesas, setStateTotais
       width: 120,
     },
     {
+      field: "vencimento",
+      headerName: "Vencimento",
+      width: 120,
+    },
+    {
       field: "valor",
       headerName: "Valor",
       type: "number",
@@ -100,18 +105,20 @@ export default function DataGridComponent({ stateCheckedDespesas, setStateTotais
   }, [stateCheckedDespesas]);
 
   return (
+    <div className="DataGrid">
 
-    <DataGrid
-      rows={rows}
-      columns={columns}
-      rowHeight={30}
-      hideFooterSelectedRowCount
-      hideFooterRowCount
-      disableColumnMenu
-      hideFooter
-      hideFooterPagination
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        rowHeight={30}
+        hideFooterSelectedRowCount
+        hideFooterRowCount
+        disableColumnMenu
+        hideFooter
+        hideFooterPagination
 
-    />
+      />
+    </div>
 
   );
 }

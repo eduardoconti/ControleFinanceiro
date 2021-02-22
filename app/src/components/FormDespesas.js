@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import MenuItem from "@material-ui/core/MenuItem";
 import { retornaCategorias } from "../common/CategoriaFuncoes";
 import { retornaCarteiras } from "../common/CarteiraFuncoes";
-//import MenuItem from "./MenuItemForm";
-import MenuItem from "@material-ui/core/MenuItem";
 import { insereDespesa } from '../common/DepesaFuncoes'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -14,6 +14,16 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
+const emptyFormulario = {
+  descricao: "",
+  categoria: 0,
+  carteira: 0,
+  valor: 0,
+  pago: false,
+  pagamento: new Date(),
+  vencimento: new Date(),
+}
 
 function Menu(object) {
   return object.map((obj, i) => {
@@ -24,17 +34,7 @@ function Menu(object) {
 export default function FormDespesas() {
   const [categorias, setCategorias] = useState([]);
   const [carteiras, setCarteiras] = useState([]);
-  const [formulario, setFormulario] = useState({
-
-    descricao: "",
-    categoria: 0,
-    carteira: 0,
-    valor: 0,
-    pago: false,
-    pagamento: new Date(),
-    vencimento: new Date(),
-
-  });
+  const [formulario, setFormulario] = useState(emptyFormulario);
   const classes = useStyles();
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export default function FormDespesas() {
       label="Categoria"
       variant="outlined"
       size="small"
-      style={{ width: 200 }}
+      style={{ width: 150 }}
       value={formulario.categoria}
       select
       onChange={(event) =>
@@ -77,7 +77,7 @@ export default function FormDespesas() {
       label="Carteira"
       variant="outlined"
       size="small"
-      style={{ width: 200 }}
+      style={{ width: 150 }}
       value={formulario.carteira}
       select
       onChange={(event) =>
@@ -89,20 +89,14 @@ export default function FormDespesas() {
   );
 
   return (
-    <div
-      style={{
-        width: "100%",
-        padding: 10,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <div className="Formularios" >
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
           id="descricao"
           label="Descricao"
           variant="outlined"
           size="small"
+          style={{ width: 150 }}
           required={true}
           value={formulario.descricao}
           onChange={(event) =>
@@ -112,11 +106,23 @@ export default function FormDespesas() {
         {TextFieldCategoria}
         {TextFieldCarteira}
         <TextField
+          id="vencimento"
+          label="Vencimento"
+          variant="outlined"
+          type="date"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          value={formulario.vencimento}
+          size='small'
+          onChange={(event => setFormulario({ ...formulario, vencimento: event.target.value }))}
+        />
+        <TextField
           id="valor"
           label="Valor"
           variant="outlined"
           size="small"
-          style={{ width: 60 }}
+          style={{ width: 80 }}
           value={formulario.valor}
           onChange={(event) =>
             setFormulario({ ...formulario, valor: event.target.value })
@@ -129,15 +135,7 @@ export default function FormDespesas() {
         style={{ margin: 5 }}
         onClick={async () => {
           await insereDespesa(formulario)
-          setFormulario({
-            descricao: "",
-            categoria: 0,
-            carteira: 0,
-            valor: 0,
-            pago: false,
-            pagamento: new Date(),
-            vencimento: new Date(),
-          })
+          setFormulario(emptyFormulario)
         }}
       >
         CADASTRAR

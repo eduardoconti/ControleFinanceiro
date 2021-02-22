@@ -90,23 +90,23 @@ export default function DataGridComponent({ stateCheckedReceitas, setStateTotais
   }
   useEffect(() => {
 
-    pegaReceitas();
+    pegaReceitas( );
 
   }, [stateCheckedReceitas]);
 
   return (
+    <div className="DataGrid" >
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        rowHeight={30}
+        hideFooterSelectedRowCount
+        hideFooterRowCount
+        disableColumnMenu
+        hideFooter
+        hideFooterPagination
 
-    <DataGrid
-      rows={rows}
-      columns={columns}
-      rowHeight={30}
-      hideFooterSelectedRowCount
-      hideFooterRowCount
-      disableColumnMenu
-      hideFooter
-      hideFooterPagination
-
-    />
-
+      />
+    </div>
   );
 }

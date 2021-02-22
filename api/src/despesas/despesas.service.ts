@@ -9,6 +9,7 @@ const select = [
   "despesas.valor",
   "despesas.pago",
   "despesas.carteira",
+  "despesas.vencimento",
   "categoria",
   "carteira"
 ]
