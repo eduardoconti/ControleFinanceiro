@@ -5,23 +5,29 @@ const ENDPOINT = "despesas/"
 function returnRows(despesas) {
 
     return despesas.map((despesa) => {
-        return {...despesa, categoria: despesa.categoria.descricao, carteira: despesa.carteira.descricao, vencimento: new Date(despesa.vencimento).toISOString().slice(0, 10) }
+        return { ...despesa, categoria: despesa.categoria.descricao, carteira: despesa.carteira.descricao, vencimento: new Date(despesa.vencimento).toISOString().slice(0, 10) }
     });
 }
 
 async function getDespesas(stateCheckedDespesas) {
- 
+
     var res = new Array(0)
-    if( ( stateCheckedDespesas.checkedPago && stateCheckedDespesas.checkedAberto ) || ( !stateCheckedDespesas.checkedPago && !stateCheckedDespesas.checkedAberto)){
-       res = await API.get(ENDPOINT );
-    }else if ( stateCheckedDespesas.checkedPago ){
+    if ((stateCheckedDespesas.checkedPago && stateCheckedDespesas.checkedAberto) || (!stateCheckedDespesas.checkedPago && !stateCheckedDespesas.checkedAberto)) {
+        res = await API.get(ENDPOINT);
+    } else if (stateCheckedDespesas.checkedPago) {
         res = await API.get(ENDPOINT + 'pago')
-    }else if ( stateCheckedDespesas.checkedAberto ){
+    } else if (stateCheckedDespesas.checkedAberto) {
         res = await API.get(ENDPOINT + 'aberto')
     }
 
     return returnRows(res.data);
-} 
+}
+
+async function getDespesasGraico() {
+    var res = new Array(0)
+    res = await API.get(ENDPOINT);
+    return returnRows(res.data);
+}
 
 async function deletaDespesa(id) {
     const res = await API.delete(ENDPOINT + id)
@@ -35,7 +41,7 @@ async function insereDespesa(despesa) {
 }
 async function alteraFlagPago(despesa) {
 
-    const res = await API.patch(ENDPOINT +'flag/' + despesa.id, despesa)
+    const res = await API.patch(ENDPOINT + 'flag/' + despesa.id, despesa)
     return res.status.valueOf();
 }
 
@@ -68,5 +74,6 @@ export {
     alteraFlagPago,
     retornaTotalDespesas,
     retornaTotalDespesasPagas,
-    retornaTotalDespesasAbertas
+    retornaTotalDespesasAbertas,
+    getDespesasGraico
 }

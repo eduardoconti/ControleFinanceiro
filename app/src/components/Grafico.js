@@ -1,18 +1,45 @@
-import React from 'react';
-import { Grid, Box } from '@material-ui/core';
+import React, { PureComponent, useEffect, useState } from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { getDespesas } from '../common/DepesaFuncoes'
 
-export default function Grafico() {
+export default function GraficoTest({ stateCheckedDespesas, stateCheckedReceitas }) {
+  const [despesas, setDespesas] = useState([]);
+
+  async function pegaDespesas() {
+    let despesas = await getDespesas(stateCheckedDespesas)
+    setDespesas(despesas);
+  }
+
+  useEffect(() => {
+
+    pegaDespesas();
+
+  }, [stateCheckedDespesas]);
+
     return (
-        <Grid container direction='row' spacing={1} >
-            <Grid item  xs={12} sm={6} md={6} lg={12}>
-                <Box className="Grafico">
-                </Box>
-            </Grid>
-            <Grid item  xs={12} sm={6} md={6} lg={12}>
-                <Box className="Grafico">
-                </Box>
-            </Grid>
 
-        </Grid>
-    )
+      <ResponsiveContainer width="100%" height="100%" >
+        <LineChart
+          width={100}
+          height={100}
+          data={despesas}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 0,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="descricao" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="valor" stroke="#8884d8" activeDot={{ r: 8 }} />
+       
+        </LineChart>
+      </ResponsiveContainer>
+
+    );
+
 }

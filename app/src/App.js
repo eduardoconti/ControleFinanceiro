@@ -6,9 +6,10 @@ import GridReceitas from './components/DataGridReceitas'
 import { calculaTotais } from './common/Funcoes'
 import React, { useState, useEffect } from "react"
 import FormularioDespesas from './components/FormDespesas'
+import FormularioReceitas from './components/FormReceitas'
 import { Grid, Box } from '@material-ui/core';
 import LeftMenu from './components/LeftMenu'
-import Grafico from './components/Grafico'
+import GraficosContainer from './components/GraficosContainer'
 
 function App() {
 
@@ -39,12 +40,12 @@ function App() {
     CurrentDataGrid = <GridDespesas
       stateCheckedDespesas={stateCheckedDespesas}
       setStateTotais={(stateTotais) => { setStateTotais(stateTotais) }}
-      stateTotais={stateTotais} />
+      stateCheckedReceitas={stateCheckedReceitas} />
 
   } else if (stateCurrentDataGrid === 1) {
     CurrentDataGrid = <GridReceitas stateCheckedReceitas={stateCheckedReceitas}
       setStateTotais={(stateTotais) => { setStateTotais(stateTotais) }}
-      stateTotais={stateTotais} />
+      stateCheckedDespesas={stateCheckedDespesas} />
   }
 
   var CurrentForm
@@ -53,7 +54,7 @@ function App() {
     CurrentForm = <FormularioDespesas />
 
   } else if (stateCurrentForm === 1) {
-    CurrentForm = <FormularioDespesas />
+    CurrentForm = <FormularioReceitas />
   }
 
   var Body
@@ -76,12 +77,16 @@ function App() {
     <Box className="Container">
 
       <Grid container direction='row' spacing={1}>
+        <Grid item xs={12}> {/* HADER */}
+          <Box className="Header">
 
+          </Box>
+        </Grid>
         <Grid item xs={12} sm={12} md={12} lg={1} xl={1}>{/* LEFT */}
           <LeftMenu></LeftMenu>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={12} lg={8} xl={8}> {/* MID */}
+        <Grid item xs={12} sm={12} md={12} lg={8} xl={8}>{/* MID */}
 
           <Grid container spacing={1} >
             <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
@@ -93,7 +98,8 @@ function App() {
                 setStateChecked={(stateChecked) => setStateChecked(stateChecked)}
                 stateChecked={stateCheckedDespesas}
                 setStateCurrentDataGrid={() => setStateCurrentDataGrid(0)}
-                setIsCadastro={(isCadastro) => setIsCadastro(isCadastro)}>
+                setIsCadastro={(isCadastro) => setIsCadastro(isCadastro)}
+                setStateCurrentForm={() => setStateCurrentForm(0)}>
               </Card>
             </Grid>
             <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
@@ -105,7 +111,8 @@ function App() {
                 setStateChecked={(stateCheckedReceitas) => setStateCheckedReceita(stateCheckedReceitas)}
                 stateChecked={stateCheckedReceitas}
                 setStateCurrentDataGrid={() => setStateCurrentDataGrid(1)}
-                setIsCadastro={(isCadastro) => setIsCadastro(isCadastro)}>
+                setIsCadastro={(isCadastro) => setIsCadastro(isCadastro)}
+                setStateCurrentForm={() => setStateCurrentForm(1)}>
               </Card>
             </Grid>
             <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
@@ -126,7 +133,7 @@ function App() {
                 setIsCadastro={(isCadastro) => setIsCadastro(isCadastro)}>
               </Card>
             </Grid>
-            
+
           </Grid>
 
           <Grid container spacing={1} >
@@ -137,10 +144,17 @@ function App() {
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={3} xl={3}> {/* RIGHT */}
-         <Grafico></Grafico>
-        
+          <GraficosContainer
+            stateCheckedReceitas={stateCheckedReceitas}
+            stateCheckedDespesas={stateCheckedDespesas}>
+          </GraficosContainer>
         </Grid>
 
+        <Grid item xs={12}> {/* FOOTER */}
+          <Box className="Footer">
+
+          </Box>
+        </Grid>
       </Grid>
     </Box>
   );

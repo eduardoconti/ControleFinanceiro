@@ -6,7 +6,7 @@ import DeleteForeverTwoToneIcon from '@material-ui/icons/DeleteForeverTwoTone';
 import FiberManualRecordTwoToneIcon from '@material-ui/icons/FiberManualRecordTwoTone';
 import { getDespesas, deletaDespesa, alteraFlagPago } from "../common/DepesaFuncoes";
 import { makeStyles } from "@material-ui/core/styles";
-import { calculaSaldo } from '../common/Funcoes'
+import { calculaTotais } from '../common/Funcoes'
 
 const useStyles = makeStyles({
   operacoes: {
@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function DataGridComponent({ stateCheckedDespesas, setStateTotais, stateTotais }) {
+export default function DataGridComponent({ stateCheckedDespesas, setStateTotais, stateCheckedReceitas }) {
   const [rows, setRows] = useState([]);
   const classes = useStyles();
   const columns = [
@@ -63,7 +63,7 @@ export default function DataGridComponent({ stateCheckedDespesas, setStateTotais
                 await deletaDespesa(field.row.id);
                 await pegaDespesas();
 
-                setStateTotais({ ...stateTotais, saldo: await calculaSaldo() })
+                setStateTotais( await calculaTotais( stateCheckedDespesas, stateCheckedReceitas ))
 
               }}>
               <DeleteForeverTwoToneIcon />
@@ -81,7 +81,7 @@ export default function DataGridComponent({ stateCheckedDespesas, setStateTotais
 
                 await alteraFlagPago(despesa);
                 await pegaDespesas();
-                setStateTotais({ ...stateTotais, saldo: await calculaSaldo() })
+                setStateTotais( await calculaTotais( stateCheckedDespesas, stateCheckedReceitas ))
 
               }}>
               <FiberManualRecordTwoToneIcon />
