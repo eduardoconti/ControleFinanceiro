@@ -7,6 +7,12 @@ async function retornaCategorias() {
     return res.data
 }
 
+async function insereCategoria(categoria) {
+
+    const res = await API.post(ENDPOINT, categoria)
+    return res.status.valueOf();
+}
 export {
-    retornaCategorias
+    retornaCategorias,
+    insereCategoria
 }

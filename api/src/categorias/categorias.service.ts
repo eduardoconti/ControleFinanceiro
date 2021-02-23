@@ -14,4 +14,10 @@ export class CategoriasService {
       async retornaTodasCategorias(): Promise<Categorias[]> {
         return await this.receitaRepository.find();
       }
+
+      async insereDespesa(categoria: CategoriasDTO): Promise<Categorias> {
+        const newDespesas = this.receitaRepository.create(categoria);
+        await this.receitaRepository.save(newDespesas);
+        return newDespesas;
+      }
 }

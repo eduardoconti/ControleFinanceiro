@@ -3,10 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
-
 import { retornaCarteiras } from "../common/CarteiraFuncoes";
-import { insereReceita } from '../common/ReceitaFuncoes'
-
+import { insereReceita } from "../common/ReceitaFuncoes";
+import { calculaTotais } from '../common/Funcoes'
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -21,23 +20,28 @@ const emptyFormulario = {
   valor: 0,
   pago: false,
   pagamento: new Date().toISOString().slice(0, 10),
-
-}
+};
 
 function Menu(object) {
   return object.map((obj, i) => {
-    return <MenuItem key={i} value={obj.id}> {obj.descricao}</MenuItem>
-  })
+    return (
+      <MenuItem key={i} value={obj.id}>
+        {obj.descricao}
+      </MenuItem>
+    );
+  });
 }
 
-export default function FormReceitas() {
-
+export default function FormReceitas({
+  stateCheckedDespesas,
+  stateCheckedReceitas,
+  setStateTotais,
+}) {
   const [carteiras, setCarteiras] = useState([]);
   const [formulario, setFormulario] = useState(emptyFormulario);
   const classes = useStyles();
 
   useEffect(() => {
-
     async function pegaCarteiras() {
       let carteiras = await retornaCarteiras();
       setCarteiras(carteiras);
@@ -46,7 +50,7 @@ export default function FormReceitas() {
     pegaCarteiras();
   }, []);
 
-  let MenuCarteira = Menu(carteiras)
+  let MenuCarteira = Menu(carteiras);
 
   let TextFieldCarteira = (
     <TextField
@@ -66,7 +70,7 @@ export default function FormReceitas() {
   );
 
   return (
-    <div className="Formularios" >
+    <div className="Formularios">
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
           id="descricao"
@@ -100,8 +104,11 @@ export default function FormReceitas() {
         size="small"
         style={{ margin: 5 }}
         onClick={async () => {
-          await insereReceita(formulario)
-          setFormulario(emptyFormulario)
+          await insereReceita(formulario);
+          setFormulario(emptyFormulario);
+          setStateTotais(
+            await calculaTotais(stateCheckedDespesas, stateCheckedReceitas)
+          );
         }}
       >
         CADASTRAR

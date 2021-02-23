@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AddCircleTwoToneIcon from '@material-ui/icons/AddCircleTwoTone';
 import Checkbox from "@material-ui/core/Checkbox";
 
-export default function CheckboxLabels( {setStateChecked, stateChecked, setIsCadastro, setStateCurrentForm }  ) {
+export default function CheckboxLabels( {setStateChecked, stateChecked, setStateCurrentBody}  ) {
 
   const handleChange = (event) => { 
     var resultado = 0;
@@ -52,8 +52,7 @@ export default function CheckboxLabels( {setStateChecked, stateChecked, setIsCad
       <IconButton aria-label="inserir"
             style={{ color: '#216260', margin:0, padding:8 }}
             onClick={() => { 
-              setIsCadastro(true)
-              setStateCurrentForm()
+              setStateCurrentBody(2)
               }}>
             <AddCircleTwoToneIcon />
           </IconButton>

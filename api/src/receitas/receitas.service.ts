@@ -24,6 +24,7 @@ export class ReceitaService {
       .createQueryBuilder("receitas")
       .select(select)
       .innerJoin("receitas.carteira", "carteira")
+      .orderBy("receitas.valor", 'DESC')
       .getMany();
 
     return receitas
@@ -35,6 +36,7 @@ export class ReceitaService {
       .select(select)
       .innerJoin("receitas.carteira", "carteira")
       .where("receitas.pago=true")
+      .orderBy("receitas.valor", 'DESC')
       .getMany();
 
     return receitas
@@ -46,6 +48,7 @@ export class ReceitaService {
       .select(select)
       .innerJoin("receitas.carteira", "carteira")
       .where("receitas.pago=false")
+      .orderBy("receitas.valor", 'DESC')
       .getMany();
 
     return receitas

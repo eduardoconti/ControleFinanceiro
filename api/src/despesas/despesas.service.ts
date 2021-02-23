@@ -60,6 +60,56 @@ export class DespesaService {
     return despesas
   }
 
+  async retornaValorDespesasAgrupadosPorCategoria() {
+
+    let despesas = await this.despesaRepository
+      .createQueryBuilder("despesas")
+      .select([
+        "SUM(despesas.valor) valor",
+        "categoria.descricao categoria"
+      ])
+      .innerJoin("despesas.categoria", "categoria")
+      .groupBy("despesas.categoria")
+      .orderBy("valor", 'DESC')
+      .getRawMany();
+
+    return despesas
+  }
+
+  async retornaValorDespesasAgrupadosPorCategoriaPago() {
+
+    let despesas = await this.despesaRepository
+      .createQueryBuilder("despesas")
+      .select([
+        "SUM(despesas.valor) valor",
+        "categoria.descricao categoria"
+      ])
+      .innerJoin("despesas.categoria", "categoria")
+      .where("despesas.pago=true")
+      .groupBy("despesas.categoria")
+      .orderBy("valor", 'DESC')
+      .getRawMany();
+
+    return despesas
+  }
+
+  async retornaValorDespesasAgrupadosPorCategoriaAberto() {
+
+    let despesas = await this.despesaRepository
+      .createQueryBuilder("despesas")
+      .select([
+        "SUM(despesas.valor) valor",
+        "categoria.descricao categoria"
+      ])
+      .innerJoin("despesas.categoria", "categoria")
+      .where("despesas.pago=false")
+      .groupBy("despesas.categoria")
+      .orderBy("valor", 'DESC')
+      .getRawMany();
+
+    return despesas
+  }
+
   async getOne(id: number): Promise<Despesas> {
     return this.despesaRepository.findOneOrFail({ id }, { relations: ['carteira', 'categoria'] });
   }

@@ -6,6 +6,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { retornaCategorias } from "../common/CategoriaFuncoes";
 import { retornaCarteiras } from "../common/CarteiraFuncoes";
 import { insereDespesa } from '../common/DepesaFuncoes'
+import { calculaTotais } from '../common/Funcoes'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,7 +32,7 @@ function Menu(object) {
   })
 }
 
-export default function FormDespesas() {
+export default function FormDespesas({ stateCheckedDespesas, stateCheckedReceitas, setStateTotais }) {
   const [categorias, setCategorias] = useState([]);
   const [carteiras, setCarteiras] = useState([]);
   const [formulario, setFormulario] = useState(emptyFormulario);
@@ -136,6 +137,7 @@ export default function FormDespesas() {
         onClick={async () => {
           await insereDespesa(formulario)
           setFormulario(emptyFormulario)
+          setStateTotais( await calculaTotais( stateCheckedDespesas, stateCheckedReceitas ))
         }}
       >
         CADASTRAR

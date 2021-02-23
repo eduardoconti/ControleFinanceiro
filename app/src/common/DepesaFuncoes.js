@@ -9,6 +9,12 @@ function returnRows(despesas) {
     });
 }
 
+/*function formataGrafico(despesas) {
+
+    return despesas.map((despesa) => {
+        return { ...despesa, categoria: despesa.categoria.slice(0, 3) + '.' }
+    });
+}*/
 async function getDespesas(stateCheckedDespesas) {
 
     var res = new Array(0)
@@ -23,10 +29,17 @@ async function getDespesas(stateCheckedDespesas) {
     return returnRows(res.data);
 }
 
-async function getDespesasGraico() {
+async function getValorDespesasPorCategoria(stateCheckedDespesas) {
     var res = new Array(0)
-    res = await API.get(ENDPOINT);
-    return returnRows(res.data);
+    if (stateCheckedDespesas.checkedPago && stateCheckedDespesas.checkedAberto){
+        res = await API.get(ENDPOINT + 'categoria/valor');
+    }else if (stateCheckedDespesas.checkedPago) {
+        res = await API.get(ENDPOINT + 'categoria/valor/pago')
+    } else if (stateCheckedDespesas.checkedAberto) {
+        res = await API.get(ENDPOINT + 'categoria/valor/aberto')
+    }
+   
+    return  res.data 
 }
 
 async function deletaDespesa(id) {
@@ -75,5 +88,5 @@ export {
     retornaTotalDespesas,
     retornaTotalDespesasPagas,
     retornaTotalDespesasAbertas,
-    getDespesasGraico
+    getValorDespesasPorCategoria
 }

@@ -12,6 +12,18 @@ export class DespesasController {
     async getAll() {
         return await this.despesaService.retornaTodasDespesas();
     }
+    @Get('/categoria/valor')
+    async retornaValorDespesasAgrupadosPorCategoria(){
+        return await this.despesaService.retornaValorDespesasAgrupadosPorCategoria();
+    }
+    @Get('/categoria/valor/pago')
+    async retornaValorDespesasAgrupadosPorCategoriaPago(){
+        return await this.despesaService.retornaValorDespesasAgrupadosPorCategoriaPago();
+    }
+    @Get('/categoria/valor/aberto')
+    async retornaValorDespesasAgrupadosPorCategoriaAberto(){
+        return await this.despesaService.retornaValorDespesasAgrupadosPorCategoriaAberto();
+    }
     @Get('/pago')
     async getDespesasPagas() {
         return this.despesaService.retornaDespesasPagas();
