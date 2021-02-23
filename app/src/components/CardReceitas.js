@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     root: {
         width: '100%',
         textAlign: "center",
-        maxHeight: 120,
+        maxHeight: 110,
         boxShadow: '0px 0px 5px 1px #9EBFC0',
         backgroundColor: '#F9FEFB',
 
@@ -33,10 +33,10 @@ export default function Cards({ valor, setStateChecked, stateChecked, setStateCu
             <Card className={classes.root} variant="outlined">
                 <CardActionArea onClick={() => onClik()}>
                     <CardContent style={{  margin:0, padding:0 }} >
-                        <Typography variant='h4' style={{ color: 'green', paddingTop:5 }}>
+                        <Typography variant='h5' style={{ color: 'green', paddingTop:5 }}>
                             Receitas
                         </Typography>
-                        <Typography variant='h5' >{valor} R$</Typography>
+                        <Typography variant='h6' >{valor} R$</Typography>
                     </CardContent>
                 </CardActionArea>
                 <CheckboxLabels setStateChecked={setStateChecked} stateChecked={stateChecked} setStateCurrentBody={()=>setStateCurrentBody(3)} />;

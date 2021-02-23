@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     root: {
         width: '100%',
         textAlign: "center",
-        minHeight: 120,
+        minHeight: 110,
         boxShadow: '0px 0px 5px 1px #9EBFC0',
         backgroundColor: '#F9FEFB',
 
@@ -32,10 +32,10 @@ export default function Cards({ descricao, cor, valor, setStateCurrentBody }) {
             <Card className={classes.root} variant="outlined">
                 <CardActionArea onClick={() => onClik()}>
                     <CardContent style={{  margin:0, padding:0 }} >
-                        <Typography variant='h4' style={{ color: cor, paddingTop:5 }}>
+                        <Typography variant='h5' style={{ color: cor, paddingTop:5 }}>
                             {descricao}
                         </Typography>
-                        <Typography variant='h5' >{valor} R$</Typography>
+                        <Typography variant='h6' >{valor} R$</Typography>
                     </CardContent>
                 </CardActionArea>
             </Card>

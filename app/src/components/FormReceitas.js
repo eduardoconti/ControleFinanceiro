@@ -5,12 +5,17 @@ import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import { retornaCarteiras } from "../common/CarteiraFuncoes";
 import { insereReceita } from "../common/ReceitaFuncoes";
-import { calculaTotais } from '../common/Funcoes'
+import { calculaTotais } from "../common/Funcoes";
+import { Box } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
       margin: theme.spacing(1),
     },
+    alignContent: "center",
+    alignItems: "center",
+    display: "flex",
+    flexWrap: "wrap",
   },
 }));
 
@@ -70,7 +75,7 @@ export default function FormReceitas({
   );
 
   return (
-    <div className="Formularios">
+    <Box className="Formularios">
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
           id="descricao"
@@ -98,21 +103,21 @@ export default function FormReceitas({
             setFormulario({ ...formulario, valor: event.target.value })
           }
         />
+        <Button
+          variant="contained"
+          size="small"
+          style={{ margin: 5 }}
+          onClick={async () => {
+            await insereReceita(formulario);
+            setFormulario(emptyFormulario);
+            setStateTotais(
+              await calculaTotais(stateCheckedDespesas, stateCheckedReceitas)
+            );
+          }}
+        >
+          CADASTRAR
+        </Button>
       </form>
-      <Button
-        variant="contained"
-        size="small"
-        style={{ margin: 5 }}
-        onClick={async () => {
-          await insereReceita(formulario);
-          setFormulario(emptyFormulario);
-          setStateTotais(
-            await calculaTotais(stateCheckedDespesas, stateCheckedReceitas)
-          );
-        }}
-      >
-        CADASTRAR
-      </Button>
-    </div>
+    </Box>
   );
 }

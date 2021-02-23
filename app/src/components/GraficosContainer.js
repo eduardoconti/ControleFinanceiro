@@ -5,9 +5,10 @@ import GraficoReceitas from './GraficoReceitas';
 
 export default ({ stateCheckedDespesas, stateCheckedReceitas, stateTotais }) => {
     return (
-        <Grid container direction='row' spacing={1} alignItems='center' justify='center'>
+        <Grid container direction='row' spacing={1} >
             <Grid item xs={12} sm={6} md={6} lg={12}>
                 <Box className="Grafico">
+         
                     <GraficoDespesas
                         stateCheckedDespesas={stateCheckedDespesas} 
                         stateTotais={stateTotais}>

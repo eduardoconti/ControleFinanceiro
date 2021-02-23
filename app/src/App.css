@@ -14,8 +14,9 @@
   border-radius: 10px;
   box-shadow:0px 0px 5px 1px #9EBFC0;
   padding: 10px;
+  display: flex;
+  justify-items: center;
   align-items: center;
-  justify-content: center;
 }
 
 .Grafico{
@@ -38,7 +39,7 @@
 
 .Footer{
   background-color: #F9FEFB;
-  height: 50px;
+  height: 30px;
   box-shadow:0px 0px 5px 1px #9EBFC0;
   border-radius: 10px;
 }
