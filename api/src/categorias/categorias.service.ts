@@ -20,4 +20,13 @@ export class CategoriasService {
         await this.receitaRepository.save(newDespesas);
         return newDespesas;
       }
+
+      async deletaCategoria(id: number): Promise<{ deleted: boolean; message?: string }> {
+        try {
+          await this.receitaRepository.delete({ id });
+          return { deleted: true };
+        } catch (err) {
+          return { deleted: false, message: err.message };
+        }
+      }
 }

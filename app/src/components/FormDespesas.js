@@ -5,19 +5,18 @@ import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import { retornaCategorias } from "../common/CategoriaFuncoes";
 import { retornaCarteiras } from "../common/CarteiraFuncoes";
-import { insereDespesa } from '../common/DepesaFuncoes'
-import { calculaTotais } from '../common/Funcoes'
-import { Box } from '@material-ui/core';
-
+import { insereDespesa } from "../common/DepesaFuncoes";
+import { calculaTotais } from "../common/Funcoes";
+import { Box } from "@material-ui/core";
+import { emptyFormularioDespesa } from "../common/EmptyStates";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
       margin: theme.spacing(1),
     },
-    alignContent: 'center',
-    alignItems: 'center',
-    display: 'flex',
-    flexWrap: 'wrap'
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems:'center'
   },
 }));
 
@@ -29,18 +28,28 @@ const emptyFormulario = {
   pago: false,
   pagamento: new Date().toISOString().slice(0, 10),
   vencimento: new Date().toISOString().slice(0, 10),
-}
+};
 
 function Menu(object) {
   return object.map((obj, i) => {
-    return <MenuItem key={i} value={obj.id}> {obj.descricao}</MenuItem>
-  })
+    return (
+      <MenuItem key={i} value={obj.id}>
+        {obj.descricao}
+      </MenuItem>
+    );
+  });
 }
 
-export default function FormDespesas({ stateCheckedDespesas, stateCheckedReceitas, setStateTotais }) {
+export default function FormDespesas({
+  stateCheckedDespesas,
+  stateCheckedReceitas,
+  setStateTotais,
+  setFormulario,
+  formulario,
+}) {
   const [categorias, setCategorias] = useState([]);
   const [carteiras, setCarteiras] = useState([]);
-  const [formulario, setFormulario] = useState(emptyFormulario);
+
   const classes = useStyles();
 
   useEffect(() => {
@@ -58,8 +67,8 @@ export default function FormDespesas({ stateCheckedDespesas, stateCheckedReceita
     pegaCarteiras();
   }, []);
 
-  let MenuCategoria = Menu(categorias)
-  let MenuCarteira = Menu(carteiras)
+  let MenuCategoria = Menu(categorias);
+  let MenuCarteira = Menu(carteiras);
   let TextFieldCategoria = (
     <TextField
       id="categoria"
@@ -95,7 +104,7 @@ export default function FormDespesas({ stateCheckedDespesas, stateCheckedReceita
   );
 
   return (
-    <Box className="Formularios" >
+    <Box className="Formularios">
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
           id="descricao"
@@ -120,8 +129,10 @@ export default function FormDespesas({ stateCheckedDespesas, stateCheckedReceita
             shrink: true,
           }}
           value={formulario.vencimento}
-          size='small'
-          onChange={(event => setFormulario({ ...formulario, vencimento: event.target.value }))}
+          size="small"
+          onChange={(event) =>
+            setFormulario({ ...formulario, vencimento: event.target.value })
+          }
         />
         <TextField
           id="valor"
@@ -139,13 +150,23 @@ export default function FormDespesas({ stateCheckedDespesas, stateCheckedReceita
           size="small"
           style={{ margin: 5 }}
           onClick={async () => {
-            await insereDespesa(formulario)
-            setFormulario(emptyFormulario)
-            setStateTotais(await calculaTotais(stateCheckedDespesas, stateCheckedReceitas))
+            await insereDespesa(formulario);
+            setFormulario(emptyFormularioDespesa);
+            setStateTotais(
+              await calculaTotais(stateCheckedDespesas, stateCheckedReceitas)
+            );
           }}
         >
           CADASTRAR
-      </Button>
+        </Button>
+        <Button
+          variant="contained"
+          size="small"
+          style={{ margin: 5 }}
+          onClick={ () => { setFormulario(emptyFormularioDespesa) } }
+        >
+          LIMPAR
+        </Button>
       </form>
     </Box>
   );

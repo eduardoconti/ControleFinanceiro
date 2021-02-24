@@ -4,15 +4,17 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { insereCategoria } from "../common/CategoriaFuncoes";
 import { Box } from "@material-ui/core";
+import { retornaCategorias } from "../common/CategoriaFuncoes";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
       margin: theme.spacing(1),
     },
-    alignContent: "center",
-    alignItems: "center",
+    justifyContent:'center',
     display: "flex",
     flexWrap: "wrap",
+    alignItems:'center'
   },
 }));
 
@@ -20,7 +22,7 @@ const emptyFormulario = {
   descricao: "",
 };
 
-export default function FormReceitas() {
+export default function FormCategorias({setRows}) {
   const [formulario, setFormulario] = useState(emptyFormulario);
   const classes = useStyles();
 
@@ -45,6 +47,8 @@ export default function FormReceitas() {
           style={{ margin: 5 }}
           onClick={async () => {
             await insereCategoria(formulario);
+            setRows( await retornaCategorias())
+            setFormulario(emptyFormulario)
           }}
         >
           CADASTRAR

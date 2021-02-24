@@ -1,45 +1,41 @@
 .Container {
-  padding: 10px;
+  padding: 5px;
 }
 
-.DataGrid{
-  height: 350px;
-  background-color: #F9FEFB;
+.DataGrid,
+.Formularios,
+.Grafico,
+.Header,
+.Footer,
+.Card {
+  background-color: #f9fefb;
   border-radius: 10px;
-  box-shadow:0px 0px 5px 1px #9EBFC0
+  box-shadow: 0px 0px 5px 1px #9ebfc0;
 }
 
-.Formularios{
-  background-color: #F9FEFB;
-  border-radius: 10px;
-  box-shadow:0px 0px 5px 1px #9EBFC0;
-  padding: 10px;
+.Card{
+  text-align: center;
+  height: 100px;
+}
+.DataGrid {
+  height: 300px;
+
+}
+
+.Formularios {
+  padding: 5px;
   display: flex;
-  justify-items: center;
-  align-items: center;
 }
 
-.Grafico{
-  background-color: #F9FEFB;
-  box-shadow:0px 0px 5px 1px #9EBFC0;
-  width: 100%;
-  height: 250px;
-  border-radius: 10px;
-
+.Grafico {
+  height: 286px;
 }
 
-.Header{
-  background-color: #F9FEFB;
-  box-shadow:0px 0px 5px 1px #9EBFC0;
-  border-radius: 10px;
+.Header {
   height: 40px;
   text-align: center;
-
 }
 
-.Footer{
-  background-color: #F9FEFB;
+.Footer {
   height: 30px;
-  box-shadow:0px 0px 5px 1px #9EBFC0;
-  border-radius: 10px;
 }
