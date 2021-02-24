@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import { retornaCategorias } from "../common/CategoriaFuncoes";
 import { retornaCarteiras } from "../common/CarteiraFuncoes";
-import { insereDespesa } from "../common/DepesaFuncoes";
+import { insereDespesa, alteraDespesa } from "../common/DepesaFuncoes";
 import { calculaTotais } from "../common/Funcoes";
 import { Box } from "@material-ui/core";
 import { emptyFormularioDespesa } from "../common/EmptyStates";
@@ -16,8 +16,14 @@ const useStyles = makeStyles((theme) => ({
     },
     display: "flex",
     flexWrap: "wrap",
-    alignItems:'center'
+    alignItems: 'center'
   },
+  botao: {
+    "&:hover": {
+      backgroundColor: "#9Ebfc0",
+    },
+    margin: 5
+  }
 }));
 
 const emptyFormulario = {
@@ -49,9 +55,8 @@ export default function FormDespesas({
 }) {
   const [categorias, setCategorias] = useState([]);
   const [carteiras, setCarteiras] = useState([]);
-
   const classes = useStyles();
-
+  const descricaoBotao = formulario.id === 0 ? 'CADASTRAR' : 'ALTERAR'
   useEffect(() => {
     async function pegaCategorias() {
       let categorias = await retornaCategorias();
@@ -148,22 +153,28 @@ export default function FormDespesas({
         <Button
           variant="contained"
           size="small"
-          style={{ margin: 5 }}
+          className={classes.botao}
           onClick={async () => {
-            await insereDespesa(formulario);
+
+            if (formulario.id === 0) {
+              await insereDespesa(formulario);
+            } else {
+              await alteraDespesa(formulario)
+            }
+
             setFormulario(emptyFormularioDespesa);
             setStateTotais(
               await calculaTotais(stateCheckedDespesas, stateCheckedReceitas)
             );
           }}
         >
-          CADASTRAR
+          {descricaoBotao}
         </Button>
         <Button
           variant="contained"
           size="small"
-          style={{ margin: 5 }}
-          onClick={ () => { setFormulario(emptyFormularioDespesa) } }
+          className={classes.botao}
+          onClick={() => { setFormulario(emptyFormularioDespesa) }}
         >
           LIMPAR
         </Button>

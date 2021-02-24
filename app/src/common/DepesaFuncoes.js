@@ -40,8 +40,14 @@ export async function insereDespesa(despesa) {
   const res = await API.post(ENDPOINT, despesa);
   return res.status.valueOf();
 }
+
 export async function alteraFlagPago(despesa) {
   const res = await API.patch(ENDPOINT + "flag/" + despesa.id, despesa);
+  return res.status.valueOf();
+}
+
+export async function alteraDespesa(despesa) {
+  const res = await API.put(ENDPOINT + despesa.id, despesa);
   return res.status.valueOf();
 }
 
@@ -84,6 +90,7 @@ export function formataDadosParaFormulario(despesas) {
         ...despesa,
         categoria: despesa.categoria.id,
         carteira: despesa.carteira.id,
+        vencimento: new Date(despesa.vencimento).toISOString().slice(0, 10),
       };
     });
   }

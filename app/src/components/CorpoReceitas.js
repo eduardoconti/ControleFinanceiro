@@ -1,14 +1,18 @@
-import React from "react";
+import React,{ useState } from "react";
 
 import GridReceitas from "./DataGridReceitas";
 import FormularioReceitas from "./FormReceitas";
 import { Grid } from "@material-ui/core";
+import { emptyFormularioReceita } from '../common/EmptyStates'
 export default function CorpoReceitas({
   stateCheckedDespesas,
   setStateTotais,
   stateCheckedReceitas,
   stateTotais,
 }) {
+
+  const [formulario, setFormulario] = useState(emptyFormularioReceita);
+
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
@@ -19,6 +23,7 @@ export default function CorpoReceitas({
           }}
           stateCheckedDespesas={stateCheckedDespesas}
           stateTotais={stateTotais}
+          setFormulario={ (formulario)=>setFormulario(formulario)}
         />
       </Grid>
 
@@ -29,6 +34,8 @@ export default function CorpoReceitas({
           }}
           stateCheckedDespesas={stateCheckedDespesas}
           stateCheckedReceitas={stateCheckedReceitas}
+          formulario={formulario}
+          setFormulario={ (formulario)=>setFormulario(formulario)}
         />
       </Grid>
     </Grid>

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Delete,Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Delete,Param, Put } from '@nestjs/common';
 import { CategoriasService } from './categorias.service'
 import { Categorias } from './categorias.entity'
 import { CategoriasDTO } from './categorias.dto'
@@ -13,12 +13,18 @@ export class CategoriasController {
     }
 
     @Post()
-    async insereDespesa(@Body() despesa: CategoriasDTO): Promise<Categorias> {
-        return this.categoriaService.insereDespesa(despesa);
+    async insereCategoria(@Body() despesa: CategoriasDTO): Promise<Categorias> {
+        return this.categoriaService.insereCategoria(despesa);
     }
 
     @Delete('/:id')
     async deletaCategoria(@Param('id') id: number): Promise<{ deleted: boolean }> {
         return this.categoriaService.deletaCategoria(id);
     }
+
+    @Put('/:id')
+    async alteraDespesa(@Param('id') id: number, @Body() despesa: CategoriasDTO): Promise<Categorias> {
+        return this.categoriaService.alteraCategoria(despesa);
+    }
+
 }

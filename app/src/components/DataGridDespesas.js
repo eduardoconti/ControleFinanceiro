@@ -68,7 +68,6 @@ export default function DataGridDespesas({
               aria-label="alterar"
               className={classes.operacoes}
               onClick={() => {
-                console.log(despesas);
                 const [formulario] = despesas.filter(
                   (despesa) => despesa.id === field.row.id
                 );

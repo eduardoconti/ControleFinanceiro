@@ -3,6 +3,7 @@ import React from "react";
 import CorpoCategorias from "./CorpoCategorias";
 import CorpoDespesas from "./CorpoDespesas";
 import CorpoReceitas from "./CorpoReceitas";
+import CorpoCarteiras from './CorpoCarteiras'
 
 import * as Constants from "../common/Constantes"
 
@@ -38,5 +39,6 @@ export default function CurrentBody({
   } else if (stateCurrentBody === Constants.DATA_GRID_CATEGORIAS) {
     return <CorpoCategorias />;
   } else if (stateCurrentBody === Constants.DATA_GRID_CARTEIRAS) {
+    return <CorpoCarteiras/>
   }
 }

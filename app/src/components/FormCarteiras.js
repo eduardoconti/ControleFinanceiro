@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { insereCategoria, alteraCategoria } from "../common/CategoriaFuncoes";
+import { insereCarteira, alteraCarteira } from "../common/CarteiraFuncoes";
 import { Box } from "@material-ui/core";
-import { retornaCategorias } from "../common/CategoriaFuncoes";
-import { emptyFormularioCategoria } from "../common/EmptyStates"
+import { retornaCarteiras } from "../common/CarteiraFuncoes";
+import { emptyFormularioCarteira } from "../common/EmptyStates"
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function FormCategorias({ setRows, formulario, setFormulario }) {
+export default function FormCarteiras({ setRows, formulario, setFormulario }) {
   const classes = useStyles();
   const descricaoBotao = formulario.id === 0 ? 'CADASTRAR' : 'ALTERAR'
   return (
@@ -47,16 +47,16 @@ export default function FormCategorias({ setRows, formulario, setFormulario }) {
           size="small"
           className={classes.botao}
           onClick={async () => {
-            if (formulario.id === 0 ){
-                await insereCategoria(formulario);
-            } else{
-                await alteraCategoria(formulario)
-            }
-           
-            setRows(await retornaCategorias())
-            setFormulario(emptyFormularioCategoria)
+              if (formulario.id === 0 ){
+                await insereCarteira(formulario);
+              } else{
+                  await alteraCarteira(formulario)
+              }
+            
+            setRows(await retornaCarteiras())
+            setFormulario(emptyFormularioCarteira)
           }}
-        >
+        > 
           {descricaoBotao}
         </Button>
 
@@ -65,7 +65,7 @@ export default function FormCategorias({ setRows, formulario, setFormulario }) {
           size="small"
           className={classes.botao}
           onClick={async () => {
-            setFormulario(emptyFormularioCategoria)
+            setFormulario(emptyFormularioCarteira)
           }}
         >
           LIMPAR

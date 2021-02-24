@@ -2,6 +2,7 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
+import * as Constants from "../common/Constantes"
 const useStyles = makeStyles({
   botao: {
     backgroundColor: "#F9FEFB",
@@ -23,14 +24,21 @@ export default function LeftMenu({ setStateCurrentBody }) {
         <Button
           className={classes.botao}
           onClick={() => {
-            onClick(2);
+            onClick(Constants.DATA_GRID_CATEGORIAS);
           }}
         >
           Categorias
         </Button>
       </Grid>
       <Grid item xs={6} lg={12}>
-        <Button className={classes.botao}>Carteiras</Button>
+        <Button 
+        className={classes.botao}
+        onClick={() => {
+          onClick(Constants.DATA_GRID_CARTEIRAS);
+        }}
+        >
+          Carteiras
+        </Button>
       </Grid>
     </Grid>
   );

@@ -8,25 +8,35 @@ export class CategoriasService {
 
     constructor(
         @Inject('CATEGORIAS')
-        private receitaRepository: Repository<Categorias>,
+        private categoriaRepository: Repository<Categorias>,
       ) { }
-    
-      async retornaTodasCategorias(): Promise<Categorias[]> {
-        return await this.receitaRepository.find();
+      
+      async getOne(id: number): Promise<Categorias> {
+        return this.categoriaRepository.findOneOrFail({ id });
       }
 
-      async insereDespesa(categoria: CategoriasDTO): Promise<Categorias> {
-        const newDespesas = this.receitaRepository.create(categoria);
-        await this.receitaRepository.save(newDespesas);
+      async retornaTodasCategorias(): Promise<Categorias[]> {
+        return await this.categoriaRepository.find();
+      }
+
+      async insereCategoria(categoria: CategoriasDTO): Promise<Categorias> {
+        const newDespesas = this.categoriaRepository.create(categoria);
+        await this.categoriaRepository.save(newDespesas);
         return newDespesas;
       }
 
       async deletaCategoria(id: number): Promise<{ deleted: boolean; message?: string }> {
         try {
-          await this.receitaRepository.delete({ id });
+          await this.categoriaRepository.delete({ id });
           return { deleted: true };
         } catch (err) {
           return { deleted: false, message: err.message };
         }
+      }
+
+      async alteraCategoria(categoria: CategoriasDTO): Promise<Categorias> {
+        const { id } = categoria;
+        await this.categoriaRepository.update({ id }, categoria);
+        return this.getOne(id);
       }
 }

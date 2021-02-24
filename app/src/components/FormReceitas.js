@@ -7,6 +7,7 @@ import { retornaCarteiras } from "../common/CarteiraFuncoes";
 import { insereReceita } from "../common/ReceitaFuncoes";
 import { calculaTotais } from "../common/Funcoes";
 import { Box } from "@material-ui/core";
+import { emptyFormularioReceita } from "../common/EmptyStates";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -14,17 +15,15 @@ const useStyles = makeStyles((theme) => ({
     },
     display: "flex",
     flexWrap: "wrap",
-    alignItems:'center'
+    alignItems: 'center'
   },
+  botao:{
+    "&:hover": {
+      backgroundColor: "#9Ebfc0",
+    },
+    margin: 5
+  }
 }));
-
-const emptyFormulario = {
-  descricao: "",
-  carteira: 1,
-  valor: 0,
-  pago: false,
-  pagamento: new Date().toISOString().slice(0, 10),
-};
 
 function Menu(object) {
   return object.map((obj, i) => {
@@ -40,11 +39,12 @@ export default function FormReceitas({
   stateCheckedDespesas,
   stateCheckedReceitas,
   setStateTotais,
+  setFormulario,
+  formulario
 }) {
   const [carteiras, setCarteiras] = useState([]);
-  const [formulario, setFormulario] = useState(emptyFormulario);
   const classes = useStyles();
-
+  const descricaoBotao = formulario.id === 0 ? 'CADASTRAR' : 'ALTERAR'
   useEffect(() => {
     async function pegaCarteiras() {
       let carteiras = await retornaCarteiras();
@@ -105,16 +105,24 @@ export default function FormReceitas({
         <Button
           variant="contained"
           size="small"
-          style={{ margin: 5 }}
+          className={classes.botao}
           onClick={async () => {
             await insereReceita(formulario);
-            setFormulario(emptyFormulario);
+            setFormulario(emptyFormularioReceita);
             setStateTotais(
               await calculaTotais(stateCheckedDespesas, stateCheckedReceitas)
             );
           }}
         >
-          CADASTRAR
+          {descricaoBotao}
+        </Button>
+        <Button
+          variant="contained"
+          size="small"
+          className={classes.botao}
+          onClick={() => { setFormulario(emptyFormularioReceita) }}
+        >
+          LIMPAR
         </Button>
       </form>
     </Box>

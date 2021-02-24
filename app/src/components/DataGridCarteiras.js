@@ -3,9 +3,10 @@ import DataGrid from "./DataGrid";
 import IconButton from "@material-ui/core/IconButton";
 import CreateTwoToneIcon from "@material-ui/icons/CreateTwoTone";
 import DeleteForeverTwoToneIcon from "@material-ui/icons/DeleteForeverTwoTone";
-import { retornaCategorias, deletaCategoria } from "../common/CategoriaFuncoes";
+import { retornaCarteiras, deletaCarteira } from "../common/CarteiraFuncoes";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box } from "@material-ui/core";
+
 const useStyles = makeStyles({
   operacoes: {
     color: "#216260",
@@ -13,7 +14,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DataGridCategorias({rows, setRows, setFormulario }) {
+export default function DataGridCarteiras({rows, setRows, setFormulario }) {
 
   const classes = useStyles();
   const columns = [
@@ -40,8 +41,8 @@ export default function DataGridCategorias({rows, setRows, setFormulario }) {
               aria-label="excluir"
               className={classes.operacoes}
               onClick={async () => {
-                await deletaCategoria(field.row.id);
-                await pegaCategorias();
+                await deletaCarteira(field.row.id);
+                await pegaCarteiras();
               }}
             >
               <DeleteForeverTwoToneIcon />
@@ -52,13 +53,13 @@ export default function DataGridCategorias({rows, setRows, setFormulario }) {
     },
   ];
 
-  async function pegaCategorias() {
-    let categorias = await retornaCategorias();
-    setRows(categorias);
+  async function pegaCarteiras() {
+    let ccarteiras = await retornaCarteiras();
+    setRows(ccarteiras);
   }
 
   useEffect(() => {
-    pegaCategorias();
+    pegaCarteiras();
   }, []);
 
   return <DataGrid rows={rows} columns={columns} />;
