@@ -11,14 +11,16 @@ import {
 } from "recharts";
 import { getReceitas } from "../common/ReceitaFuncoes";
 import { Box } from "@material-ui/core";
+
 export default function GraficoTest({ stateCheckedReceitas, stateTotais, stateMesAtual }) {
+
   const [receitas, setReceitas] = useState([]);
 
-  async function pegaReceitas() {
-    let receitas = await getReceitas(stateCheckedReceitas, stateMesAtual);
-    setReceitas(receitas);
-  }
   useEffect(() => {
+    async function pegaReceitas() {
+      let receitas = await getReceitas(stateCheckedReceitas, stateMesAtual);
+      setReceitas(receitas);
+    }
     pegaReceitas();
   }, [stateCheckedReceitas, stateTotais, stateMesAtual]);
 

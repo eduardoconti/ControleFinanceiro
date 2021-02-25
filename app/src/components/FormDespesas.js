@@ -5,10 +5,12 @@ import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import { retornaCategorias } from "../common/CategoriaFuncoes";
 import { retornaCarteiras } from "../common/CarteiraFuncoes";
-import { insereDespesa, alteraDespesa } from "../common/DepesaFuncoes";
+import { insereDespesa, alteraDespesa, retornaStateAlertCadastro } from "../common/DepesaFuncoes";
 import { calculaTotais } from "../common/Funcoes";
 import { Box } from "@material-ui/core";
 import { emptyFormularioDespesa } from "../common/EmptyStates";
+import Alert from './Alert'
+import { emptyAlertState } from '../common/EmptyStates'
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -48,6 +50,8 @@ export default function FormDespesas({
   const [carteiras, setCarteiras] = useState([]);
   const classes = useStyles();
   const descricaoBotao = formulario.id === 0 ? 'CADASTRAR' : 'ALTERAR'
+  const [alert, setAlert] = useState(emptyAlertState)
+
   useEffect(() => {
     async function pegaCategorias() {
       let categorias = await retornaCategorias();
@@ -101,6 +105,7 @@ export default function FormDespesas({
 
   return (
     <Box className="Formularios">
+      <Alert alert={alert} setAlert={(alert) => setAlert(alert)} />
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
           id="descricao"
@@ -146,17 +151,18 @@ export default function FormDespesas({
           size="small"
           className={classes.botao}
           onClick={async () => {
-
+            let response = 0
             if (formulario.id === 0) {
-              await insereDespesa(formulario);
+              response = await insereDespesa(formulario);
             } else {
-              await alteraDespesa(formulario)
+              response = await alteraDespesa(formulario)
             }
 
             setFormulario(emptyFormularioDespesa);
             setStateTotais(
               await calculaTotais(stateCheckedDespesas, stateCheckedReceitas, stateMesAtual)
             );
+            setAlert(retornaStateAlertCadastro(response))
           }}
         >
           {descricaoBotao}
@@ -165,7 +171,9 @@ export default function FormDespesas({
           variant="contained"
           size="small"
           className={classes.botao}
-          onClick={() => { setFormulario(emptyFormularioDespesa) }}
+          onClick={() => {
+            setFormulario(emptyFormularioDespesa)
+          }}
         >
           LIMPAR
         </Button>

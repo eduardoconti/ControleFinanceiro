@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 
 import GridDespesas from "./DataGridDespesas";
 import FormularioDespesas from "./FormDespesas";
@@ -24,7 +24,7 @@ export default function CorpoDespesas({
           }}
           stateCheckedReceitas={stateCheckedReceitas}
           stateTotais={stateTotais}
-          setFormulario={ (formulario)=>setFormulario(formulario)}
+          setFormulario={(formulario) => setFormulario(formulario)}
           stateMesAtual={stateMesAtual}
         />
       </Grid>
@@ -37,7 +37,7 @@ export default function CorpoDespesas({
           stateCheckedDespesas={stateCheckedDespesas}
           stateCheckedReceitas={stateCheckedReceitas}
           formulario={formulario}
-          setFormulario={ (formulario)=>setFormulario(formulario)}
+          setFormulario={(formulario) => setFormulario(formulario)}
           stateMesAtual={stateMesAtual}
         />
       </Grid>

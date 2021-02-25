@@ -41,7 +41,7 @@ export default function DataGridCategorias({rows, setRows, setFormulario }) {
               className={classes.operacoes}
               onClick={async () => {
                 await deletaCategoria(field.row.id);
-                await pegaCategorias();
+                setRows(await retornaCategorias());
               }}
             >
               <DeleteForeverTwoToneIcon />
@@ -52,12 +52,12 @@ export default function DataGridCategorias({rows, setRows, setFormulario }) {
     },
   ];
 
-  async function pegaCategorias() {
-    let categorias = await retornaCategorias();
-    setRows(categorias);
-  }
-
   useEffect(() => {
+    async function pegaCategorias() {
+      let categorias = await retornaCategorias();
+      setRows(categorias);
+    }
+  
     pegaCategorias();
   }, []);
 

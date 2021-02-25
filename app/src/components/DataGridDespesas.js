@@ -9,11 +9,15 @@ import {
   deletaDespesa,
   alteraFlagPago,
   formataDadosParaLinhasDataGrid,
-  formataDadosParaFormulario
+  formataDadosParaFormulario,
+  retornaStateAlert,
+  retornaStateAlertExclusao
 } from "../common/DepesaFuncoes";
 import { makeStyles } from "@material-ui/core/styles";
 import { calculaTotais } from "../common/Funcoes";
-
+import Alert from './Alert'
+import { Box } from "@material-ui/core";
+import { emptyAlertState } from '../common/EmptyStates'
 const useStyles = makeStyles({
   operacoes: {
     color: "#216260",
@@ -33,6 +37,7 @@ export default function DataGridDespesas({
 }) {
   const [rows, setRows] = useState([]);
   const [despesas, setDespesas] = useState([]);
+  const [alert, setAlert] = useState(emptyAlertState)
   const classes = useStyles();
   const columns = [
     { field: "descricao", headerName: "Descricao", width: 150 },
@@ -82,7 +87,7 @@ export default function DataGridDespesas({
               aria-label="excluir"
               className={classes.operacoes}
               onClick={async () => {
-                await deletaDespesa(field.row.id);
+                let response = await deletaDespesa(field.row.id);
                 await pegaDespesas();
 
                 setStateTotais(
@@ -92,6 +97,7 @@ export default function DataGridDespesas({
                     stateMesAtual
                   )
                 );
+                setAlert(retornaStateAlertExclusao(response))
               }}
             >
               <DeleteForeverTwoToneIcon />
@@ -107,16 +113,18 @@ export default function DataGridDespesas({
                   pago: !field.row.pago,
                 };
 
-                await alteraFlagPago(despesa);
+                const response = await alteraFlagPago(despesa);
                 await pegaDespesas();
                 setStateTotais(
                   await calculaTotais(
                     stateCheckedDespesas,
                     stateCheckedReceitas,
                     stateMesAtual
-                    
+
                   )
                 );
+
+                setAlert(retornaStateAlert(response, despesa.pago))
               }}
             >
               <FiberManualRecordTwoToneIcon />
@@ -134,8 +142,19 @@ export default function DataGridDespesas({
   }
 
   useEffect(() => {
+    async function pegaDespesas() {
+      let despesas = await getDespesas(stateCheckedDespesas, stateMesAtual);
+      setDespesas(formataDadosParaFormulario(despesas));
+      setRows(formataDadosParaLinhasDataGrid(despesas));
+    }
     pegaDespesas();
   }, [stateCheckedDespesas, stateTotais, stateMesAtual]);
 
-  return <DataGrid rows={rows} columns={columns} />;
+  return (
+    <Box>
+      <Alert alert={alert} setAlert={(alert) => setAlert(alert)} />
+      <DataGrid rows={rows} columns={columns} />
+    </Box>
+  )
+
 }

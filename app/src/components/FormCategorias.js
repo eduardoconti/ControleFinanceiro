@@ -47,12 +47,12 @@ export default function FormCategorias({ setRows, formulario, setFormulario }) {
           size="small"
           className={classes.botao}
           onClick={async () => {
-            if (formulario.id === 0 ){
-                await insereCategoria(formulario);
-            } else{
-                await alteraCategoria(formulario)
+            if (formulario.id === 0) {
+              await insereCategoria(formulario);
+            } else {
+              await alteraCategoria(formulario)
             }
-           
+
             setRows(await retornaCategorias())
             setFormulario(emptyFormularioCategoria)
           }}

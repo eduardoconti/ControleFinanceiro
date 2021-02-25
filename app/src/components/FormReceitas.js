@@ -111,7 +111,7 @@ export default function FormReceitas({
             await insereReceita(formulario);
             setFormulario(emptyFormularioReceita);
             setStateTotais(
-              await calculaTotais(stateCheckedDespesas, stateCheckedReceitas, stateMesAtual )
+              await calculaTotais(stateCheckedDespesas, stateCheckedReceitas, stateMesAtual)
             );
           }}
         >

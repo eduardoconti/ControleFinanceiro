@@ -76,7 +76,7 @@ export default function DataGridComponent({
               className={classes.operacoes}
               onClick={async () => {
                 await deletaReceita(field.row.id);
-                await pegaReceitas();
+                await setState();
                 setStateTotais(
                   await calculaTotais(
                     stateCheckedDespesas,
@@ -99,7 +99,7 @@ export default function DataGridComponent({
                   pago: !field.row.pago,
                 };
                 await alteraFlagPago(receita);
-                await pegaReceitas();
+                await setState();
                 setStateTotais(
                   await calculaTotais(
                     stateCheckedDespesas,
@@ -117,13 +117,19 @@ export default function DataGridComponent({
     },
   ];
 
-  async function pegaReceitas() {
+  async function setState() {
   
     let receitas = await getReceitas(stateCheckedReceitas, stateMesAtual);
     setRows( formataDadosParaLinhasDataGrid(receitas));
     setReceitas( formataDadosParaFormulario(receitas))
   }
+  
   useEffect(() => {
+    async function pegaReceitas() {
+      let receitas = await getReceitas(stateCheckedReceitas, stateMesAtual);
+      setRows( formataDadosParaLinhasDataGrid(receitas));
+      setReceitas( formataDadosParaFormulario(receitas))
+    }
     pegaReceitas();
   }, [stateCheckedReceitas, stateTotais, stateMesAtual]);
 

@@ -5,7 +5,6 @@ const ENDPOINT = "receitas/";
 
 export async function getReceitas(stateCheckedReceitas, stateMesAtual) {
   var res = new Array(0);
-  console.log(stateMesAtual)
   if (
     (stateCheckedReceitas.checkedPago && stateCheckedReceitas.checkedAberto) ||
     (!stateCheckedReceitas.checkedPago && !stateCheckedReceitas.checkedAberto)

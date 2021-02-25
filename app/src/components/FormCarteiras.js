@@ -47,16 +47,16 @@ export default function FormCarteiras({ setRows, formulario, setFormulario }) {
           size="small"
           className={classes.botao}
           onClick={async () => {
-              if (formulario.id === 0 ){
-                await insereCarteira(formulario);
-              } else{
-                  await alteraCarteira(formulario)
-              }
-            
+            if (formulario.id === 0) {
+              await insereCarteira(formulario);
+            } else {
+              await alteraCarteira(formulario)
+            }
+
             setRows(await retornaCarteiras())
             setFormulario(emptyFormularioCarteira)
           }}
-        > 
+        >
           {descricaoBotao}
         </Button>
 

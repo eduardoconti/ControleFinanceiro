@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DataGridCarteiras({rows, setRows, setFormulario }) {
+export default function DataGridCarteiras({ rows, setRows, setFormulario }) {
 
   const classes = useStyles();
   const columns = [
@@ -42,7 +42,7 @@ export default function DataGridCarteiras({rows, setRows, setFormulario }) {
               className={classes.operacoes}
               onClick={async () => {
                 await deletaCarteira(field.row.id);
-                await pegaCarteiras();
+                setRows(await retornaCarteiras());
               }}
             >
               <DeleteForeverTwoToneIcon />
@@ -53,12 +53,12 @@ export default function DataGridCarteiras({rows, setRows, setFormulario }) {
     },
   ];
 
-  async function pegaCarteiras() {
-    let carteiras = await retornaCarteiras();
-    setRows(carteiras);
-  }
-
   useEffect(() => {
+    async function pegaCarteiras() {
+      let carteiras = await retornaCarteiras();
+      setRows(carteiras);
+    }
+
     pegaCarteiras();
   }, []);
 

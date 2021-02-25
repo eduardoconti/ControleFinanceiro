@@ -39,3 +39,9 @@ export const emptyFormularioReceita = {
   id:0
 };
 
+export const emptyAlertState= {
+      isOpen: false,
+      message: '',
+      type: ''
+  }
+

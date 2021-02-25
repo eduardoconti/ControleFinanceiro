@@ -3,12 +3,12 @@ import { Grid, Box } from "@material-ui/core";
 import GraficoDespesas from "./GraficoDespesas";
 import GraficoReceitas from "./GraficoReceitas";
 
-export default ({
+export default function GraficosContainer({
   stateCheckedDespesas,
   stateCheckedReceitas,
   stateTotais,
   stateMesAtual
-}) => {
+}) {
   return (
     <Grid
       container
