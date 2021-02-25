@@ -3,17 +3,18 @@ import API from "./Api";
 const ENDPOINT = "receitas/";
 
 
-export async function getReceitas(stateCheckedReceitas) {
+export async function getReceitas(stateCheckedReceitas, stateMesAtual) {
   var res = new Array(0);
+  console.log(stateMesAtual)
   if (
     (stateCheckedReceitas.checkedPago && stateCheckedReceitas.checkedAberto) ||
     (!stateCheckedReceitas.checkedPago && !stateCheckedReceitas.checkedAberto)
   ) {
-    res = await API.get(ENDPOINT);
+    res = await API.get(ENDPOINT + "mes/" + stateMesAtual );
   } else if (stateCheckedReceitas.checkedPago) {
-    res = await API.get(ENDPOINT + "pago");
+    res = await API.get(ENDPOINT + "pago/mes/" + stateMesAtual );
   } else if (stateCheckedReceitas.checkedAberto) {
-    res = await API.get(ENDPOINT + "aberto");
+    res = await API.get(ENDPOINT + "aberto/mes/" + stateMesAtual );
   }
 
   return res.data;
@@ -36,22 +37,22 @@ export async function alteraFlagPago(receita) {
   const res = await API.patch(ENDPOINT + "flag/" + receita.id, receita);
   return res.status.valueOf();
 }
-export async function retornaTotalReceitas() {
-  const total = await API.get(ENDPOINT + "total/");
+export async function retornaTotalReceitas(stateMesAtual) {
+  const total = await API.get(ENDPOINT + "total/mes/" + stateMesAtual);
 
   return total.data;
 }
 
-export async function retornaTotalReceitasPagas() {
-  const total = await API.get(ENDPOINT + "pago/valor");
+export async function retornaTotalReceitasPagas(stateMesAtual) {
+  const total = await API.get(ENDPOINT + "pago/valor/mes/" + stateMesAtual);
   if (!total.data) {
     return 0;
   }
   return total.data;
 }
 
-export async function retornaTotalReceitasAbertas() {
-  const total = await API.get(ENDPOINT + "aberto/valor");
+export async function retornaTotalReceitasAbertas(stateMesAtual) {
+  const total = await API.get(ENDPOINT + "aberto/valor/mes/" + stateMesAtual);
   if (!total.data) {
     return 0;
   }

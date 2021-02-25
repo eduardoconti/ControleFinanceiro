@@ -10,25 +10,22 @@ import Corpo from "./components/Corpo";
 import CardDespesas from "./components/CardDespesas";
 import CardReceitas from "./components/CardReceitas";
 import { emptyTotais, emptyChecked } from "./common/EmptyStates";
-import GraficoDespesas from "./components/GraficoDespesas";
-import GraficoReceitas from "./components/GraficoReceitas";
+
 function App() {
   const [stateTotais, setStateTotais] = useState(emptyTotais);
-
   const [stateCheckedDespesas, setStateChecked] = useState(emptyChecked);
-
   const [stateCheckedReceitas, setStateCheckedReceita] = useState(emptyChecked);
-
   const [stateCurrentBody, setStateCurrentBody] = useState(0);
+  const [stateMesAtual, setStateMesAtual ] = useState( new Date().getMonth() +1 )
 
   useEffect(() => {
     async function setTotais() {
       setStateTotais(
-        await calculaTotais(stateCheckedDespesas, stateCheckedReceitas)
+        await calculaTotais(stateCheckedDespesas, stateCheckedReceitas, stateMesAtual)
       );
     }
     setTotais();
-  }, [stateCheckedDespesas, stateCheckedReceitas]);
+  }, [stateCheckedDespesas, stateCheckedReceitas, stateMesAtual]);
 
   return (
     <Box className="Container">
@@ -53,7 +50,7 @@ function App() {
             <Grid container item spacing={1}>
               {/* BOTOES MESES */}
               <Grid item xs={12}>
-                <BotaoMes />
+                <BotaoMes setStateMesAtual={ (stateMesAtual)=>setStateMesAtual(stateMesAtual)}/>
               </Grid>
             </Grid>
 
@@ -116,6 +113,7 @@ function App() {
                   }}
                   stateCheckedReceitas={stateCheckedReceitas}
                   stateTotais={stateTotais}
+                  stateMesAtual={stateMesAtual}
                 />
               </Grid>
             </Grid>
@@ -127,7 +125,8 @@ function App() {
           <GraficosContainer
             stateCheckedDespesas={stateCheckedDespesas}
             stateTotais={stateTotais}
-            stateCheckedReceitas={stateCheckedReceitas} />
+            stateCheckedReceitas={stateCheckedReceitas} 
+            stateMesAtual={stateMesAtual}/>
         </Grid>
 
         <Grid item xs={12}>

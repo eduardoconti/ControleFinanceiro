@@ -27,7 +27,7 @@ export default function Cards({
 
   return (
     <MuiThemeProvider theme={theme}>
-      <Card className="Card" variant="outlined">
+      <Card className="Card" variant="outlined" style={{backgroundColor:'#f9fefb'}}>
         <CardActionArea onClick={() => onClik()}>
           <CardContent style={{ margin: 0, padding: 0 }}>
             <Typography variant="h5" style={{ color: "green", paddingTop: 5 }}>

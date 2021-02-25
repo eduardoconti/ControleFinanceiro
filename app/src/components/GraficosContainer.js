@@ -7,6 +7,7 @@ export default ({
   stateCheckedDespesas,
   stateCheckedReceitas,
   stateTotais,
+  stateMesAtual
 }) => {
   return (
     <Grid
@@ -18,6 +19,7 @@ export default ({
           <GraficoDespesas
             stateCheckedDespesas={stateCheckedDespesas}
             stateTotais={stateTotais}
+            stateMesAtual={stateMesAtual}
           ></GraficoDespesas>
         </Box>
       </Grid>
@@ -26,6 +28,7 @@ export default ({
           <GraficoReceitas
             stateCheckedReceitas={stateCheckedReceitas}
             stateTotais={stateTotais}
+            stateMesAtual={stateMesAtual}
           ></GraficoReceitas>
         </Box>
       </Grid>

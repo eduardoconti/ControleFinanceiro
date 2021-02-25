@@ -2,30 +2,31 @@ import API from "./Api";
 
 const ENDPOINT = "despesas/";
 
-export async function getDespesas(stateCheckedDespesas) {
+export async function getDespesas(stateCheckedDespesas, stateMesAtual) {
   var res = new Array(0);
+
   if (
     (stateCheckedDespesas.checkedPago && stateCheckedDespesas.checkedAberto) ||
     (!stateCheckedDespesas.checkedPago && !stateCheckedDespesas.checkedAberto)
   ) {
-    res = await API.get(ENDPOINT);
+    res = await API.get(ENDPOINT + 'mes/' + stateMesAtual);
   } else if (stateCheckedDespesas.checkedPago) {
-    res = await API.get(ENDPOINT + "pago");
+    res = await API.get(ENDPOINT + "pago/mes/" + stateMesAtual);
   } else if (stateCheckedDespesas.checkedAberto) {
-    res = await API.get(ENDPOINT + "aberto");
+    res = await API.get(ENDPOINT + "aberto/mes/"  + stateMesAtual);
   }
 
   return res.data;
 }
 
-export async function getValorDespesasPorCategoria(stateCheckedDespesas) {
+export async function getValorDespesasPorCategoria(stateCheckedDespesas, stateMesAtual) {
   var res = new Array(0);
   if (stateCheckedDespesas.checkedPago && stateCheckedDespesas.checkedAberto) {
-    res = await API.get(ENDPOINT + "categoria/valor");
+    res = await API.get(ENDPOINT + "categoria/mes/"  + stateMesAtual );
   } else if (stateCheckedDespesas.checkedPago) {
-    res = await API.get(ENDPOINT + "categoria/valor/pago");
+    res = await API.get(ENDPOINT + "categoria/pago/mes/"  + stateMesAtual);
   } else if (stateCheckedDespesas.checkedAberto) {
-    res = await API.get(ENDPOINT + "categoria/valor/aberto");
+    res = await API.get(ENDPOINT + "categoria/aberto/mes/"  + stateMesAtual);
   }
 
   return res.data;
@@ -51,22 +52,22 @@ export async function alteraDespesa(despesa) {
   return res.status.valueOf();
 }
 
-export async function retornaTotalDespesas() {
-  const total = await API.get(ENDPOINT + "total/");
+export async function retornaTotalDespesas( stateMesAtual) {
+  const total = await API.get(ENDPOINT + "total/mes/"  + stateMesAtual);
 
   return total.data;
 }
 
-export async function retornaTotalDespesasPagas() {
-  const total = await API.get(ENDPOINT + "pago/valor");
+export async function retornaTotalDespesasPagas(stateMesAtual) {
+  const total = await API.get(ENDPOINT + "pago/valor/mes/"  + stateMesAtual);
   if (!total.data) {
     return 0;
   }
   return total.data;
 }
 
-export async function retornaTotalDespesasAbertas() {
-  const total = await API.get(ENDPOINT + "aberto/valor");
+export async function retornaTotalDespesasAbertas(stateMesAtual) {
+  const total = await API.get(ENDPOINT + "aberto/valor/mes/"  + stateMesAtual );
   if (!total.data) {
     return 0;
   }

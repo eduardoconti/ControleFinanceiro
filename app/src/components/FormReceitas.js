@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     alignItems: 'center'
   },
-  botao:{
+  botao: {
     "&:hover": {
       backgroundColor: "#9Ebfc0",
     },
@@ -40,7 +40,8 @@ export default function FormReceitas({
   stateCheckedReceitas,
   setStateTotais,
   setFormulario,
-  formulario
+  formulario,
+  stateMesAtual
 }) {
   const [carteiras, setCarteiras] = useState([]);
   const classes = useStyles();
@@ -110,7 +111,7 @@ export default function FormReceitas({
             await insereReceita(formulario);
             setFormulario(emptyFormularioReceita);
             setStateTotais(
-              await calculaTotais(stateCheckedDespesas, stateCheckedReceitas)
+              await calculaTotais(stateCheckedDespesas, stateCheckedReceitas, stateMesAtual )
             );
           }}
         >

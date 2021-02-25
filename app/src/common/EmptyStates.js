@@ -36,5 +36,6 @@ export const emptyFormularioReceita = {
   valor: 0,
   pago: false,
   pagamento: new Date().toISOString().slice(0, 10),
+  id:0
 };
 

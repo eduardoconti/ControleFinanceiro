@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import DataGrid from "./DataGrid";
 import IconButton from "@material-ui/core/IconButton";
 import CreateTwoToneIcon from "@material-ui/icons/CreateTwoTone";
@@ -54,8 +54,8 @@ export default function DataGridCarteiras({rows, setRows, setFormulario }) {
   ];
 
   async function pegaCarteiras() {
-    let ccarteiras = await retornaCarteiras();
-    setRows(ccarteiras);
+    let carteiras = await retornaCarteiras();
+    setRows(carteiras);
   }
 
   useEffect(() => {

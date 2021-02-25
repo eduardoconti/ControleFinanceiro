@@ -9,31 +9,57 @@ export class ReceitasController {
     constructor(private readonly receitaService: ReceitaService) { }
 
     @Get()
-    async getAll() {
-        return await this.receitaService.retornaTodasReceitas();
+    async retornaTodasReceitas() {
+        return await this.receitaService.retornaTodasReceitas(0);
+    }
+    @Get('/mes/:mes')
+    async retornaTodasReceitasPorMes(@Param('mes') mes: number) {
+        return await this.receitaService.retornaTodasReceitas(mes);
     }
     @Get('/pago')
     async getReceitasPagas() {
-        return this.receitaService.retornaReceitasPagas();
+        return this.receitaService.retornaReceitasPagas(0);
+    }
+    @Get('/pago/mes/:mes')
+    async getReceitasPagasPorMes(@Param('mes') mes: number) {
+        return this.receitaService.retornaReceitasPagas(mes);
     }
     @Get('/pago/valor')
     async getTotalReceitasPagas() {
-        return this.receitaService.retornaTotalReceitasPagas();
+        return this.receitaService.retornaTotalReceitasPagas(0);
+    }
+    @Get('/pago/valor/mes/:mes')
+    async getTotalReceitasPagasPorMes(@Param('mes') mes: number) {
+        return this.receitaService.retornaTotalReceitasPagas(mes);
     }
 
     @Get('/aberto')
     async getReceitasEmAberto() {
-        return this.receitaService.retornaReceitasEmAberto();
+        return this.receitaService.retornaReceitasEmAberto(0);
+    }
+    @Get('/aberto/mes/:mes')
+    async getReceitasEmAbertoPorMes(@Param('mes') mes: number) {
+        return this.receitaService.retornaReceitasEmAberto(mes);
     }
 
     @Get('/aberto/valor')
     async getTotalReceitasAbertas() {
-        return this.receitaService.retornaTotalReceitasAbertas();
+        return this.receitaService.retornaTotalReceitasAbertas(0);
+    }
+
+    @Get('/aberto/valor/mes/:mes')
+    async getTotalReceitasAbertasPorMes(@Param('mes') mes: number) {
+        return this.receitaService.retornaTotalReceitasAbertas(mes);
     }
 
     @Get('/total')
     async retornaTotalReceitas(): Promise<Receitas[]>{
-        return this.receitaService.retornaTotalReceitas()
+        return this.receitaService.retornaTotalReceitas(0)
+    }
+
+    @Get('/total/mes/:mes')
+    async retornaTotalReceitasPorMes(@Param('mes') mes: number): Promise<Receitas[]>{
+        return this.receitaService.retornaTotalReceitas(mes)
     }
 
     @Get('/:id')

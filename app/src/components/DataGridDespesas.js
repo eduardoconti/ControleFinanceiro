@@ -29,6 +29,7 @@ export default function DataGridDespesas({
   stateCheckedReceitas,
   stateTotais,
   setFormulario,
+  stateMesAtual
 }) {
   const [rows, setRows] = useState([]);
   const [despesas, setDespesas] = useState([]);
@@ -87,7 +88,8 @@ export default function DataGridDespesas({
                 setStateTotais(
                   await calculaTotais(
                     stateCheckedDespesas,
-                    stateCheckedReceitas
+                    stateCheckedReceitas,
+                    stateMesAtual
                   )
                 );
               }}
@@ -110,7 +112,9 @@ export default function DataGridDespesas({
                 setStateTotais(
                   await calculaTotais(
                     stateCheckedDespesas,
-                    stateCheckedReceitas
+                    stateCheckedReceitas,
+                    stateMesAtual
+                    
                   )
                 );
               }}
@@ -124,14 +128,14 @@ export default function DataGridDespesas({
   ];
 
   async function pegaDespesas() {
-    let despesas = await getDespesas(stateCheckedDespesas);
+    let despesas = await getDespesas(stateCheckedDespesas, stateMesAtual);
     setDespesas(formataDadosParaFormulario(despesas));
     setRows(formataDadosParaLinhasDataGrid(despesas));
   }
 
   useEffect(() => {
     pegaDespesas();
-  }, [stateCheckedDespesas, stateTotais]);
+  }, [stateCheckedDespesas, stateTotais, stateMesAtual]);
 
   return <DataGrid rows={rows} columns={columns} />;
 }

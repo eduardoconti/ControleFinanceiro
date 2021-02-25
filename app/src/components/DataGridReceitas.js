@@ -26,7 +26,8 @@ export default function DataGridComponent({
   setStateTotais,
   stateCheckedDespesas,
   stateTotais,
-  setFormulario
+  setFormulario,
+  stateMesAtual
 }) {
   const [rows, setRows] = useState([]);
   const [receitas, setReceitas] = useState([]);
@@ -79,7 +80,8 @@ export default function DataGridComponent({
                 setStateTotais(
                   await calculaTotais(
                     stateCheckedDespesas,
-                    stateCheckedReceitas
+                    stateCheckedReceitas,
+                    stateMesAtual
                   )
                 );
               }}
@@ -101,7 +103,8 @@ export default function DataGridComponent({
                 setStateTotais(
                   await calculaTotais(
                     stateCheckedDespesas,
-                    stateCheckedReceitas
+                    stateCheckedReceitas,
+                    stateMesAtual
                   )
                 );
               }}
@@ -115,13 +118,14 @@ export default function DataGridComponent({
   ];
 
   async function pegaReceitas() {
-    let receitas = await getReceitas(stateCheckedReceitas);
+  
+    let receitas = await getReceitas(stateCheckedReceitas, stateMesAtual);
     setRows( formataDadosParaLinhasDataGrid(receitas));
     setReceitas( formataDadosParaFormulario(receitas))
   }
   useEffect(() => {
     pegaReceitas();
-  }, [stateCheckedReceitas, stateTotais]);
+  }, [stateCheckedReceitas, stateTotais, stateMesAtual]);
 
   return <DataGrid rows={rows} columns={columns} />;
 }

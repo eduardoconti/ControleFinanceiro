@@ -12,6 +12,14 @@ const select = [
   "carteira"
 ]
 
+function CriaWhere( mes ){
+  if(mes===0){
+    return "TRUE"
+  }else {
+    return "MONTH(receitas.pagamento)=" + String(mes)
+  }
+}
+
 @Injectable()
 export class ReceitaService {
   constructor(
@@ -19,35 +27,36 @@ export class ReceitaService {
     private receitaRepository: Repository<Receitas>,
   ) { }
 
-  async retornaTodasReceitas() {
+  async retornaTodasReceitas(mes:number) {
     let receitas = await this.receitaRepository
       .createQueryBuilder("receitas")
       .select(select)
       .innerJoin("receitas.carteira", "carteira")
+      .where(CriaWhere( mes ))
       .orderBy("receitas.valor", 'DESC')
       .getMany();
 
     return receitas
   }
 
-  async retornaReceitasPagas() {
+  async retornaReceitasPagas(mes:number) {
     let receitas = await this.receitaRepository
       .createQueryBuilder("receitas")
       .select(select)
       .innerJoin("receitas.carteira", "carteira")
-      .where("receitas.pago=true")
+      .where("receitas.pago=true AND " + CriaWhere( mes ) )
       .orderBy("receitas.valor", 'DESC')
       .getMany();
 
     return receitas
   }
 
-  async retornaReceitasEmAberto() {
+  async retornaReceitasEmAberto( mes:number) {
     let receitas = await this.receitaRepository
       .createQueryBuilder("receitas")
       .select(select)
       .innerJoin("receitas.carteira", "carteira")
-      .where("receitas.pago=false")
+      .where("receitas.pago=false AND " + CriaWhere( mes ))
       .orderBy("receitas.valor", 'DESC')
       .getMany();
 
@@ -85,33 +94,34 @@ export class ReceitaService {
     }
   }
 
-  async retornaTotalReceitas() {
+  async retornaTotalReceitas( mes:number) {
 
     let { sum } = await this.receitaRepository
       .createQueryBuilder("RECEITAS")
       .select("SUM(RECEITAS.valor)", "sum")
+      .where(CriaWhere( mes ))
       .getRawOne();
 
     return sum
   }
 
-  async retornaTotalReceitasPagas() {
+  async retornaTotalReceitasPagas(mes:number) {
 
     let { sum } = await this.receitaRepository
       .createQueryBuilder("RECEITAS")
       .select("SUM(RECEITAS.valor)", "sum")
-      .where("RECEITAS.pago = true")
+      .where("RECEITAS.pago = true AND " + CriaWhere( mes ))
       .getRawOne();
 
     return sum
   }
 
-  async retornaTotalReceitasAbertas() {
+  async retornaTotalReceitasAbertas(mes:number) {
 
     let { sum } = await this.receitaRepository
       .createQueryBuilder("RECEITAS")
       .select("SUM(RECEITAS.valor)", "sum")
-      .where("RECEITAS.pago = false")
+      .where("RECEITAS.pago = false AND " + CriaWhere( mes ))
       .getRawOne();
 
     return sum

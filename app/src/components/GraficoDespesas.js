@@ -11,17 +11,17 @@ import {
 } from "recharts";
 import { getValorDespesasPorCategoria } from "../common/DepesaFuncoes";
 import { Box } from "@material-ui/core";
-export default function GraficoTest({ stateCheckedDespesas, stateTotais }) {
+export default function GraficoTest({ stateCheckedDespesas, stateTotais, stateMesAtual }) {
   const [despesas, setDespesas] = useState([]);
 
   async function pegaDespesas() {
-    let despesas = await getValorDespesasPorCategoria(stateCheckedDespesas);
+    let despesas = await getValorDespesasPorCategoria(stateCheckedDespesas, stateMesAtual);
     setDespesas(despesas);
   }
 
   useEffect(() => {
     pegaDespesas();
-  }, [stateCheckedDespesas, stateTotais]);
+  }, [stateCheckedDespesas, stateTotais, stateMesAtual]);
 
   return (
     <Box className='Grafico'>

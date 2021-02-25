@@ -2,7 +2,7 @@ import React from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import { Box } from "@material-ui/core";
 
-export default (props) => {
+export default function Browser(props){
 
   return (
     <Box className="DataGrid">

@@ -26,16 +26,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const emptyFormulario = {
-  descricao: "",
-  categoria: 1,
-  carteira: 1,
-  valor: 0,
-  pago: false,
-  pagamento: new Date().toISOString().slice(0, 10),
-  vencimento: new Date().toISOString().slice(0, 10),
-};
-
 function Menu(object) {
   return object.map((obj, i) => {
     return (
@@ -52,6 +42,7 @@ export default function FormDespesas({
   setStateTotais,
   setFormulario,
   formulario,
+  stateMesAtual
 }) {
   const [categorias, setCategorias] = useState([]);
   const [carteiras, setCarteiras] = useState([]);
@@ -164,7 +155,7 @@ export default function FormDespesas({
 
             setFormulario(emptyFormularioDespesa);
             setStateTotais(
-              await calculaTotais(stateCheckedDespesas, stateCheckedReceitas)
+              await calculaTotais(stateCheckedDespesas, stateCheckedReceitas, stateMesAtual)
             );
           }}
         >

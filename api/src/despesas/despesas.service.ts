@@ -13,7 +13,13 @@ const select = [
   "categoria",
   "carteira"
 ]
-
+function CriaWhere( mes ){
+  if(mes===0){
+    return "TRUE"
+  }else {
+    return "MONTH(despesas.vencimento)=" + String(mes)
+  }
+}
 @Injectable()
 export class DespesaService {
   constructor(
@@ -21,46 +27,46 @@ export class DespesaService {
     private despesaRepository: Repository<Despesas>,
   ) { }
 
-  async retornaTodasDespesas() {
+  async retornaTodasDespesas(mes: number) {
     let despesas = await this.despesaRepository
       .createQueryBuilder("despesas")
       .select(select)
       .innerJoin("despesas.categoria", "categoria")
       .innerJoin("despesas.carteira", "carteira")
-      .orderBy("despesas.descricao")
+      .orderBy("despesas.descricao", 'DESC')
+      .where(CriaWhere( mes ))
       .getMany();
-
     return despesas
   }
 
-  async retornaDespesasPagas() {
+  async retornaDespesasPagas(mes:number) {
     let despesas = await this.despesaRepository
       .createQueryBuilder("despesas")
       .select(select)
       .innerJoin("despesas.categoria", "categoria")
       .innerJoin("despesas.carteira", "carteira")
-      .where('despesas.pago=true')
-      .orderBy("despesas.descricao")
+      .where('despesas.pago=true AND ' + CriaWhere(mes)) 
+      .orderBy("despesas.descricao", 'DESC')
       .getMany();
 
     return despesas
   }
 
-  async retornaDespesasEmAberto() {
+  async retornaDespesasEmAberto(mes:number) {
 
     let despesas = await this.despesaRepository
       .createQueryBuilder("despesas")
       .select(select)
       .innerJoin("despesas.categoria", "categoria")
       .innerJoin("despesas.carteira", "carteira")
-      .where('despesas.pago=false')
-      .orderBy("despesas.descricao")
+      .where('despesas.pago=false AND ' + CriaWhere(mes))
+      .orderBy("despesas.descricao", 'DESC')
       .getMany();
 
     return despesas
   }
 
-  async retornaValorDespesasAgrupadosPorCategoria() {
+  async retornaValorDespesasAgrupadosPorCategoria( mes:number) {
 
     let despesas = await this.despesaRepository
       .createQueryBuilder("despesas")
@@ -69,6 +75,7 @@ export class DespesaService {
         "categoria.descricao categoria"
       ])
       .innerJoin("despesas.categoria", "categoria")
+      .where(CriaWhere(mes))
       .groupBy("despesas.categoria")
       .orderBy("valor", 'DESC')
       .getRawMany();
@@ -76,7 +83,7 @@ export class DespesaService {
     return despesas
   }
 
-  async retornaValorDespesasAgrupadosPorCategoriaPago() {
+  async retornaValorDespesasAgrupadosPorCategoriaPago(mes:number) {
 
     let despesas = await this.despesaRepository
       .createQueryBuilder("despesas")
@@ -85,7 +92,7 @@ export class DespesaService {
         "categoria.descricao categoria"
       ])
       .innerJoin("despesas.categoria", "categoria")
-      .where("despesas.pago=true")
+      .where("despesas.pago=true AND " + CriaWhere(mes) )
       .groupBy("despesas.categoria")
       .orderBy("valor", 'DESC')
       .getRawMany();
@@ -93,7 +100,7 @@ export class DespesaService {
     return despesas
   }
 
-  async retornaValorDespesasAgrupadosPorCategoriaAberto() {
+  async retornaValorDespesasAgrupadosPorCategoriaAberto(mes:number) {
 
     let despesas = await this.despesaRepository
       .createQueryBuilder("despesas")
@@ -102,7 +109,7 @@ export class DespesaService {
         "categoria.descricao categoria"
       ])
       .innerJoin("despesas.categoria", "categoria")
-      .where("despesas.pago=false")
+      .where("despesas.pago=false AND " + CriaWhere(mes))
       .groupBy("despesas.categoria")
       .orderBy("valor", 'DESC')
       .getRawMany();
@@ -141,33 +148,34 @@ export class DespesaService {
     }
   }
 
-  async retornaTotalDespesas() {
+  async retornaTotalDespesas( mes:number ) {
 
     let { sum } = await this.despesaRepository
       .createQueryBuilder("DESPESAS")
       .select("SUM(DESPESAS.valor)", "sum")
+      .where(CriaWhere(mes))
       .getRawOne();
 
     return sum
   }
 
-  async retornaTotalDespesasPagas() {
+  async retornaTotalDespesasPagas(mes:number) {
 
     let { sum } = await this.despesaRepository
       .createQueryBuilder("DESPESAS")
       .select("SUM(DESPESAS.valor)", "sum")
-      .where("DESPESAS.pago = true")
+      .where("DESPESAS.pago = true AND " + CriaWhere(mes))
       .getRawOne();
 
     return sum
   }
 
-  async retornaTotalDespesasAbertas() {
+  async retornaTotalDespesasAbertas(mes:number) {
 
     let { sum } = await this.despesaRepository
       .createQueryBuilder("DESPESAS")
       .select("SUM(DESPESAS.valor)", "sum")
-      .where("DESPESAS.pago = false")
+      .where("DESPESAS.pago = false AND " + CriaWhere(mes))
       .getRawOne();
 
     return sum
