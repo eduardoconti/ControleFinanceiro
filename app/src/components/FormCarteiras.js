@@ -63,7 +63,7 @@ export default function FormCarteiras({ setRows, formulario, setFormulario }) {
 
             setRows(await retornaCarteiras())
             setFormulario(emptyFormularioCarteira)
-            setAlert(retornaStateAlertCadastro(response,'Categoria'))
+            setAlert(retornaStateAlertCadastro(response,'Carteira'))
           }}
         >
           {descricaoBotao}
