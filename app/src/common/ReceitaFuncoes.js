@@ -1,7 +1,11 @@
 import API from "./Api";
 
 const ENDPOINT = "receitas/";
-
+const headers = {
+  headers: {
+    'Content-Type': 'application/json'
+  }
+}
 
 export async function getReceitas(stateCheckedReceitas, stateMesAtual) {
   var res = new Array(0);
@@ -9,53 +13,87 @@ export async function getReceitas(stateCheckedReceitas, stateMesAtual) {
     (stateCheckedReceitas.checkedPago && stateCheckedReceitas.checkedAberto) ||
     (!stateCheckedReceitas.checkedPago && !stateCheckedReceitas.checkedAberto)
   ) {
-    res = await API.get(ENDPOINT + "mes/" + stateMesAtual );
+    res = await API.get(ENDPOINT + "mes/" + stateMesAtual, headers);
   } else if (stateCheckedReceitas.checkedPago) {
-    res = await API.get(ENDPOINT + "pago/mes/" + stateMesAtual );
+    res = await API.get(ENDPOINT + "pago/mes/" + stateMesAtual, headers);
   } else if (stateCheckedReceitas.checkedAberto) {
-    res = await API.get(ENDPOINT + "aberto/mes/" + stateMesAtual );
+    res = await API.get(ENDPOINT + "aberto/mes/" + stateMesAtual, headers);
   }
 
   return res.data;
 }
 
 export async function deletaReceita(id) {
-  const res = await API.delete(ENDPOINT + id);
-  return res.status.valueOf();
+  try {
+    const res = await API.delete(ENDPOINT + id, headers);
+    return res.status.valueOf();
+  } catch (error) {
+    console.log(error)
+    return error.response.status
+  }
 }
 
 export async function insereReceita(receita) {
-  const res = await API.post(ENDPOINT, receita);
-  return res.status.valueOf();
+  try {
+    const res = await API.post(ENDPOINT, receita, headers);
+    return res.status.valueOf();
+  } catch (error) {
+    console.log(error)
+    return error.response.status
+  }
 }
 export async function alteraReceita(receita) {
-  const res = await API.put(ENDPOINT + receita.id, receita);
-  return res.status.valueOf();
+  try {
+    const res = await API.put(ENDPOINT + receita.id, receita, headers);
+    return res.status.valueOf();
+  } catch (error) {
+    console.log(error)
+    return error.response.status
+  }
 }
 export async function alteraFlagPago(receita) {
-  const res = await API.patch(ENDPOINT + "flag/" + receita.id, receita);
-  return res.status.valueOf();
+  try {
+    const res = await API.patch(ENDPOINT + "flag/" + receita.id, receita, headers);
+    return res.status.valueOf();
+  } catch (error) {
+    console.log(error)
+    return error.response.status
+  }
 }
 export async function retornaTotalReceitas(stateMesAtual) {
-  const total = await API.get(ENDPOINT + "total/mes/" + stateMesAtual);
-
-  return total.data;
+  try {
+    const total = await API.get(ENDPOINT + "total/mes/" + stateMesAtual, headers);
+    return total.data;
+  } catch (error) {
+    console.log(error)
+    return error.response.status
+  }
 }
 
 export async function retornaTotalReceitasPagas(stateMesAtual) {
-  const total = await API.get(ENDPOINT + "pago/valor/mes/" + stateMesAtual);
-  if (!total.data) {
-    return 0;
+  try {
+    const total = await API.get(ENDPOINT + "pago/valor/mes/" + stateMesAtual, headers);
+    if (!total.data) {
+      return 0;
+    }
+    return total.data;
+  } catch (error) {
+    console.log(error)
+    return error.response.status
   }
-  return total.data;
 }
 
 export async function retornaTotalReceitasAbertas(stateMesAtual) {
-  const total = await API.get(ENDPOINT + "aberto/valor/mes/" + stateMesAtual);
-  if (!total.data) {
-    return 0;
+  try {
+    const total = await API.get(ENDPOINT + "aberto/valor/mes/" + stateMesAtual, headers);
+    if (!total.data) {
+      return 0;
+    }
+    return total.data;
+  } catch (error) {
+    console.log(error)
+    return error.response.status
   }
-  return total.data;
 }
 
 export function formataDadosParaLinhasDataGrid(receita) {
@@ -75,5 +113,4 @@ export function formataDadosParaFormulario(receita) {
     };
   });
 }
-
 

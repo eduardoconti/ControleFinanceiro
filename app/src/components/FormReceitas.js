@@ -7,7 +7,10 @@ import { retornaCarteiras } from "../common/CarteiraFuncoes";
 import { insereReceita } from "../common/ReceitaFuncoes";
 import { calculaTotais } from "../common/Funcoes";
 import { Box } from "@material-ui/core";
-import { emptyFormularioReceita } from "../common/EmptyStates";
+import { emptyFormularioReceita, emptyAlertState } from "../common/EmptyStates";
+import Alert from './Alert'
+import { retornaStateAlertCadastro, AlertWarning } from "../common/AlertFuncoes";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -46,10 +49,19 @@ export default function FormReceitas({
   const [carteiras, setCarteiras] = useState([]);
   const classes = useStyles();
   const descricaoBotao = formulario.id === 0 ? 'CADASTRAR' : 'ALTERAR'
+  const [alert, setAlert] = useState(emptyAlertState)
+
   useEffect(() => {
     async function pegaCarteiras() {
       let carteiras = await retornaCarteiras();
       setCarteiras(carteiras);
+
+      if(carteiras.length===0){
+        setAlert(AlertWarning('Necessário cadastrar carteira'))
+      }else{
+        setFormulario({...formulario, carteira:carteiras[0].id})
+      }
+
     }
 
     pegaCarteiras();
@@ -76,6 +88,7 @@ export default function FormReceitas({
 
   return (
     <Box className="Formularios">
+      <Alert alert={alert} setAlert={(alert) => setAlert(alert)} />
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
           id="descricao"
@@ -108,11 +121,12 @@ export default function FormReceitas({
           size="small"
           className={classes.botao}
           onClick={async () => {
-            await insereReceita(formulario);
+            let response = await insereReceita(formulario);
             setFormulario(emptyFormularioReceita);
             setStateTotais(
               await calculaTotais(stateCheckedDespesas, stateCheckedReceitas, stateMesAtual)
             );
+            setAlert(retornaStateAlertCadastro(response,'Receita'))
           }}
         >
           {descricaoBotao}

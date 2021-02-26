@@ -9,23 +9,20 @@ import {
   deletaDespesa,
   alteraFlagPago,
   formataDadosParaLinhasDataGrid,
-  formataDadosParaFormulario,
-  retornaStateAlert,
-  retornaStateAlertExclusao
+  formataDadosParaFormulario
 } from "../common/DepesaFuncoes";
 import { makeStyles } from "@material-ui/core/styles";
 import { calculaTotais } from "../common/Funcoes";
 import Alert from './Alert'
 import { Box } from "@material-ui/core";
 import { emptyAlertState } from '../common/EmptyStates'
+import { retornaStateAlertExclusao, retornaStateAlertAlteracaoFlagPago } from '../common/AlertFuncoes'
 const useStyles = makeStyles({
   operacoes: {
     color: "#216260",
     padding: 4,
   },
 });
-
-
 
 export default function DataGridDespesas({
   stateCheckedDespesas,
@@ -39,6 +36,7 @@ export default function DataGridDespesas({
   const [despesas, setDespesas] = useState([]);
   const [alert, setAlert] = useState(emptyAlertState)
   const classes = useStyles();
+
   const columns = [
     { field: "descricao", headerName: "Descricao", width: 150 },
     {
@@ -97,7 +95,7 @@ export default function DataGridDespesas({
                     stateMesAtual
                   )
                 );
-                setAlert(retornaStateAlertExclusao(response))
+                setAlert(retornaStateAlertExclusao(response, 'Despesa'))
               }}
             >
               <DeleteForeverTwoToneIcon />
@@ -124,7 +122,7 @@ export default function DataGridDespesas({
                   )
                 );
 
-                setAlert(retornaStateAlert(response, despesa.pago))
+                setAlert(retornaStateAlertAlteracaoFlagPago(response, despesa.pago, 'Despesa'))
               }}
             >
               <FiberManualRecordTwoToneIcon />

@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { insereCategoria, alteraCategoria } from "../common/CategoriaFuncoes";
 import { Box } from "@material-ui/core";
 import { retornaCategorias } from "../common/CategoriaFuncoes";
-import { emptyFormularioCategoria } from "../common/EmptyStates"
+import { emptyFormularioCategoria, emptyAlertState } from "../common/EmptyStates"
+import Alert from './Alert'
+import { retornaStateAlertCadastro } from "../common/AlertFuncoes";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -25,10 +28,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function FormCategorias({ setRows, formulario, setFormulario }) {
+
   const classes = useStyles();
   const descricaoBotao = formulario.id === 0 ? 'CADASTRAR' : 'ALTERAR'
+  const [alert, setAlert] = useState(emptyAlertState)
+
   return (
     <Box className="Formularios">
+      <Alert alert={alert} setAlert={(alert) => setAlert(alert)} />
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
           id="descricao"
@@ -47,14 +54,16 @@ export default function FormCategorias({ setRows, formulario, setFormulario }) {
           size="small"
           className={classes.botao}
           onClick={async () => {
+            let response
             if (formulario.id === 0) {
-              await insereCategoria(formulario);
+              response = await insereCategoria(formulario);
             } else {
-              await alteraCategoria(formulario)
+              response = await alteraCategoria(formulario)
             }
 
             setRows(await retornaCategorias())
             setFormulario(emptyFormularioCategoria)
+            setAlert(retornaStateAlertCadastro(response,'Categoria'))
           }}
         >
           {descricaoBotao}

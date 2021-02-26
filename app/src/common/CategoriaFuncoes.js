@@ -1,24 +1,48 @@
 import API from "./Api";
 
 const ENDPOINT = "categorias/";
-
+const headers = {
+  headers: {
+    'Content-Type': 'application/json'
+  }
+}
 export async function retornaCategorias() {
-  const res = await API.get(ENDPOINT);
-  return res.data;
+  try {
+    const res = await API.get(ENDPOINT, headers);
+    return res.data;
+  } catch (error) {
+    console.log(error)
+    return error.response.status
+  }
 }
 
 export async function insereCategoria(categoria) {
-  const res = await API.post(ENDPOINT, categoria);
-  return res.status.valueOf();
+  try {
+    const res = await API.post(ENDPOINT, categoria, headers);
+    return res.status.valueOf();
+  } catch (error) {
+    console.log(error)
+    return error.response.status
+  }
 }
 
 export async function deletaCategoria(id) {
-  const res = await API.delete(ENDPOINT + id);
-  return res.status.valueOf();
+  try {
+    const res = await API.delete(ENDPOINT + id, headers);
+    return res.status.valueOf();
+  } catch (error) {
+    console.log(error)
+    return error.response.status
+  }
 }
 
 export async function alteraCategoria(carteira) {
-  const res = await API.put(ENDPOINT + carteira.id, carteira);
-  return res.status.valueOf();
+  try {
+    const res = await API.put(ENDPOINT + carteira.id, carteira, headers);
+    return res.status.valueOf();
+  } catch (error) {
+    console.log(error)
+    return error.response.status
+  }
 }
 

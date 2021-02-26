@@ -5,12 +5,12 @@ import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import { retornaCategorias } from "../common/CategoriaFuncoes";
 import { retornaCarteiras } from "../common/CarteiraFuncoes";
-import { insereDespesa, alteraDespesa, retornaStateAlertCadastro } from "../common/DepesaFuncoes";
+import { insereDespesa, alteraDespesa } from "../common/DepesaFuncoes";
 import { calculaTotais } from "../common/Funcoes";
 import { Box } from "@material-ui/core";
-import { emptyFormularioDespesa } from "../common/EmptyStates";
+import { emptyFormularioDespesa, emptyAlertState } from "../common/EmptyStates";
 import Alert from './Alert'
-import { emptyAlertState } from '../common/EmptyStates'
+import { retornaStateAlertCadastro, AlertWarning } from "../common/AlertFuncoes";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -48,23 +48,39 @@ export default function FormDespesas({
 }) {
   const [categorias, setCategorias] = useState([]);
   const [carteiras, setCarteiras] = useState([]);
+  const [alert, setAlert] = useState(emptyAlertState)
   const classes = useStyles();
   const descricaoBotao = formulario.id === 0 ? 'CADASTRAR' : 'ALTERAR'
-  const [alert, setAlert] = useState(emptyAlertState)
-
+  
   useEffect(() => {
+    let form={
+      categoria:'',
+      carteira:''
+    }
     async function pegaCategorias() {
       let categorias = await retornaCategorias();
-      setCategorias(categorias);
+      await setCategorias(categorias);
+
+      if (categorias.length === 0) {
+        setAlert(AlertWarning('Necessário cadastrar categoria'))
+      } else {
+        form.categoria = categorias[0].id     
+      }
+      setFormulario({ ...formulario,categoria:form.categoria, carteira:form.carteira})
     }
 
     async function pegaCarteiras() {
       let carteiras = await retornaCarteiras();
-      setCarteiras(carteiras);
+      await setCarteiras(carteiras);
+      if (carteiras.length === 0) {
+        setAlert(AlertWarning('Necessário cadastrar carteira'))
+      } else {
+        form.carteira =  carteiras[0].id
+      }
     }
-
-    pegaCategorias();
     pegaCarteiras();
+    pegaCategorias();
+    
   }, []);
 
   let MenuCategoria = Menu(categorias);
@@ -140,6 +156,7 @@ export default function FormDespesas({
           label="Valor"
           variant="outlined"
           size="small"
+          type="number"
           style={{ width: 80 }}
           value={formulario.valor}
           onChange={(event) =>
@@ -162,7 +179,8 @@ export default function FormDespesas({
             setStateTotais(
               await calculaTotais(stateCheckedDespesas, stateCheckedReceitas, stateMesAtual)
             );
-            setAlert(retornaStateAlertCadastro(response))
+            console.log(response)
+            setAlert(retornaStateAlertCadastro(response, 'Despesa'))
           }}
         >
           {descricaoBotao}

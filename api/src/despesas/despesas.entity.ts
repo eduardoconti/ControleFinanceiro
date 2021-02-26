@@ -13,7 +13,7 @@ export class Despesas {
   @ManyToOne(() => Categorias, categorias => categorias.descricao )
   categoria: Categorias;
 
-  @Column()
+  @Column({type:'decimal', scale:2, precision:10}) 
   valor: number;
 
   @Column()

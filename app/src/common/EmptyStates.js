@@ -1,7 +1,7 @@
 export const emptyFormularioDespesa = {
   descricao: "",
-  categoria: 1,
-  carteira: 1,
+  categoria: '',
+  carteira: '',
   valor: 0,
   pago: false,
   pagamento: new Date().toISOString().slice(0, 10),
@@ -32,7 +32,7 @@ export const emptyChecked = {
 
 export const emptyFormularioReceita = {
   descricao: "",
-  carteira: 1,
+  carteira: '',
   valor: 0,
   pago: false,
   pagamento: new Date().toISOString().slice(0, 10),

@@ -83,7 +83,7 @@ export class DespesasController {
         return this.despesaService.retornaTotalDespesas(0)
     }
 
-    @Get('/total/:mes')
+    @Get('/total/mes/:mes')
     async retornaTotalDespesasPorMes(@Param('mes') mes: number){
         return this.despesaService.retornaTotalDespesas(mes)
     }
