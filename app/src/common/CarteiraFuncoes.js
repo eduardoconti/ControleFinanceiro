@@ -1,9 +1,11 @@
 import API from "./Api";
 
 const ENDPOINT = "carteiras/";
-const headers = { headers:{
-  'Content-Type': 'application/json'
-}}
+const headers = {
+  headers: {
+    'Content-Type': 'application/json'
+  }
+}
 
 export async function retornaCarteiras() {
   try {
@@ -28,7 +30,7 @@ export async function insereCarteira(carteira) {
 export async function deletaCarteira(id) {
   try {
     const res = await API.delete(ENDPOINT + id, headers);
-    return res.status.valueOf();
+    return res.data;
   } catch (error) {
     console.log(error)
     return error.response.status

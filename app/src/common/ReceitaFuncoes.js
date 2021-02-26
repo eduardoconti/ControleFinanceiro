@@ -26,7 +26,7 @@ export async function getReceitas(stateCheckedReceitas, stateMesAtual) {
 export async function deletaReceita(id) {
   try {
     const res = await API.delete(ENDPOINT + id, headers);
-    return res.status.valueOf();
+    return res.data;
   } catch (error) {
     console.log(error)
     return error.response.status

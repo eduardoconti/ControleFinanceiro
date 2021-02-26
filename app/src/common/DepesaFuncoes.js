@@ -37,7 +37,7 @@ export async function getValorDespesasPorCategoria(stateCheckedDespesas, stateMe
 export async function deletaDespesa(id) {
   try {
     const res = await API.delete(ENDPOINT + id, headers);
-    return res.status.valueOf();
+    return res.data;
   } catch (error) {
     console.log(error)
     return error.response.status

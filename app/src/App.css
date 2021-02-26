@@ -29,6 +29,7 @@
 
 .Grafico {
   height: 286px;
+  animation: mymove 2s;
 }
 
 .Header {
@@ -38,4 +39,9 @@
 
 .Footer {
   height: 30px;
+}
+
+@keyframes mymove {
+  from {background-color:#9Ebfc0;}
+  to {background-color:#f9fefb;}
 }

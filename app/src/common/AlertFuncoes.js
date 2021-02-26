@@ -22,16 +22,16 @@ export function retornaStateAlertAlteracaoFlagPago(codResponse, pago, tipo) {
     return stateAlert(message, type)
   }
   
-  export function retornaStateAlertExclusao(codResponse, tipo) {
+  export function retornaStateAlertExclusao(response, tipo) {
     let message = ''
     let type = ''
   
-    if (codResponse === 200) {
+    if (response.deleted) {
       message = 'Excluido ' + tipo
       type = 'success'
     }
     else {
-      message = 'Falha ao Excluir ' + tipo
+      message = 'Falha ao Excluir ' + response.message
       type = 'error'
     }
   

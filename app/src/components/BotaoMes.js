@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import CardActionArea from "@material-ui/core/CardActionArea";
 const useStyles = makeStyles({
+  
   botao: {
     backgroundColor: "#F9FEFB",
     maxWidth: "100%",
@@ -14,6 +15,7 @@ const useStyles = makeStyles({
     "&:hover": {
       backgroundColor: "#9Ebfc0",
     },
+    
   },
 });
 
