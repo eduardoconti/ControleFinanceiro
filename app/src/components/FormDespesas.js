@@ -51,27 +51,24 @@ export default function FormDespesas({
   const [alert, setAlert] = useState(emptyAlertState)
   const classes = useStyles();
   const descricaoBotao = formulario.id === 0 ? 'CADASTRAR' : 'ALTERAR'
-  
+
   useEffect(() => {
-    async function pegaCategorias() {
-      let categorias = await retornaCategorias();
-      await setCategorias(categorias);
+
+    retornaCategorias().then(categorias => {
+      setCategorias(categorias);
 
       if (categorias.length === 0) {
         setAlert(AlertWarning('Necessário cadastrar categoria'))
-      } 
-    }
+      }
+    })
 
-    async function pegaCarteiras() {
-      let carteiras = await retornaCarteiras();
-      await setCarteiras(carteiras);
+    retornaCarteiras().then(carteiras => {
+      setCarteiras(carteiras);
       if (carteiras.length === 0) {
         setAlert(AlertWarning('Necessário cadastrar carteira'))
       }
-    }
-    pegaCarteiras();
-    pegaCategorias();
-    
+    });
+
   }, []);
 
   let MenuCategoria = Menu(categorias);

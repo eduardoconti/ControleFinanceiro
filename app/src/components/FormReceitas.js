@@ -52,16 +52,15 @@ export default function FormReceitas({
   const [alert, setAlert] = useState(emptyAlertState)
 
   useEffect(() => {
-    async function pegaCarteiras() {
-      let carteiras = await retornaCarteiras();
+
+    retornaCarteiras().then(carteiras => {
       setCarteiras(carteiras);
 
-      if(carteiras.length===0){
+      if (carteiras.length === 0) {
         setAlert(AlertWarning('Necessário cadastrar carteira'))
       }
-    }
+    })
 
-    pegaCarteiras();
   }, []);
 
   let MenuCarteira = Menu(carteiras);
@@ -137,7 +136,7 @@ export default function FormReceitas({
             setStateTotais(
               await calculaTotais(stateCheckedDespesas, stateCheckedReceitas, stateMesAtual)
             );
-            setAlert(retornaStateAlertCadastro(response,'Receita'))
+            setAlert(retornaStateAlertCadastro(response, 'Receita'))
           }}
         >
           {descricaoBotao}

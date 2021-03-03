@@ -58,12 +58,11 @@ export default function DataGridCarteiras({ rows, setRows, setFormulario }) {
   ];
 
   useEffect(() => {
-    async function pegaCarteiras() {
-      let carteiras = await retornaCarteiras();
-      setRows(carteiras);
-    }
 
-    pegaCarteiras();
+    retornaCarteiras().then(carteiras => {
+      setRows(carteiras);
+    })
+
   }, []);
 
   return (

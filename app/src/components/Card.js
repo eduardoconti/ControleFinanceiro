@@ -8,7 +8,6 @@ import {
   MuiThemeProvider,
   Typography,
 } from "@material-ui/core";
-import * as Constants from "../common/Constantes"
 let theme = createMuiTheme();
 theme = responsiveFontSizes(theme);
 

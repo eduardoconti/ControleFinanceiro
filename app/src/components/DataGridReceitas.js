@@ -88,7 +88,7 @@ export default function DataGridComponent({
                     stateMesAtual
                   )
                 );
-                setAlert( retornaStateAlertExclusao(response, 'Receita'))
+                setAlert(retornaStateAlertExclusao(response, 'Receita'))
               }}
             >
               <DeleteForeverTwoToneIcon />
@@ -112,7 +112,7 @@ export default function DataGridComponent({
                     stateMesAtual
                   )
                 )
-                setAlert(retornaStateAlertAlteracaoFlagPago(response, receita.pago, 'Receita' ));
+                setAlert(retornaStateAlertAlteracaoFlagPago(response, receita.pago, 'Receita'));
               }}
             >
               <FiberManualRecordTwoToneIcon />
@@ -131,12 +131,13 @@ export default function DataGridComponent({
   }
 
   useEffect(() => {
-    async function pegaReceitas() {
-      let receitas = await getReceitas(stateCheckedReceitas, stateMesAtual);
+
+    getReceitas(stateCheckedReceitas, stateMesAtual).then(receitas => {
       setRows(formataDadosParaLinhasDataGrid(receitas));
       setReceitas(formataDadosParaFormulario(receitas))
-    }
-    pegaReceitas();
+    })
+
+
   }, [stateCheckedReceitas, stateTotais, stateMesAtual]);
 
   return (

@@ -8,7 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Box } from "@material-ui/core";
 import Alert from './Alert'
 import { emptyAlertState } from '../common/EmptyStates'
-import {retornaStateAlertExclusao} from '../common/AlertFuncoes'
+import { retornaStateAlertExclusao } from '../common/AlertFuncoes'
 const useStyles = makeStyles({
   operacoes: {
     color: "#216260",
@@ -46,7 +46,7 @@ export default function DataGridCategorias({ rows, setRows, setFormulario }) {
               onClick={async () => {
                 let response = await deletaCategoria(field.row.id);
                 setRows(await retornaCategorias());
-                setAlert(retornaStateAlertExclusao(response,'Categoria'))
+                setAlert(retornaStateAlertExclusao(response, 'Categoria'))
               }}
             >
               <DeleteForeverTwoToneIcon />
@@ -58,12 +58,11 @@ export default function DataGridCategorias({ rows, setRows, setFormulario }) {
   ];
 
   useEffect(() => {
-    async function pegaCategorias() {
-      let categorias = await retornaCategorias();
-      setRows(categorias);
-    }
 
-    pegaCategorias();
+    retornaCategorias().then(categorias => {
+       setRows(categorias)  
+    })
+
   }, []);
 
   return (

@@ -140,12 +140,13 @@ export default function DataGridDespesas({
   }
 
   useEffect(() => {
-    async function pegaDespesas() {
-      let despesas = await getDespesas(stateCheckedDespesas, stateMesAtual);
+    getDespesas(stateCheckedDespesas, stateMesAtual).then(despesas => {
+
       setDespesas(formataDadosParaFormulario(despesas));
       setRows(formataDadosParaLinhasDataGrid(despesas));
-    }
-    pegaDespesas();
+    })
+
+
   }, [stateCheckedDespesas, stateTotais, stateMesAtual]);
 
   return (
