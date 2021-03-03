@@ -89,6 +89,18 @@ export async function retornaTotalDespesas(stateMesAtual) {
  
 }
 
+
+export async function retornaDespesasAgrupadasPorCarteira(stateMesAtual) {
+  try {
+    const total = await API.get(ENDPOINT + "carteira/mes/" + stateMesAtual, headers);
+    return total.data;
+  } catch (error) {
+    console.log(error)
+    return error.response.status
+  }
+ 
+}
+
 export async function retornaTotalDespesasPagas(stateMesAtual) {
   const total = await API.get(ENDPOINT + "pago/valor/mes/" + stateMesAtual, headers);
   if (!total.data) {

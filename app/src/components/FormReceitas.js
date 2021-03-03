@@ -58,10 +58,7 @@ export default function FormReceitas({
 
       if(carteiras.length===0){
         setAlert(AlertWarning('Necessário cadastrar carteira'))
-      }else{
-        setFormulario({...formulario, carteira:carteiras[0].id})
       }
-
     }
 
     pegaCarteiras();
@@ -104,13 +101,27 @@ export default function FormReceitas({
         />
 
         {TextFieldCarteira}
+        <TextField
+          id="pagamento"
+          label="Pagamento"
+          variant="outlined"
+          type="date"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          value={formulario.pagamento}
+          size="small"
+          onChange={(event) =>
+            setFormulario({ ...formulario, pagamento: event.target.value })
+          }
+        />
 
         <TextField
           id="valor"
           label="Valor"
           variant="outlined"
           size="small"
-          style={{ width: 80 }}
+          style={{ width: 120 }}
           value={formulario.valor}
           onChange={(event) =>
             setFormulario({ ...formulario, valor: event.target.value })

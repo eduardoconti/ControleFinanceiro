@@ -28,12 +28,13 @@ export class DespesaService {
   ) { }
 
   async retornaTodasDespesas(mes: number) {
+    !mes ? mes = 0 :null
     let despesas = await this.despesaRepository
       .createQueryBuilder("despesas")
       .select(select)
       .innerJoin("despesas.categoria", "categoria")
       .innerJoin("despesas.carteira", "carteira")
-      .orderBy("despesas.descricao", 'DESC')
+      .orderBy("despesas.descricao", 'ASC')
       .where(CriaWhere( mes ))
       .getMany();
     return despesas
@@ -77,6 +78,24 @@ export class DespesaService {
       .innerJoin("despesas.categoria", "categoria")
       .where(CriaWhere(mes))
       .groupBy("despesas.categoria")
+      .orderBy("valor", 'DESC')
+      .getRawMany();
+
+    return despesas
+  }
+
+  async retornaValorDespesasAgrupadosPorCarteira( mes:number) {
+
+    let despesas = await this.despesaRepository
+      .createQueryBuilder("despesas")
+      .select([
+        "SUM(despesas.valor) valor",
+        "carteira.descricao carteira",
+        "despesas.carteira id"
+      ])
+      .innerJoin("despesas.carteira", "carteira")
+      .where(CriaWhere(mes))
+      .groupBy("despesas.carteira")
       .orderBy("valor", 'DESC')
       .getRawMany();
 
@@ -133,7 +152,7 @@ export class DespesaService {
     return this.getOne(id);
   }
 
-  async alteraFlagPago(despesa): Promise<{ id: number, pago: boolean }> {
+  async alteraFlagPago(despesa) {
     const { id } = despesa;
     await this.despesaRepository.update({ id }, despesa);
     return this.getOne(id);

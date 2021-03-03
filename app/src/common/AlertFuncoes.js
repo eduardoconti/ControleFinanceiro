@@ -11,7 +11,7 @@ export function retornaStateAlertAlteracaoFlagPago(codResponse, pago, tipo) {
     let type = ''
   
     if (codResponse === 200) {
-      message = 'Alterado ' + tipo +  ' para'  + (pago ? 'Pago' : 'Aberto')
+      message = 'Alterado ' + tipo +  ' para '  + (pago ? 'Pago' : 'Aberto')
       type = 'success'
     }
     else {

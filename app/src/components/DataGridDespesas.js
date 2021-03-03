@@ -38,7 +38,7 @@ export default function DataGridDespesas({
   const classes = useStyles();
 
   const columns = [
-    { field: "descricao", headerName: "Descricao", width: 150 },
+    { field: "descricao", headerName: "Descricao", width: 170 },
     {
       field: "categoria",
       headerName: "Categoria",
@@ -47,7 +47,7 @@ export default function DataGridDespesas({
     {
       field: "carteira",
       headerName: "Carteira",
-      width: 120,
+      width: 100,
     },
     {
       field: "vencimento",
@@ -63,7 +63,7 @@ export default function DataGridDespesas({
     {
       field: "operacoes",
       headerName: "Operacoes",
-      width: 120,
+      width: 115,
       sortable: false,
       renderCell: function operacoes(field) {
         return (

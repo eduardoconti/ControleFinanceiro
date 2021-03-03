@@ -39,10 +39,10 @@ export default function FormCategorias({ setRows, formulario, setFormulario }) {
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
           id="descricao"
-          label="Descricao"
+          label="Descricao Categoria"
           variant="outlined"
           size="small"
-          style={{ width: 150 }}
+          style={{ width: 180 }}
           required={true}
           value={formulario.descricao}
           onChange={(event) =>

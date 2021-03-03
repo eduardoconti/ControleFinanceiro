@@ -9,6 +9,7 @@ const select = [
   "receitas.valor",
   "receitas.pago",
   "receitas.carteira",
+  "receitas.pagamento",
   "carteira"
 ]
 
@@ -62,6 +63,23 @@ export class ReceitaService {
 
     return receitas
   }
+  async retornaValorReceitasAgrupadasPorCarteira( mes:number) {
+
+    let receitas = await this.receitaRepository
+      .createQueryBuilder("receitas")
+      .select([
+        "SUM(receitas.valor) valor",
+        "carteira.descricao descricao",
+        "carteira.id id"
+      ])
+      .innerJoin("receitas.carteira", "carteira")
+      .where(CriaWhere(mes))
+      .groupBy("receitas.carteira")
+      .orderBy("valor", 'DESC')
+      .getRawMany();
+
+    return receitas
+  }
 
   async getOne(id: number): Promise<Receitas> {
     return this.receitaRepository.findOneOrFail({ id }, { relations: ['carteira'] });
@@ -79,9 +97,9 @@ export class ReceitaService {
     return this.getOne(id);
   }
 
-  async alteraFlagPago(despesa): Promise<{ id: number, pago: boolean }> {
-    const { id } = despesa;
-    await this.receitaRepository.update({ id }, despesa);
+  async alteraFlagPago(receita): Promise<{ id: number, pago: boolean }> {
+    const { id } = receita;
+    await this.receitaRepository.update({ id }, receita);
     return this.getOne(id);
   }
 

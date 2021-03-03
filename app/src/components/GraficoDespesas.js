@@ -44,7 +44,7 @@ export default function GraficoTest({ stateCheckedDespesas, stateTotais, stateMe
               position="insideBottom"
             />
           </XAxis>
-          <YAxis type="number" domain={[0, 1500]} />
+          <YAxis type="number" domain={[0, 3000]} />
           <Tooltip />
           <Bar dataKey="valor" fill="DarkRed" maxBarSize={30} />
         </BarChart>

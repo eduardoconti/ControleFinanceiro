@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Put, Body, Delete, Post, Patch } from '@nestjs/common';
+import { Controller, Get, Param, Put, Body, Delete, Post, Patch, Query } from '@nestjs/common';
 import { DespesaService } from './despesas.service'
 import { Despesas } from './despesas.entity'
 import { DespesasDTO } from './despesas.dto'
@@ -7,9 +7,11 @@ import { DespesasDTO } from './despesas.dto'
 export class DespesasController {
 
     constructor(private readonly despesaService: DespesaService) { }
+
     @Get()
-    async getAll() {
-        return await this.despesaService.retornaTodasDespesas(0);
+    async retorna(@Query('mes') mes: number) {
+     
+        return await this.despesaService.retornaTodasDespesas(mes);
     }
 
     @Get('/mes/:mes')
@@ -24,6 +26,12 @@ export class DespesasController {
     async retornaValorDespesasAgrupadosPorCategoriaPorMes(@Param('mes') mes: number){
         return await this.despesaService.retornaValorDespesasAgrupadosPorCategoria(mes);
     }
+
+    @Get('/carteira/mes/:mes')
+    async retornaValorDespesasAgrupadosPorCarteiraPorMes(@Param('mes') mes: number){
+        return await this.despesaService.retornaValorDespesasAgrupadosPorCarteira(mes);
+    }
+
     @Get('/categoria/pago')
     async retornaValorDespesasAgrupadosPorCategoriaPago(){
         return await this.despesaService.retornaValorDespesasAgrupadosPorCategoriaPago(0);

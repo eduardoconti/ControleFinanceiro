@@ -1,12 +1,11 @@
 import React, {useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
+import { Box,TextField,Button } from "@material-ui/core";
 import { insereCarteira, alteraCarteira } from "../common/CarteiraFuncoes";
-import { Box } from "@material-ui/core";
+import Alert from './Alert'
+
 import { retornaCarteiras } from "../common/CarteiraFuncoes";
 import { emptyFormularioCarteira, emptyAlertState } from "../common/EmptyStates"
-import Alert from './Alert'
 import { retornaStateAlertCadastro} from "../common/AlertFuncoes";
 
 const useStyles = makeStyles((theme) => ({
@@ -39,10 +38,10 @@ export default function FormCarteiras({ setRows, formulario, setFormulario }) {
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
           id="descricao"
-          label="Descricao"
+          label="Descricao Carteira"
           variant="outlined"
           size="small"
-          style={{ width: 150 }}
+          style={{ width: 180 }}
           required={true}
           value={formulario.descricao}
           onChange={(event) =>

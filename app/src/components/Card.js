@@ -15,7 +15,7 @@ theme = responsiveFontSizes(theme);
 export default function Cards({ descricao, cor, valor, setStateCurrentBody }) {
 
   function onClik() {
-    setStateCurrentBody(Constants.DATA_GRID_DESPESAS);
+    setStateCurrentBody();
   }
 
   return (
@@ -26,7 +26,7 @@ export default function Cards({ descricao, cor, valor, setStateCurrentBody }) {
             <Typography variant="h5" style={{ color: cor, paddingTop: 5 }}>
               {descricao}
             </Typography>
-            <Typography variant="h6">{valor} R$</Typography>
+            <Typography variant="h6">{valor.toFixed(2)} R$</Typography>
           </CardContent>
         </CardActionArea>
       </Card>

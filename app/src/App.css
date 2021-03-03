@@ -16,6 +16,8 @@
 .Card{
   text-align: center;
   height: 100px;
+  display: flex;
+  flex-direction: column;
 }
 .DataGrid {
   height: 300px;

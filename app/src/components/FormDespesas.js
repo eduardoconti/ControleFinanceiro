@@ -53,20 +53,13 @@ export default function FormDespesas({
   const descricaoBotao = formulario.id === 0 ? 'CADASTRAR' : 'ALTERAR'
   
   useEffect(() => {
-    let form={
-      categoria:'',
-      carteira:''
-    }
     async function pegaCategorias() {
       let categorias = await retornaCategorias();
       await setCategorias(categorias);
 
       if (categorias.length === 0) {
         setAlert(AlertWarning('Necessário cadastrar categoria'))
-      } else {
-        form.categoria = categorias[0].id     
-      }
-      setFormulario({ ...formulario,categoria:form.categoria, carteira:form.carteira})
+      } 
     }
 
     async function pegaCarteiras() {
@@ -74,8 +67,6 @@ export default function FormDespesas({
       await setCarteiras(carteiras);
       if (carteiras.length === 0) {
         setAlert(AlertWarning('Necessário cadastrar carteira'))
-      } else {
-        form.carteira =  carteiras[0].id
       }
     }
     pegaCarteiras();
@@ -84,6 +75,7 @@ export default function FormDespesas({
   }, []);
 
   let MenuCategoria = Menu(categorias);
+
   let MenuCarteira = Menu(carteiras);
   let TextFieldCategoria = (
     <TextField
@@ -157,7 +149,7 @@ export default function FormDespesas({
           variant="outlined"
           size="small"
           type="number"
-          style={{ width: 80 }}
+          style={{ width: 120 }}
           value={formulario.valor}
           onChange={(event) =>
             setFormulario({ ...formulario, valor: event.target.value })

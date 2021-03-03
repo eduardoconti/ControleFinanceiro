@@ -96,20 +96,33 @@ export async function retornaTotalReceitasAbertas(stateMesAtual) {
   }
 }
 
+export async function retornaReceitasAgrupadasPorCarteira(stateMesAtual) {
+  try {
+    const total = await API.get(ENDPOINT + "carteira/mes/" + stateMesAtual, headers);
+    return total.data;
+  } catch (error) {
+    console.log(error)
+    return error.response.status
+  }
+ 
+}
+
 export function formataDadosParaLinhasDataGrid(receita) {
-  return receita.map((despesa) => {
+  return receita.map((receita) => {
     return {
-      ...despesa,
-      carteira: despesa.carteira.descricao,
+      ...receita,
+      carteira: receita.carteira.descricao,
+      pagamento: new Date(receita.pagamento).toISOString().slice(0, 10),
     };
   });
 }
 
 export function formataDadosParaFormulario(receita) {
-  return receita.map((despesa) => {
+  return receita.map((receita) => {
     return {
-      ...despesa,
-      carteira: despesa.carteira.id,
+      ...receita,
+      carteira: receita.carteira.id,
+      pagamento: new Date(receita.pagamento).toISOString().slice(0, 10)
     };
   });
 }

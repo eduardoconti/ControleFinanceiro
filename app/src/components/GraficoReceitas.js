@@ -40,7 +40,7 @@ export default function GraficoTest({ stateCheckedReceitas, stateTotais, stateMe
           <XAxis dataKey="descricao">
             <Label value="Receitas" offset={-5} position="insideBottom" />
           </XAxis>
-          <YAxis domain={[0, 3000]} />
+          <YAxis domain={[0, 4000]} />
           <Tooltip />
           <Bar dataKey="valor" fill="green" maxBarSize={30} />
         </BarChart>

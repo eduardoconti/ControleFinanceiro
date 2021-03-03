@@ -61,6 +61,10 @@ export class ReceitasController {
     async retornaTotalReceitasPorMes(@Param('mes') mes: number): Promise<Receitas[]>{
         return this.receitaService.retornaTotalReceitas(mes)
     }
+    @Get('/carteira/mes/:mes')
+    async retornaReceitasAgrupadasPorCarteira(@Param('mes') mes: number){
+        return this.receitaService.retornaValorReceitasAgrupadasPorCarteira(mes)
+    }
 
     @Get('/:id')
     async getById(@Param('id') id: number): Promise<Receitas> {

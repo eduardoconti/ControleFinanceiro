@@ -4,7 +4,7 @@ import CorpoCategorias from "./CorpoCategorias";
 import CorpoDespesas from "./CorpoDespesas";
 import CorpoReceitas from "./CorpoReceitas";
 import CorpoCarteiras from './CorpoCarteiras'
-
+import CorpoSaldo from './CorpoSaldo'
 import * as Constants from "../common/Constantes"
 
 export default function CurrentBody({
@@ -42,6 +42,9 @@ export default function CurrentBody({
   } else if (stateCurrentBody === Constants.DATA_GRID_CATEGORIAS) {
     return <CorpoCategorias />;
   } else if (stateCurrentBody === Constants.DATA_GRID_CARTEIRAS) {
-    return <CorpoCarteiras/>
+    return <CorpoCarteiras />
+  } else if (stateCurrentBody === Constants.CORPO_SALDO) {
+    return <CorpoSaldo stateMesAtual={stateMesAtual} />
   }
+
 }

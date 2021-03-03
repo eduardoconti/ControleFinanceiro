@@ -10,6 +10,7 @@ import Corpo from "./components/Corpo";
 import CardDespesas from "./components/CardDespesas";
 import CardReceitas from "./components/CardReceitas";
 import { emptyTotais, emptyChecked } from "./common/EmptyStates";
+import * as Constantes from './common/Constantes';
 
 function App() {
   const [stateTotais, setStateTotais] = useState(emptyTotais);
@@ -85,8 +86,8 @@ function App() {
                   descricao="Saldo"
                   cor="DarkGoldenRod"
                   valor={stateTotais.saldo}
-                  setStateCurrentBody={(currentBody) =>
-                    setStateCurrentBody(currentBody)
+                  setStateCurrentBody={() =>
+                    setStateCurrentBody(Constantes.CORPO_SALDO)
                   }
                 />
               </Grid>
