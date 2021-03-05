@@ -85,6 +85,19 @@ export async function retornaTotalReceitasPagas(stateAnoAtual,stateMesAtual) {
   }
 }
 
+export async function retornaTotalGeralReceitasPagas() {
+  try {
+    const total = await API.get(ENDPOINT + 'total/?pago=true', headers);
+    if (!total.data) {
+      return 0;
+    }
+    return total.data;
+  } catch (error) {
+    console.log(error)
+    return error.response.status
+  }
+}
+
 export async function retornaTotalReceitasAbertas(stateAnoAtual,stateMesAtual) {
   try {
     const total = await API.get(ENDPOINT + stateAnoAtual+ "/mes/" + stateMesAtual + '/total/?pago=false', headers);
@@ -98,9 +111,9 @@ export async function retornaTotalReceitasAbertas(stateAnoAtual,stateMesAtual) {
   }
 }
 
-export async function retornaReceitasAgrupadasPorCarteira(stateAnoAtual,stateMesAtual) {
+export async function retornaReceitasAgrupadasPorCarteira(stateAnoAtual,stateMesAtual,pago) {
   try {
-    const total = await API.get(ENDPOINT + stateAnoAtual + '/mes/' + stateMesAtual + '/carteira/valor', headers);
+    const total = await API.get(ENDPOINT + stateAnoAtual + '/mes/' + stateMesAtual + '/carteira/valor/?pago='+pago, headers);
     return total.data;
   } catch (error) {
     console.log(error)

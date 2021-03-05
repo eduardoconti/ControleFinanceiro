@@ -1,19 +1,23 @@
 import {
   retornaTotalDespesasPagas,
   retornaTotalDespesasAbertas,
+  retornaTotalGeralDespesasPagas
 } from "./DepesaFuncoes";
 import {
   retornaTotalReceitasPagas,
   retornaTotalReceitasAbertas,
+  retornaTotalGeralReceitasPagas
 } from "./ReceitaFuncoes";
 
 async function calculaTotais(stateCheckedDespesas, stateCheckedReceitas, stateAnoAtual, stateMesAtual) {
   let totalDespesas, totalDespesasPagas, totalDespesasAbertas;
   let totalReceitas, totalReceitasPagas, totalReceitasAbertas;
+  let totalGeralReceitasPagas, totalGeralDespesasPagas
 
   totalDespesas = 0;
   totalDespesasPagas = await retornaTotalDespesasPagas(stateAnoAtual,stateMesAtual);
   totalDespesasAbertas = await retornaTotalDespesasAbertas(stateAnoAtual,stateMesAtual);
+  totalGeralDespesasPagas = await retornaTotalGeralDespesasPagas()
 
   stateCheckedDespesas.checkedPago
     ? (totalDespesas += totalDespesasPagas)
@@ -25,6 +29,7 @@ async function calculaTotais(stateCheckedDespesas, stateCheckedReceitas, stateAn
   totalReceitas = 0;
   totalReceitasPagas = await retornaTotalReceitasPagas(stateAnoAtual,stateMesAtual);
   totalReceitasAbertas = await retornaTotalReceitasAbertas(stateAnoAtual,stateMesAtual);
+  totalGeralReceitasPagas = await retornaTotalGeralReceitasPagas()
 
   stateCheckedReceitas.checkedPago
     ? (totalReceitas += totalReceitasPagas)

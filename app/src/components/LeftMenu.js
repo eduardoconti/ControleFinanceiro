@@ -30,7 +30,7 @@ export default function LeftMenu({ setStateCurrentBody, stateAnoAtual, setStateA
         <Button
           className={classes.botao}
           onClick={() => {
-            onClick(Constants.DATA_GRID_CATEGORIAS);
+            onClick(Constants.CORPO_CATEGORIAS);
           }}
         >
           Categorias
@@ -40,7 +40,7 @@ export default function LeftMenu({ setStateCurrentBody, stateAnoAtual, setStateA
         <Button
           className={classes.botao}
           onClick={() => {
-            onClick(Constants.DATA_GRID_CARTEIRAS);
+            onClick(Constants.CORPO_CARTEIRAS);
           }}
         >
           Carteiras

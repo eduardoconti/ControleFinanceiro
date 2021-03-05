@@ -23,7 +23,7 @@ export default function Cards({
 }) {
 
   function onClik() {
-    setStateCurrentBody(Constants.DATA_GRID_DESPESAS);
+    setStateCurrentBody(Constants.CORPO_DESPESAS);
   }
 
   return (
@@ -37,7 +37,7 @@ export default function Cards({
             >
               Despesas
             </Typography>
-            <Typography variant="h6">{valor} R$</Typography>
+            <Typography variant="h6">{valor.toFixed(2)} R$</Typography>
           </CardContent>
         </CardActionArea>
         <CheckboxLabels

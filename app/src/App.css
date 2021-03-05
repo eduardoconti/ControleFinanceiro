@@ -15,7 +15,7 @@
 
 .Card{
   text-align: center;
-  height: 100px;
+  height: 105px;
   display: flex;
   flex-direction: column;
 }

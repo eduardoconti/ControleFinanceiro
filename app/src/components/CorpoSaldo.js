@@ -21,8 +21,8 @@ async function RetornaCards(stateAnoAtual, stateMesAtual) {
 
 async function retornaDadosParaCard(stateAnoAtual,stateMesAtual) {
     const carteiras = await retornaCarteiras();
-    const despesas = await retornaDespesasAgrupadasPorCarteira(stateAnoAtual,stateMesAtual);
-    const receitas = await retornaReceitasAgrupadasPorCarteira(stateAnoAtual,stateMesAtual);
+    const despesas = await retornaDespesasAgrupadasPorCarteira(stateAnoAtual,stateMesAtual, true);
+    const receitas = await retornaReceitasAgrupadasPorCarteira(stateAnoAtual,stateMesAtual,true);
     const dadosCard = []
 
     carteiras.forEach((carteira, i) => {

@@ -88,9 +88,19 @@ export async function retornaTotalDespesas(stateAnoAtual,stateMesAtual) {
   }
 }
 
-export async function retornaDespesasAgrupadasPorCarteira(stateAnoAtual,stateMesAtual) {
+export async function retornaTotalGeralDespesasPagas() {
   try {
-    const total = await API.get(ENDPOINT + stateAnoAtual + '/mes/' + stateMesAtual + '/carteira/valor', headers);
+    const total = await API.get(ENDPOINT + 'total/?pago=true', headers);
+    return total.data;
+  } catch (error) {
+    console.log(error)
+    return error.response.status
+  }
+}
+
+export async function retornaDespesasAgrupadasPorCarteira(stateAnoAtual,stateMesAtual,pago) {
+  try {
+    const total = await API.get(ENDPOINT + stateAnoAtual + '/mes/' + stateMesAtual + '/carteira/valor/?pago='+pago, headers);
     return total.data;
   } catch (error) {
     console.log(error)

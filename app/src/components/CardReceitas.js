@@ -22,7 +22,7 @@ export default function Cards({
 }) {
 
   function onClik() {
-    setStateCurrentBody(Constants.DATA_GRID_RECEITAS);
+    setStateCurrentBody(Constants.CORPO_RECEITAS);
   }
 
   return (
@@ -33,7 +33,7 @@ export default function Cards({
             <Typography variant="h5" style={{ color: "green", paddingTop: 5 }}>
               Receitas
             </Typography>
-            <Typography variant="h6">{valor} R$</Typography>
+            <Typography variant="h6">{valor.toFixed(2)} R$</Typography>
           </CardContent>
         </CardActionArea>
         <CheckboxLabels
