@@ -9,8 +9,11 @@ import { insereDespesa, alteraDespesa } from "../common/DepesaFuncoes";
 import { calculaTotais } from "../common/Funcoes";
 import { Box } from "@material-ui/core";
 import { emptyFormularioDespesa, emptyAlertState } from "../common/EmptyStates";
-import Alert from './Alert'
-import { retornaStateAlertCadastro, AlertWarning } from "../common/AlertFuncoes";
+import Alert from "./Alert";
+import {
+  retornaStateAlertCadastro,
+  AlertWarning,
+} from "../common/AlertFuncoes";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -18,14 +21,14 @@ const useStyles = makeStyles((theme) => ({
     },
     display: "flex",
     flexWrap: "wrap",
-    alignItems: 'center'
+    alignItems: "center",
   },
   botao: {
     "&:hover": {
       backgroundColor: "#9Ebfc0",
     },
-    margin: 5
-  }
+    margin: 5,
+  },
 }));
 
 function Menu(object) {
@@ -44,31 +47,30 @@ export default function FormDespesas({
   setStateTotais,
   setFormulario,
   formulario,
-  stateMesAtual
+  stateMesAtual,
+  stateAnoAtual
 }) {
   const [categorias, setCategorias] = useState([]);
   const [carteiras, setCarteiras] = useState([]);
-  const [alert, setAlert] = useState(emptyAlertState)
+  const [alert, setAlert] = useState(emptyAlertState);
   const classes = useStyles();
-  const descricaoBotao = formulario.id === 0 ? 'CADASTRAR' : 'ALTERAR'
+  const descricaoBotao = formulario.id === 0 ? "CADASTRAR" : "ALTERAR";
 
   useEffect(() => {
-
-    retornaCategorias().then(categorias => {
+    retornaCategorias().then((categorias) => {
       setCategorias(categorias);
 
       if (categorias.length === 0) {
-        setAlert(AlertWarning('Necessário cadastrar categoria'))
-      }
-    })
-
-    retornaCarteiras().then(carteiras => {
-      setCarteiras(carteiras);
-      if (carteiras.length === 0) {
-        setAlert(AlertWarning('Necessário cadastrar carteira'))
+        setAlert(AlertWarning("Necessário cadastrar categoria"));
       }
     });
 
+    retornaCarteiras().then((carteiras) => {
+      setCarteiras(carteiras);
+      if (carteiras.length === 0) {
+        setAlert(AlertWarning("Necessário cadastrar carteira"));
+      }
+    });
   }, []);
 
   let MenuCategoria = Menu(categorias);
@@ -76,7 +78,7 @@ export default function FormDespesas({
   let MenuCarteira = Menu(carteiras);
   let TextFieldCategoria = (
     <TextField
-      id="categoria"
+      id="categoriaId"
       label="Categoria"
       variant="outlined"
       size="small"
@@ -93,7 +95,7 @@ export default function FormDespesas({
 
   let TextFieldCarteira = (
     <TextField
-      id="carteira"
+      id="carteiraId"
       label="Carteira"
       variant="outlined"
       size="small"
@@ -157,19 +159,32 @@ export default function FormDespesas({
           size="small"
           className={classes.botao}
           onClick={async () => {
-            let response = 0
+            let response = 0;
             if (formulario.id === 0) {
               response = await insereDespesa(formulario);
             } else {
-              response = await alteraDespesa(formulario)
+              response = await alteraDespesa(formulario);
             }
 
-            setFormulario(emptyFormularioDespesa);
+            if (response.statusCode === 200 || response.statusCode === 201) {
+              setFormulario(emptyFormularioDespesa);
+            }
+
             setStateTotais(
-              await calculaTotais(stateCheckedDespesas, stateCheckedReceitas, stateMesAtual)
+              await calculaTotais(
+                stateCheckedDespesas,
+                stateCheckedReceitas,
+                stateAnoAtual,
+                stateMesAtual
+              )
             );
-            console.log(response)
-            setAlert(retornaStateAlertCadastro(response, 'Despesa'))
+            setAlert(
+              retornaStateAlertCadastro(
+                response.statusCode,
+                "Despesa",
+                response.message
+              )
+            );
           }}
         >
           {descricaoBotao}
@@ -179,7 +194,7 @@ export default function FormDespesas({
           size="small"
           className={classes.botao}
           onClick={() => {
-            setFormulario(emptyFormularioDespesa)
+            setFormulario(emptyFormularioDespesa);
           }}
         >
           LIMPAR

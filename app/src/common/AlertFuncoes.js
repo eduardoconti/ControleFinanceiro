@@ -1,65 +1,67 @@
-
-function stateAlert(message, type){
-    return{
-        isOpen: true,
-        message: message,
-        type: type
-      }
+function stateAlert(title, message, type) {
+  return {
+    isOpen: true,
+    title: title,
+    message: message,
+    type: type,
+  };
 }
-export function retornaStateAlertAlteracaoFlagPago(codResponse, pago, tipo) {
-    let message = ''
-    let type = ''
-  
-    if (codResponse === 200) {
-      message = 'Alterado ' + tipo +  ' para '  + (pago ? 'Pago' : 'Aberto')
-      type = 'success'
-    }
-    else {
-      message = 'Falha ao alterar ' + tipo
-      type = 'error'
-    }
-  
-    return stateAlert(message, type)
-  }
-  
-  export function retornaStateAlertExclusao(response, tipo) {
-    let message = ''
-    let type = ''
-  
-    if (response.deleted) {
-      message = 'Excluido ' + tipo
-      type = 'success'
-    }
-    else {
-      message = 'Falha ao Excluir ' + response.message
-      type = 'error'
-    }
-  
-    return stateAlert(message, type)
-  }
-  
-  export function retornaStateAlertCadastro(codResponse, tipo) {
-    let message = ''
-    let type = ''
-  
-    if (codResponse === 200 || codResponse === 201 ) {
-      
-      message = ( codResponse === 201 ? 'Inserido ' : 'Alterado ') + tipo
-      type = 'success'
-    }
-    else {
-      message = 'Falha ao Inserir/Alterar ' + tipo
-      type = 'error'
-    }
-  
-    return stateAlert(message, type)
+export function retornaStateAlertAlteracaoFlagPago(codResponse, pago, tipo, error) {
+  let message = "";
+  let type = "";
+  let title = "";
+
+  if (codResponse === 200) {
+    title = "Alterado " + tipo + " para " + (pago ? "Pago" : "Aberto");
+    type = "success";
+  } else {
+    title = "Falha ao alterar " + tipo;
+    type = "error";
+    message = 'Erro: ' + error
   }
 
-  export function AlertWarning( message ){
-    return {
-      isOpen: true,
-      message: message,
-      type: 'warning'
-    }
+  return stateAlert(title, message, type);
+}
+
+export function retornaStateAlertExclusao(codResponse, tabela, error) {
+  let message = "";
+  let type = "";
+  let title = "";
+
+  if(codResponse === 200 || codResponse === 201) {
+    title = "Excluido " + tabela;
+    type = "success";
+  } else {
+    title = "Falha ao Excluir "
+    type = "error";
+    message = error
   }
-  
+
+  return stateAlert(title, message, type);
+}
+
+export function retornaStateAlertCadastro(codResponse, tabela, error) {
+  let message = "";
+  let type = "";
+  let title = "";
+
+  if (codResponse === 200 || codResponse === 201) {
+    title = (codResponse === 201 ? "Inserido " : "Alterado ") + tabela;
+    type = "success";
+  } else {
+    title = "Falha ao Inserir/Alterar " + tabela;
+    type = "error";
+    message = " Erro: " + error;
+  }
+
+  return stateAlert(title, message, type);
+}
+
+export function AlertWarning(title, message) {
+  return {
+    isOpen: true,
+    title: title,
+    message: message,
+    type: "warning",
+  };
+}

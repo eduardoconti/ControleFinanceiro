@@ -4,7 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import { retornaCarteiras } from "../common/CarteiraFuncoes";
-import { insereReceita } from "../common/ReceitaFuncoes";
+import { insereReceita,alteraReceita } from "../common/ReceitaFuncoes";
 import { calculaTotais } from "../common/Funcoes";
 import { Box } from "@material-ui/core";
 import { emptyFormularioReceita, emptyAlertState } from "../common/EmptyStates";
@@ -44,7 +44,8 @@ export default function FormReceitas({
   setStateTotais,
   setFormulario,
   formulario,
-  stateMesAtual
+  stateMesAtual,
+  stateAnoAtual
 }) {
   const [carteiras, setCarteiras] = useState([]);
   const classes = useStyles();
@@ -131,12 +132,21 @@ export default function FormReceitas({
           size="small"
           className={classes.botao}
           onClick={async () => {
-            let response = await insereReceita(formulario);
-            setFormulario(emptyFormularioReceita);
+            let response = 0
+            if(formulario.id === 0 )
+              response = await insereReceita(formulario);
+            else {
+              response = await alteraReceita(formulario)
+            }
+
+            if (response.statusCode === 200 || response.statusCode === 201) {
+              setFormulario(emptyFormularioReceita);
+            }
+   
             setStateTotais(
-              await calculaTotais(stateCheckedDespesas, stateCheckedReceitas, stateMesAtual)
+              await calculaTotais(stateCheckedDespesas, stateCheckedReceitas, stateAnoAtual,stateMesAtual)
             );
-            setAlert(retornaStateAlertCadastro(response, 'Receita'))
+            setAlert(retornaStateAlertCadastro(response.statusCode, 'Receita', response.message))
           }}
         >
           {descricaoBotao}

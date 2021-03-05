@@ -13,7 +13,8 @@ export default function CurrentBody({
   setStateTotais,
   stateCheckedReceitas,
   stateTotais,
-  stateMesAtual
+  stateMesAtual,
+  stateAnoAtual
 }) {
   if (stateCurrentBody === Constants.DATA_GRID_DESPESAS) {
     return (
@@ -25,6 +26,7 @@ export default function CurrentBody({
         stateCheckedReceitas={stateCheckedReceitas}
         stateTotais={stateTotais}
         stateMesAtual={stateMesAtual}
+        stateAnoAtual={stateAnoAtual}
       />
     );
   } else if (stateCurrentBody === Constants.DATA_GRID_RECEITAS) {
@@ -37,6 +39,7 @@ export default function CurrentBody({
         stateCheckedReceitas={stateCheckedReceitas}
         stateTotais={stateTotais}
         stateMesAtual={stateMesAtual}
+        stateAnoAtual={stateAnoAtual}
       />
     );
   } else if (stateCurrentBody === Constants.DATA_GRID_CATEGORIAS) {
@@ -44,7 +47,7 @@ export default function CurrentBody({
   } else if (stateCurrentBody === Constants.DATA_GRID_CARTEIRAS) {
     return <CorpoCarteiras />
   } else if (stateCurrentBody === Constants.CORPO_SALDO) {
-    return <CorpoSaldo stateMesAtual={stateMesAtual} />
+    return <CorpoSaldo stateMesAtual={stateMesAtual} stateAnoAtual={stateAnoAtual}/>
   }
 
 }

@@ -9,7 +9,8 @@ export default function CorpoReceitas({
   setStateTotais,
   stateCheckedReceitas,
   stateTotais,
-  stateMesAtual
+  stateMesAtual,
+  stateAnoAtual
 }) {
 
   const [formulario, setFormulario] = useState(emptyFormularioReceita);
@@ -26,6 +27,7 @@ export default function CorpoReceitas({
           stateTotais={stateTotais}
           setFormulario={ (formulario)=>setFormulario(formulario)}
           stateMesAtual={stateMesAtual}
+          stateAnoAtual={stateAnoAtual}
         />
       </Grid>
 
@@ -39,6 +41,7 @@ export default function CorpoReceitas({
           formulario={formulario}
           setFormulario={ (formulario)=>setFormulario(formulario)}
           stateMesAtual={stateMesAtual}
+          stateAnoAtual={stateAnoAtual}
         />
       </Grid>
     </Grid>

@@ -20,30 +20,30 @@ export async function retornaCarteiras() {
 export async function insereCarteira(carteira) {
   try {
     const res = await API.post(ENDPOINT, carteira, headers);
-    return res.status.valueOf();
+    return{ statusCode:res.status.valueOf(), data:res.data, message:'Inserido Carteira'};
   } catch (error) {
     console.log(error)
-    return error.response.status
+    return error.response.data
   }
 }
 
 export async function deletaCarteira(id) {
   try {
     const res = await API.delete(ENDPOINT + id, headers);
-    return res.data;
+    return { statusCode:res.status.valueOf(), data:res.data, message:'Deletado Categoria'};
   } catch (error) {
     console.log(error)
-    return error.response.status
+    return error.response.data
   }
 }
 
 export async function alteraCarteira(carteira) {
   try {
     const res = await API.put(ENDPOINT + carteira.id, carteira, headers);
-    return res.status.valueOf();
+    return { statusCode:res.status.valueOf(), data:res.data, message:'Alterado Categoria'};
   } catch (error) {
     console.log(error)
-    return error.response.status
+    return error.response.data
   }
 }
 

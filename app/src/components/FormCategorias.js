@@ -63,7 +63,7 @@ export default function FormCategorias({ setRows, formulario, setFormulario }) {
 
             setRows(await retornaCategorias())
             setFormulario(emptyFormularioCategoria)
-            setAlert(retornaStateAlertCadastro(response,'Categoria'))
+            setAlert(retornaStateAlertCadastro(response.statusCode,'Categoria',response.message))
           }}
         >
           {descricaoBotao}

@@ -19,30 +19,30 @@ export async function retornaCategorias() {
 export async function insereCategoria(categoria) {
   try {
     const res = await API.post(ENDPOINT, categoria, headers);
-    return res.status.valueOf();
+    return { statusCode:res.status.valueOf(), data:res.data, message:'Inserido Categoria'};
   } catch (error) {
-    console.log(error)
-    return error.response.status
+    console.log(error.response)
+    return error.response.data
   }
 }
 
 export async function deletaCategoria(id) {
   try {
     const res = await API.delete(ENDPOINT + id, headers);
-    return res.data;
+    return{ statusCode:res.status.valueOf(), data:res.data, message:'Excluido Categoria'};
   } catch (error) {
     console.log(error)
-    return error.response.status
+    return error.response.data
   }
 }
 
 export async function alteraCategoria(carteira) {
   try {
     const res = await API.put(ENDPOINT + carteira.id, carteira, headers);
-    return res.status.valueOf();
+    return{ statusCode:res.status.valueOf(), data:res.data, message:'Alterado Categoria'};
   } catch (error) {
     console.log(error)
-    return error.response.status
+    return error.response.data
   }
 }
 

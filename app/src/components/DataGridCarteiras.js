@@ -46,7 +46,7 @@ export default function DataGridCarteiras({ rows, setRows, setFormulario }) {
               onClick={async () => {
                 let response = await deletaCarteira(field.row.id);
                 setRows(await retornaCarteiras());
-                setAlert(retornaStateAlertExclusao(response, 'Carteira'))
+                setAlert(retornaStateAlertExclusao(response.statusCode, 'Carteira', response.message))
               }}
             >
               <DeleteForeverTwoToneIcon />

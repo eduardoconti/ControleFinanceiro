@@ -46,7 +46,8 @@ export default function DataGridCategorias({ rows, setRows, setFormulario }) {
               onClick={async () => {
                 let response = await deletaCategoria(field.row.id);
                 setRows(await retornaCategorias());
-                setAlert(retornaStateAlertExclusao(response, 'Categoria'))
+
+                setAlert(retornaStateAlertExclusao(response.statusCode, 'Categoria', response.message))
               }}
             >
               <DeleteForeverTwoToneIcon />

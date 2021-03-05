@@ -18,22 +18,24 @@ function App() {
   const [stateCheckedReceitas, setStateCheckedReceita] = useState(emptyChecked);
   const [stateCurrentBody, setStateCurrentBody] = useState(0);
   const [stateMesAtual, setStateMesAtual ] = useState( new Date().getMonth() +1 )
-
+  const [stateAnoAtual, setStateAnoAtual] = useState(  new Date().getFullYear() )
   useEffect(() => {
     async function setTotais() {
       setStateTotais(
-        await calculaTotais(stateCheckedDespesas, stateCheckedReceitas, stateMesAtual)
+        await calculaTotais(stateCheckedDespesas, stateCheckedReceitas, stateAnoAtual,stateMesAtual)
       );
     }
     setTotais();
-  }, [stateCheckedDespesas, stateCheckedReceitas, stateMesAtual]);
+  }, [stateCheckedDespesas, stateCheckedReceitas, stateMesAtual, stateAnoAtual]);
 
   return (
     <Box className="Container">
       <Grid container direction="row" spacing={1} justify="center">
         <Grid item xs={12}>
           {/* HEADER */}
-          <Box className="Header"/>
+          <Box className="Header">
+  
+          </Box>
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={1} xl={1}>
@@ -41,6 +43,10 @@ function App() {
           <LeftMenu
             setStateCurrentBody={(currentBody) =>
               setStateCurrentBody(currentBody)
+            }
+            stateAnoAtual={stateAnoAtual}
+            setStateAnoAtual={ (stateAnoAtual)=>
+              setStateAnoAtual(stateAnoAtual)
             }
           />
         </Grid>
@@ -115,6 +121,7 @@ function App() {
                   stateCheckedReceitas={stateCheckedReceitas}
                   stateTotais={stateTotais}
                   stateMesAtual={stateMesAtual}
+                  stateAnoAtual={stateAnoAtual}
                 />
               </Grid>
             </Grid>
@@ -127,7 +134,9 @@ function App() {
             stateCheckedDespesas={stateCheckedDespesas}
             stateTotais={stateTotais}
             stateCheckedReceitas={stateCheckedReceitas} 
-            stateMesAtual={stateMesAtual}/>
+            stateMesAtual={stateMesAtual}
+            stateAnoAtual={stateAnoAtual}/>
+            
         </Grid>
 
         <Grid item xs={12}>

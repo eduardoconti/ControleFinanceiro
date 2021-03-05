@@ -12,17 +12,17 @@ import {
 import { getReceitas } from "../common/ReceitaFuncoes";
 import { Box } from "@material-ui/core";
 
-export default function GraficoTest({ stateCheckedReceitas, stateTotais, stateMesAtual }) {
+export default function GraficoReceitas({ stateCheckedReceitas, stateTotais, stateAnoAtual, stateMesAtual }) {
 
   const [receitas, setReceitas] = useState([]);
 
   useEffect(() => {
     async function pegaReceitas() {
-      let receitas = await getReceitas(stateCheckedReceitas, stateMesAtual);
+      let receitas = await getReceitas(stateCheckedReceitas, stateAnoAtual,stateMesAtual);
       setReceitas(receitas);
     }
     pegaReceitas();
-  }, [stateCheckedReceitas, stateTotais, stateMesAtual]);
+  }, [stateCheckedReceitas, stateTotais, stateAnoAtual,stateMesAtual]);
 
   return (
     <Box className='Grafico'>

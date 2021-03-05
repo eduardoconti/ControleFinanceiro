@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTabl
 import {Categorias} from '../categorias/categorias.entity'
 import {Carteiras} from '../carteiras/carteiras.entity'
 
-@Entity()
+@Entity() 
 export class Despesas {
   @PrimaryGeneratedColumn()
   id: number;

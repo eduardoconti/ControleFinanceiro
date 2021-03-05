@@ -5,9 +5,9 @@ import { retornaReceitasAgrupadasPorCarteira } from "../common/ReceitaFuncoes"
 import { retornaDespesasAgrupadasPorCarteira } from "../common/DepesaFuncoes"
 import { retornaCarteiras } from "../common/CarteiraFuncoes"
 
-async function RetornaCards(stateMesAtual) {
+async function RetornaCards(stateAnoAtual, stateMesAtual) {
 
-    let object = await retornaDadosParaCard(stateMesAtual)
+    let object = await retornaDadosParaCard(stateAnoAtual,stateMesAtual)
 
     return object.map((obj, i) => {
         return (
@@ -19,10 +19,10 @@ async function RetornaCards(stateMesAtual) {
     });
 }
 
-async function retornaDadosParaCard(stateMesAtual) {
+async function retornaDadosParaCard(stateAnoAtual,stateMesAtual) {
     const carteiras = await retornaCarteiras();
-    const despesas = await retornaDespesasAgrupadasPorCarteira(stateMesAtual);
-    const receitas = await retornaReceitasAgrupadasPorCarteira(stateMesAtual);
+    const despesas = await retornaDespesasAgrupadasPorCarteira(stateAnoAtual,stateMesAtual);
+    const receitas = await retornaReceitasAgrupadasPorCarteira(stateAnoAtual,stateMesAtual);
     const dadosCard = []
 
     carteiras.forEach((carteira, i) => {
@@ -42,12 +42,12 @@ async function retornaDadosParaCard(stateMesAtual) {
     return await dadosCard
 }
 
-export default function CorpoSaldo({ stateMesAtual }) {
+export default function CorpoSaldo({ stateAnoAtual,stateMesAtual }) {
 
     const [cards, setCards] = useState([])
 
     useEffect(() => {
-        RetornaCards(stateMesAtual).then(cards => {
+        RetornaCards(stateAnoAtual,stateMesAtual).then(cards => {
             setCards(cards);
         })
     }, [stateMesAtual])

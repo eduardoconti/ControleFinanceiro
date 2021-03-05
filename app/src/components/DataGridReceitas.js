@@ -31,7 +31,8 @@ export default function DataGridComponent({
   stateCheckedDespesas,
   stateTotais,
   setFormulario,
-  stateMesAtual
+  stateMesAtual,
+  stateAnoAtual
 }) {
   const [rows, setRows] = useState([]);
   const [receitas, setReceitas] = useState([]);
@@ -85,10 +86,11 @@ export default function DataGridComponent({
                   await calculaTotais(
                     stateCheckedDespesas,
                     stateCheckedReceitas,
+                    stateAnoAtual,
                     stateMesAtual
                   )
                 );
-                setAlert(retornaStateAlertExclusao(response, 'Receita'))
+                setAlert(retornaStateAlertExclusao(response.statusCode, 'Receita', response.message))
               }}
             >
               <DeleteForeverTwoToneIcon />
@@ -109,10 +111,11 @@ export default function DataGridComponent({
                   await calculaTotais(
                     stateCheckedDespesas,
                     stateCheckedReceitas,
+                    stateAnoAtual,
                     stateMesAtual
                   )
                 )
-                setAlert(retornaStateAlertAlteracaoFlagPago(response, receita.pago, 'Receita'));
+                setAlert(retornaStateAlertAlteracaoFlagPago(response.statusCode, receita.pago, 'Receita', response.message));
               }}
             >
               <FiberManualRecordTwoToneIcon />
@@ -125,20 +128,20 @@ export default function DataGridComponent({
 
   async function setState() {
 
-    let receitas = await getReceitas(stateCheckedReceitas, stateMesAtual);
+    let receitas = await getReceitas(stateCheckedReceitas, stateAnoAtual,stateMesAtual);
     setRows(formataDadosParaLinhasDataGrid(receitas));
     setReceitas(formataDadosParaFormulario(receitas))
   }
 
   useEffect(() => {
 
-    getReceitas(stateCheckedReceitas, stateMesAtual).then(receitas => {
+    getReceitas(stateCheckedReceitas,stateAnoAtual,stateMesAtual).then(receitas => {
       setRows(formataDadosParaLinhasDataGrid(receitas));
       setReceitas(formataDadosParaFormulario(receitas))
     })
 
 
-  }, [stateCheckedReceitas, stateTotais, stateMesAtual]);
+  }, [stateCheckedReceitas, stateTotais, stateAnoAtual,stateMesAtual]);
 
   return (
     <Box>

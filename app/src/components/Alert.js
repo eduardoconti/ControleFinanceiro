@@ -1,5 +1,5 @@
 import React from 'react'
-import Alert from '@material-ui/lab/Alert'
+import { Alert, AlertTitle } from '@material-ui/lab';
 import { Snackbar } from '@material-ui/core'
 
 export default function AlertComponent(props) {
@@ -17,12 +17,15 @@ export default function AlertComponent(props) {
             open={alert.isOpen}
             onClose={handleClose}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-            autoHideDuration={2000}>
+            autoHideDuration={2500}>
         
             <Alert
                 variant="filled"
                 severity={alert.type}
                 onClose={handleClose}>
+                <AlertTitle>
+                    {alert.title}
+                </AlertTitle>
                 {alert.message}
             </Alert>
 

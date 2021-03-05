@@ -30,7 +30,8 @@ export default function DataGridDespesas({
   stateCheckedReceitas,
   stateTotais,
   setFormulario,
-  stateMesAtual
+  stateMesAtual,
+  stateAnoAtual
 }) {
   const [rows, setRows] = useState([]);
   const [despesas, setDespesas] = useState([]);
@@ -92,10 +93,11 @@ export default function DataGridDespesas({
                   await calculaTotais(
                     stateCheckedDespesas,
                     stateCheckedReceitas,
+                    stateAnoAtual,
                     stateMesAtual
                   )
                 );
-                setAlert(retornaStateAlertExclusao(response, 'Despesa'))
+                setAlert(retornaStateAlertExclusao(response.statusCode, 'Despesa', response.message))
               }}
             >
               <DeleteForeverTwoToneIcon />
@@ -117,12 +119,13 @@ export default function DataGridDespesas({
                   await calculaTotais(
                     stateCheckedDespesas,
                     stateCheckedReceitas,
+                    stateAnoAtual,
                     stateMesAtual
 
                   )
                 );
 
-                setAlert(retornaStateAlertAlteracaoFlagPago(response, despesa.pago, 'Despesa'))
+                setAlert(retornaStateAlertAlteracaoFlagPago(response.statusCode, despesa.pago, 'Despesa', response.message))
               }}
             >
               <FiberManualRecordTwoToneIcon />
@@ -134,20 +137,19 @@ export default function DataGridDespesas({
   ];
 
   async function pegaDespesas() {
-    let despesas = await getDespesas(stateCheckedDespesas, stateMesAtual);
+    let despesas = await getDespesas(stateCheckedDespesas, stateAnoAtual,stateMesAtual);
     setDespesas(formataDadosParaFormulario(despesas));
     setRows(formataDadosParaLinhasDataGrid(despesas));
   }
 
   useEffect(() => {
-    getDespesas(stateCheckedDespesas, stateMesAtual).then(despesas => {
+    getDespesas(stateCheckedDespesas, stateAnoAtual,stateMesAtual).then(despesas => {
 
       setDespesas(formataDadosParaFormulario(despesas));
       setRows(formataDadosParaLinhasDataGrid(despesas));
     })
 
-
-  }, [stateCheckedDespesas, stateTotais, stateMesAtual]);
+  }, [stateCheckedDespesas, stateTotais, stateAnoAtual,stateMesAtual]);
 
   return (
     <Box>

@@ -7,7 +7,8 @@ export default function GraficosContainer({
   stateCheckedDespesas,
   stateCheckedReceitas,
   stateTotais,
-  stateMesAtual
+  stateMesAtual,
+  stateAnoAtual
 }) {
   return (
     <Grid
@@ -20,6 +21,7 @@ export default function GraficosContainer({
             stateCheckedDespesas={stateCheckedDespesas}
             stateTotais={stateTotais}
             stateMesAtual={stateMesAtual}
+            stateAnoAtual={stateAnoAtual}
           ></GraficoDespesas>
         </Box>
       </Grid>
@@ -29,6 +31,7 @@ export default function GraficosContainer({
             stateCheckedReceitas={stateCheckedReceitas}
             stateTotais={stateTotais}
             stateMesAtual={stateMesAtual}
+            stateAnoAtual={stateAnoAtual}
           ></GraficoReceitas>
         </Box>
       </Grid>

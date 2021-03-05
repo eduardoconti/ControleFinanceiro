@@ -42,6 +42,7 @@ export const emptyFormularioReceita = {
 export const emptyAlertState= {
       isOpen: false,
       message: '',
-      type: ''
+      type: '',
+      title:''
   }
 
