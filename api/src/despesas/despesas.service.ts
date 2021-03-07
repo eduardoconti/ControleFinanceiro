@@ -12,23 +12,13 @@ const select = [
   'despesas.descricao',
   'despesas.valor',
   'despesas.pago',
-  'despesas.carteira',
   'despesas.vencimento',
   'categoria',
   'carteira',
 ];
-function CriaWhere(ano?: number, mes?: number, pago?: boolean) {
-  return (
-    CriaWhereMes(mes) +
-    ' AND ' +
-    CriaWhereAno(ano) +
-    ' AND ' +
-    CriaWherePago(pago)
-  );
-}
 
 function CriaWhereMes(mes: number) {
-  return typeof mes === 'undefined' || mes === 0
+  return !mes || mes === 0
     ? 'TRUE'
     : 'MONTH(despesas.vencimento)=' + String(mes);
 }
@@ -38,7 +28,7 @@ function CriaWherePago(pago: boolean) {
 }
 
 function CriaWhereAno(ano: number) {
-  return typeof ano == 'undefined' || ano === 0
+  return !ano || ano === 0
     ? 'TRUE'
     : 'YEAR(despesas.vencimento)=' + String(ano);
 }
@@ -60,7 +50,9 @@ export class DespesaService {
       .innerJoin('despesas.categoria', 'categoria')
       .innerJoin('despesas.carteira', 'carteira')
       .orderBy('despesas.descricao', 'ASC')
-      .where(CriaWhere(ano, mes, pago))
+      .where(CriaWhereAno(ano))
+      .andWhere(CriaWhereMes(mes))
+      .andWhere(CriaWherePago(pago))
       .getMany();
     return despesas;
   }
@@ -72,9 +64,11 @@ export class DespesaService {
   ) {
     let despesas = await this.despesaRepository
       .createQueryBuilder('despesas')
-      .select(['SUM(despesas.valor) valor', 'categoria.descricao categoria'])
+      .select(['SUM(despesas.valor) valor', 'categoria.descricao descricao'])
       .innerJoin('despesas.categoria', 'categoria')
-      .where(CriaWhere(ano, mes, pago))
+      .where(CriaWhereAno(ano))
+      .andWhere(CriaWhereMes(mes))
+      .andWhere(CriaWherePago(pago))
       .groupBy('despesas.categoria')
       .orderBy('valor', 'DESC')
       .getRawMany();
@@ -91,11 +85,13 @@ export class DespesaService {
       .createQueryBuilder('despesas')
       .select([
         'SUM(despesas.valor) valor',
-        'carteira.descricao carteira',
+        'carteira.descricao descricao',
         'despesas.carteira id',
       ])
       .innerJoin('despesas.carteira', 'carteira')
-      .where(CriaWhere(ano, mes, pago))
+      .where(CriaWhereAno(ano))
+      .andWhere(CriaWhereMes(mes))
+      .andWhere(CriaWherePago(pago))
       .groupBy('despesas.carteira')
       .orderBy('valor', 'DESC')
       .getRawMany();
@@ -107,7 +103,9 @@ export class DespesaService {
     let { sum } = await this.despesaRepository
       .createQueryBuilder('DESPESAS')
       .select('SUM(DESPESAS.valor)', 'sum')
-      .where(CriaWhere(ano, mes, pago))
+      .where(CriaWhereAno(ano))
+      .andWhere(CriaWhereMes(mes))
+      .andWhere(CriaWherePago(pago))
       .getRawOne();
 
     return sum;

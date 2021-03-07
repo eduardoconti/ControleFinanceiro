@@ -3,9 +3,9 @@ import React from "react";
 import CorpoCategorias from "./CorpoCategorias";
 import CorpoDespesas from "./CorpoDespesas";
 import CorpoReceitas from "./CorpoReceitas";
-import CorpoCarteiras from './CorpoCarteiras'
-import CorpoSaldo from './CorpoSaldo'
-import * as Constants from "../common/Constantes"
+import CorpoCarteiras from "./CorpoCarteiras";
+import CorpoSaldo from "./CorpoSaldo";
+import * as Constants from "../common/Constantes";
 
 export default function CurrentBody({
   stateCurrentBody,
@@ -14,7 +14,7 @@ export default function CurrentBody({
   stateCheckedReceitas,
   stateTotais,
   stateMesAtual,
-  stateAnoAtual
+  stateAnoAtual,
 }) {
   if (stateCurrentBody === Constants.CORPO_DESPESAS) {
     return (
@@ -45,9 +45,10 @@ export default function CurrentBody({
   } else if (stateCurrentBody === Constants.CORPO_CATEGORIAS) {
     return <CorpoCategorias />;
   } else if (stateCurrentBody === Constants.CORPO_CARTEIRAS) {
-    return <CorpoCarteiras />
+    return <CorpoCarteiras />;
   } else if (stateCurrentBody === Constants.CORPO_SALDO) {
-    return <CorpoSaldo stateMesAtual={stateMesAtual} stateAnoAtual={stateAnoAtual}/>
+    return (
+      <CorpoSaldo stateMesAtual={stateMesAtual} stateAnoAtual={stateAnoAtual} />
+    );
   }
-
 }

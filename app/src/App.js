@@ -10,32 +10,40 @@ import Corpo from "./components/Corpo";
 import CardDespesas from "./components/CardDespesas";
 import CardReceitas from "./components/CardReceitas";
 import { emptyTotais, emptyChecked } from "./common/EmptyStates";
-import * as Constantes from './common/Constantes';
+import * as Constantes from "./common/Constantes";
 
 function App() {
   const [stateTotais, setStateTotais] = useState(emptyTotais);
   const [stateCheckedDespesas, setStateChecked] = useState(emptyChecked);
   const [stateCheckedReceitas, setStateCheckedReceita] = useState(emptyChecked);
   const [stateCurrentBody, setStateCurrentBody] = useState(0);
-  const [stateMesAtual, setStateMesAtual ] = useState( new Date().getMonth() +1 )
-  const [stateAnoAtual, setStateAnoAtual] = useState(  new Date().getFullYear() )
+  const [stateMesAtual, setStateMesAtual] = useState(new Date().getMonth() + 1);
+  const [stateAnoAtual, setStateAnoAtual] = useState(new Date().getFullYear());
   useEffect(() => {
     async function setTotais() {
       setStateTotais(
-        await calculaTotais(stateCheckedDespesas, stateCheckedReceitas, stateAnoAtual,stateMesAtual)
+        await calculaTotais(
+          stateCheckedDespesas,
+          stateCheckedReceitas,
+          stateAnoAtual,
+          stateMesAtual
+        )
       );
     }
     setTotais();
-  }, [stateCheckedDespesas, stateCheckedReceitas, stateMesAtual, stateAnoAtual]);
+  }, [
+    stateCheckedDespesas,
+    stateCheckedReceitas,
+    stateMesAtual,
+    stateAnoAtual,
+  ]);
 
   return (
     <Box className="Container">
       <Grid container direction="row" spacing={1} justify="center">
         <Grid item xs={12}>
           {/* HEADER */}
-          <Box className="Header">
-  
-          </Box>
+          <Box className="Header"></Box>
         </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={1} xl={1}>
@@ -45,7 +53,7 @@ function App() {
               setStateCurrentBody(currentBody)
             }
             stateAnoAtual={stateAnoAtual}
-            setStateAnoAtual={ (stateAnoAtual)=>
+            setStateAnoAtual={(stateAnoAtual) =>
               setStateAnoAtual(stateAnoAtual)
             }
           />
@@ -57,7 +65,12 @@ function App() {
             <Grid container item spacing={1}>
               {/* BOTOES MESES */}
               <Grid item xs={12}>
-                <BotaoMes setStateMesAtual={ (stateMesAtual)=>setStateMesAtual(stateMesAtual)}/>
+                <BotaoMes
+                  setStateMesAtual={(stateMesAtual) =>
+                    setStateMesAtual(stateMesAtual)
+                  }
+                  stateMesAtual={stateMesAtual}
+                />
               </Grid>
             </Grid>
 
@@ -128,15 +141,15 @@ function App() {
           </Grid>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={12} lg={4} xl={5} >
+        <Grid item container xs={12} sm={12} md={12} lg={4} xl={5}>
           {/* RIGHT */}
           <GraficosContainer
             stateCheckedDespesas={stateCheckedDespesas}
             stateTotais={stateTotais}
-            stateCheckedReceitas={stateCheckedReceitas} 
+            stateCheckedReceitas={stateCheckedReceitas}
             stateMesAtual={stateMesAtual}
-            stateAnoAtual={stateAnoAtual}/>
-            
+            stateAnoAtual={stateAnoAtual}
+          />
         </Grid>
 
         <Grid item xs={12}>

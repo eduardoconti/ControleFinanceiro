@@ -1,12 +1,15 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { insereCategoria, alteraCategoria } from "../common/CategoriaFuncoes";
 import { Box } from "@material-ui/core";
 import { retornaCategorias } from "../common/CategoriaFuncoes";
-import { emptyFormularioCategoria, emptyAlertState } from "../common/EmptyStates"
-import Alert from './Alert'
+import {
+  emptyFormularioCategoria,
+  emptyAlertState,
+} from "../common/EmptyStates";
+import Alert from "./Alert";
 import { retornaStateAlertCadastro } from "../common/AlertFuncoes";
 
 const useStyles = makeStyles((theme) => ({
@@ -14,24 +17,23 @@ const useStyles = makeStyles((theme) => ({
     "& > *": {
       margin: theme.spacing(1),
     },
-    justifyContent: 'center',
+    justifyContent: "center",
     display: "flex",
     flexWrap: "wrap",
-    alignItems: 'center'
+    alignItems: "center",
   },
   botao: {
     "&:hover": {
       backgroundColor: "#9Ebfc0",
     },
-    margin: 5
-  }
+    margin: 5,
+  },
 }));
 
 export default function FormCategorias({ setRows, formulario, setFormulario }) {
-
   const classes = useStyles();
-  const descricaoBotao = formulario.id === 0 ? 'CADASTRAR' : 'ALTERAR'
-  const [alert, setAlert] = useState(emptyAlertState)
+  const descricaoBotao = formulario.id === 0 ? "CADASTRAR" : "ALTERAR";
+  const [alert, setAlert] = useState(emptyAlertState);
 
   return (
     <Box className="Formularios">
@@ -54,16 +56,22 @@ export default function FormCategorias({ setRows, formulario, setFormulario }) {
           size="small"
           className={classes.botao}
           onClick={async () => {
-            let response
+            let response;
             if (formulario.id === 0) {
               response = await insereCategoria(formulario);
             } else {
-              response = await alteraCategoria(formulario)
+              response = await alteraCategoria(formulario);
             }
 
-            setRows(await retornaCategorias())
-            setFormulario(emptyFormularioCategoria)
-            setAlert(retornaStateAlertCadastro(response.statusCode,'Categoria',response.message))
+            setRows(await retornaCategorias());
+            setFormulario(emptyFormularioCategoria);
+            setAlert(
+              retornaStateAlertCadastro(
+                response.statusCode,
+                "Categoria",
+                response.message
+              )
+            );
           }}
         >
           {descricaoBotao}
@@ -74,7 +82,7 @@ export default function FormCategorias({ setRows, formulario, setFormulario }) {
           size="small"
           className={classes.botao}
           onClick={async () => {
-            setFormulario(emptyFormularioCategoria)
+            setFormulario(emptyFormularioCategoria);
           }}
         >
           LIMPAR

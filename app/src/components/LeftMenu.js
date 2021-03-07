@@ -4,6 +4,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import Ano from "./BotaoAno";
 import * as Constants from "../common/Constantes";
+import API from "../common/Api";
+
 const useStyles = makeStyles({
   botao: {
     backgroundColor: "#F9FEFB",
@@ -14,16 +16,22 @@ const useStyles = makeStyles({
   },
 });
 
-export default function LeftMenu({ setStateCurrentBody, stateAnoAtual, setStateAnoAtual }) {
+export default function LeftMenu({
+  setStateCurrentBody,
+  stateAnoAtual,
+  setStateAnoAtual,
+}) {
   const classes = useStyles();
   function onClick(currentBody) {
     setStateCurrentBody(currentBody);
   }
   return (
     <Grid container direction="row" spacing={1}>
-
       <Grid item xs={4} lg={12}>
-        <Ano stateAnoAtual={stateAnoAtual} setStateAnoAtual={setStateAnoAtual}></Ano>
+        <Ano
+          stateAnoAtual={stateAnoAtual}
+          setStateAnoAtual={setStateAnoAtual}
+        ></Ano>
       </Grid>
 
       <Grid item xs={4} lg={12}>
@@ -44,6 +52,16 @@ export default function LeftMenu({ setStateCurrentBody, stateAnoAtual, setStateA
           }}
         >
           Carteiras
+        </Button>
+      </Grid>
+      <Grid item xs={4} lg={12}>
+        <Button
+          className={classes.botao}
+          onClick={async () => {
+            await API.get("/calc");
+          }}
+        >
+          Calculadora
         </Button>
       </Grid>
     </Grid>

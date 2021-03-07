@@ -6,7 +6,12 @@ function stateAlert(title, message, type) {
     type: type,
   };
 }
-export function retornaStateAlertAlteracaoFlagPago(codResponse, pago, tipo, error) {
+export function retornaStateAlertAlteracaoFlagPago(
+  codResponse,
+  pago,
+  tipo,
+  error
+) {
   let message = "";
   let type = "";
   let title = "";
@@ -17,7 +22,7 @@ export function retornaStateAlertAlteracaoFlagPago(codResponse, pago, tipo, erro
   } else {
     title = "Falha ao alterar " + tipo;
     type = "error";
-    message = 'Erro: ' + error
+    message = "Erro: " + error;
   }
 
   return stateAlert(title, message, type);
@@ -28,13 +33,13 @@ export function retornaStateAlertExclusao(codResponse, tabela, error) {
   let type = "";
   let title = "";
 
-  if(codResponse === 200 || codResponse === 201) {
+  if (codResponse === 200 || codResponse === 201) {
     title = "Excluido " + tabela;
     type = "success";
   } else {
-    title = "Falha ao Excluir "
+    title = "Falha ao Excluir ";
     type = "error";
-    message = error
+    message = error;
   }
 
   return stateAlert(title, message, type);

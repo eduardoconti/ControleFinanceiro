@@ -13,15 +13,6 @@ const select = [
   'receitas.pagamento',
   'carteira',
 ];
-function CriaWhere(ano?: number, mes?: number, pago?: boolean) {
-  return (
-    CriaWhereMes(mes) +
-    ' AND ' +
-    CriaWhereAno(ano) +
-    ' AND ' +
-    CriaWherePago(pago)
-  );
-}
 
 function CriaWhereMes(mes: number) {
   return typeof mes === 'undefined' || mes === 0
@@ -57,8 +48,10 @@ export class ReceitaService {
       .createQueryBuilder('receitas')
       .select(select)
       .innerJoin('receitas.carteira', 'carteira')
-      .orderBy('receitas.descricao', 'ASC')
-      .where(CriaWhere(ano, mes, pago))
+      .orderBy('receitas.valor', 'DESC')
+      .where(CriaWhereAno(ano))
+      .andWhere(CriaWhereMes(mes))
+      .andWhere(CriaWherePago(pago))
       .getMany();
     return receitas;
   }
@@ -68,11 +61,13 @@ export class ReceitaService {
       .createQueryBuilder('receitas')
       .select([
         'SUM(receitas.valor) valor',
-        'carteira.descricao carteira',
+        'carteira.descricao descricao',
         'receitas.carteira id',
       ])
       .innerJoin('receitas.carteira', 'carteira')
-      .where(CriaWhere(ano,mes,pago))
+      .where(CriaWhereAno(ano))
+      .andWhere(CriaWhereMes(mes))
+      .andWhere(CriaWherePago(pago))
       .groupBy('receitas.carteira')
       .orderBy('valor', 'DESC')
       .getRawMany();
@@ -84,7 +79,9 @@ export class ReceitaService {
     let { sum } = await this.receitaRepository
       .createQueryBuilder('RECEITAS')
       .select('SUM(RECEITAS.valor)', 'sum')
-      .where(CriaWhere(ano,mes,pago))
+      .where(CriaWhereAno(ano))
+      .andWhere(CriaWhereMes(mes))
+      .andWhere(CriaWherePago(pago))
       .getRawOne();
 
     return sum;

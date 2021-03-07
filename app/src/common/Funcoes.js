@@ -1,23 +1,34 @@
 import {
   retornaTotalDespesasPagas,
   retornaTotalDespesasAbertas,
-  retornaTotalGeralDespesasPagas
+  retornaTotalGeralDespesasPagas,
 } from "./DepesaFuncoes";
 import {
   retornaTotalReceitasPagas,
   retornaTotalReceitasAbertas,
-  retornaTotalGeralReceitasPagas
+  retornaTotalGeralReceitasPagas,
 } from "./ReceitaFuncoes";
 
-async function calculaTotais(stateCheckedDespesas, stateCheckedReceitas, stateAnoAtual, stateMesAtual) {
+async function calculaTotais(
+  stateCheckedDespesas,
+  stateCheckedReceitas,
+  stateAnoAtual,
+  stateMesAtual
+) {
   let totalDespesas, totalDespesasPagas, totalDespesasAbertas;
   let totalReceitas, totalReceitasPagas, totalReceitasAbertas;
-  let totalGeralReceitasPagas, totalGeralDespesasPagas
+  let totalGeralReceitasPagas, totalGeralDespesasPagas;
 
   totalDespesas = 0;
-  totalDespesasPagas = await retornaTotalDespesasPagas(stateAnoAtual,stateMesAtual);
-  totalDespesasAbertas = await retornaTotalDespesasAbertas(stateAnoAtual,stateMesAtual);
-  totalGeralDespesasPagas = await retornaTotalGeralDespesasPagas()
+  totalDespesasPagas = await retornaTotalDespesasPagas(
+    stateAnoAtual,
+    stateMesAtual
+  );
+  totalDespesasAbertas = await retornaTotalDespesasAbertas(
+    stateAnoAtual,
+    stateMesAtual
+  );
+  totalGeralDespesasPagas = await retornaTotalGeralDespesasPagas();
 
   stateCheckedDespesas.checkedPago
     ? (totalDespesas += totalDespesasPagas)
@@ -27,9 +38,15 @@ async function calculaTotais(stateCheckedDespesas, stateCheckedReceitas, stateAn
     : (totalDespesas += 0);
 
   totalReceitas = 0;
-  totalReceitasPagas = await retornaTotalReceitasPagas(stateAnoAtual,stateMesAtual);
-  totalReceitasAbertas = await retornaTotalReceitasAbertas(stateAnoAtual,stateMesAtual);
-  totalGeralReceitasPagas = await retornaTotalGeralReceitasPagas()
+  totalReceitasPagas = await retornaTotalReceitasPagas(
+    stateAnoAtual,
+    stateMesAtual
+  );
+  totalReceitasAbertas = await retornaTotalReceitasAbertas(
+    stateAnoAtual,
+    stateMesAtual
+  );
+  totalGeralReceitasPagas = await retornaTotalGeralReceitasPagas();
 
   stateCheckedReceitas.checkedPago
     ? (totalReceitas += totalReceitasPagas)

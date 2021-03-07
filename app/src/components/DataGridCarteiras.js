@@ -6,9 +6,9 @@ import DeleteForeverTwoToneIcon from "@material-ui/icons/DeleteForeverTwoTone";
 import { retornaCarteiras, deletaCarteira } from "../common/CarteiraFuncoes";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box } from "@material-ui/core";
-import Alert from './Alert'
-import { emptyAlertState } from '../common/EmptyStates'
-import { retornaStateAlertExclusao } from '../common/AlertFuncoes'
+import Alert from "./Alert";
+import { emptyAlertState } from "../common/EmptyStates";
+import { retornaStateAlertExclusao } from "../common/AlertFuncoes";
 const useStyles = makeStyles({
   operacoes: {
     color: "#216260",
@@ -17,9 +17,8 @@ const useStyles = makeStyles({
 });
 
 export default function DataGridCarteiras({ rows, setRows, setFormulario }) {
-
   const classes = useStyles();
-  const [alert, setAlert] = useState(emptyAlertState)
+  const [alert, setAlert] = useState(emptyAlertState);
   const columns = [
     { field: "descricao", headerName: "Descricao", width: 150 },
     {
@@ -46,7 +45,13 @@ export default function DataGridCarteiras({ rows, setRows, setFormulario }) {
               onClick={async () => {
                 let response = await deletaCarteira(field.row.id);
                 setRows(await retornaCarteiras());
-                setAlert(retornaStateAlertExclusao(response.statusCode, 'Carteira', response.message))
+                setAlert(
+                  retornaStateAlertExclusao(
+                    response.statusCode,
+                    "Carteira",
+                    response.message
+                  )
+                );
               }}
             >
               <DeleteForeverTwoToneIcon />
@@ -58,11 +63,9 @@ export default function DataGridCarteiras({ rows, setRows, setFormulario }) {
   ];
 
   useEffect(() => {
-
-    retornaCarteiras().then(carteiras => {
+    retornaCarteiras().then((carteiras) => {
       setRows(carteiras);
-    })
-
+    });
   }, []);
 
   return (
@@ -70,5 +73,5 @@ export default function DataGridCarteiras({ rows, setRows, setFormulario }) {
       <Alert alert={alert} setAlert={(alert) => setAlert(alert)} />
       <DataGrid rows={rows} columns={columns} />
     </Box>
-  )
+  );
 }

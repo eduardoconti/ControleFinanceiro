@@ -9,14 +9,17 @@ import {
   deletaReceita,
   alteraFlagPago,
   formataDadosParaLinhasDataGrid,
-  formataDadosParaFormulario
+  formataDadosParaFormulario,
 } from "../common/ReceitaFuncoes";
 import { makeStyles } from "@material-ui/core/styles";
 import { calculaTotais } from "../common/Funcoes";
-import { emptyAlertState } from '../common/EmptyStates'
-import Alert from './Alert'
+import { emptyAlertState } from "../common/EmptyStates";
+import Alert from "./Alert";
 import { Box } from "@material-ui/core";
-import { retornaStateAlertAlteracaoFlagPago, retornaStateAlertExclusao } from "../common/AlertFuncoes";
+import {
+  retornaStateAlertAlteracaoFlagPago,
+  retornaStateAlertExclusao,
+} from "../common/AlertFuncoes";
 
 const useStyles = makeStyles({
   operacoes: {
@@ -32,12 +35,12 @@ export default function DataGridComponent({
   stateTotais,
   setFormulario,
   stateMesAtual,
-  stateAnoAtual
+  stateAnoAtual,
 }) {
   const [rows, setRows] = useState([]);
   const [receitas, setReceitas] = useState([]);
   const classes = useStyles();
-  const [alert, setAlert] = useState(emptyAlertState)
+  const [alert, setAlert] = useState(emptyAlertState);
   const columns = [
     { field: "descricao", headerName: "Descricao", width: 150 },
 
@@ -90,7 +93,13 @@ export default function DataGridComponent({
                     stateMesAtual
                   )
                 );
-                setAlert(retornaStateAlertExclusao(response.statusCode, 'Receita', response.message))
+                setAlert(
+                  retornaStateAlertExclusao(
+                    response.statusCode,
+                    "Receita",
+                    response.message
+                  )
+                );
               }}
             >
               <DeleteForeverTwoToneIcon />
@@ -114,8 +123,15 @@ export default function DataGridComponent({
                     stateAnoAtual,
                     stateMesAtual
                   )
-                )
-                setAlert(retornaStateAlertAlteracaoFlagPago(response.statusCode, receita.pago, 'Receita', response.message));
+                );
+                setAlert(
+                  retornaStateAlertAlteracaoFlagPago(
+                    response.statusCode,
+                    receita.pago,
+                    "Receita",
+                    response.message
+                  )
+                );
               }}
             >
               <FiberManualRecordTwoToneIcon />
@@ -127,27 +143,28 @@ export default function DataGridComponent({
   ];
 
   async function setState() {
-
-    let receitas = await getReceitas(stateCheckedReceitas, stateAnoAtual,stateMesAtual);
+    let receitas = await getReceitas(
+      stateCheckedReceitas,
+      stateAnoAtual,
+      stateMesAtual
+    );
     setRows(formataDadosParaLinhasDataGrid(receitas));
-    setReceitas(formataDadosParaFormulario(receitas))
+    setReceitas(formataDadosParaFormulario(receitas));
   }
 
   useEffect(() => {
-
-    getReceitas(stateCheckedReceitas,stateAnoAtual,stateMesAtual).then(receitas => {
-      setRows(formataDadosParaLinhasDataGrid(receitas));
-      setReceitas(formataDadosParaFormulario(receitas))
-    })
-
-
-  }, [stateCheckedReceitas, stateTotais, stateAnoAtual,stateMesAtual]);
+    getReceitas(stateCheckedReceitas, stateAnoAtual, stateMesAtual).then(
+      (receitas) => {
+        setRows(formataDadosParaLinhasDataGrid(receitas));
+        setReceitas(formataDadosParaFormulario(receitas));
+      }
+    );
+  }, [stateCheckedReceitas, stateTotais, stateAnoAtual, stateMesAtual]);
 
   return (
     <Box>
-      <Alert alert={alert} setAlert={(alert) => setAlert(alert)} ></Alert>
+      <Alert alert={alert} setAlert={(alert) => setAlert(alert)}></Alert>
       <DataGrid rows={rows} columns={columns} />
     </Box>
-
   );
 }

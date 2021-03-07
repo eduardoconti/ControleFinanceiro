@@ -14,21 +14,23 @@ import * as Constants from "../common/Constantes";
 let theme = createMuiTheme();
 theme = responsiveFontSizes(theme);
 
-
 export default function Cards({
   valor,
   setStateChecked,
   stateChecked,
   setStateCurrentBody,
 }) {
-
   function onClik() {
     setStateCurrentBody(Constants.CORPO_DESPESAS);
   }
 
   return (
     <MuiThemeProvider theme={theme}>
-      <Card className="Card" variant="outlined" style={{backgroundColor:'#f9fefb'}}>
+      <Card
+        className="Card"
+        variant="outlined"
+        style={{ backgroundColor: "#f9fefb" }}
+      >
         <CardActionArea onClick={() => onClik()}>
           <CardContent style={{ margin: 0, padding: 0 }}>
             <Typography
@@ -44,7 +46,6 @@ export default function Cards({
           setStateChecked={setStateChecked}
           stateChecked={stateChecked}
         />
-        ;
       </Card>
     </MuiThemeProvider>
   );

@@ -15,23 +15,27 @@
 
 .Card{
   text-align: center;
-  height: 105px;
+  height: 100%;
   display: flex;
   flex-direction: column;
 }
 .DataGrid {
   height: 300px;
-
+  display: flex;
 }
 
 .Formularios {
   padding: 5px;
   display: flex;
+
 }
 
 .Grafico {
-  height: 286px;
-  animation: mymove 2s;
+  height: 100%;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .Header {
@@ -43,7 +47,4 @@
   height: 30px;
 }
 
-@keyframes mymove {
-  from {background-color:#9Ebfc0;}
-  to {background-color:#f9fefb;}
-}
+

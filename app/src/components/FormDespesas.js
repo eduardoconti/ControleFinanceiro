@@ -48,7 +48,7 @@ export default function FormDespesas({
   setFormulario,
   formulario,
   stateMesAtual,
-  stateAnoAtual
+  stateAnoAtual,
 }) {
   const [categorias, setCategorias] = useState([]);
   const [carteiras, setCarteiras] = useState([]);
@@ -78,7 +78,7 @@ export default function FormDespesas({
   let MenuCarteira = Menu(carteiras);
   let TextFieldCategoria = (
     <TextField
-      id="categoriaId"
+      id="categoria"
       label="Categoria"
       variant="outlined"
       size="small"
@@ -95,7 +95,7 @@ export default function FormDespesas({
 
   let TextFieldCarteira = (
     <TextField
-      id="carteiraId"
+      id="carteira"
       label="Carteira"
       variant="outlined"
       size="small"

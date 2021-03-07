@@ -3,16 +3,15 @@ import React, { useState } from "react";
 import GridDespesas from "./DataGridDespesas";
 import FormularioDespesas from "./FormDespesas";
 import { Grid } from "@material-ui/core";
-import { emptyFormularioDespesa } from '../common/EmptyStates'
+import { emptyFormularioDespesa } from "../common/EmptyStates";
 export default function CorpoDespesas({
   stateCheckedDespesas,
   setStateTotais,
   stateCheckedReceitas,
   stateTotais,
   stateMesAtual,
-  stateAnoAtual
+  stateAnoAtual,
 }) {
-
   const [formulario, setFormulario] = useState(emptyFormularioDespesa);
 
   return (

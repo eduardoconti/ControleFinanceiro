@@ -1,54 +1,67 @@
 import React, { useEffect, useState } from "react";
+import Radio from "./RadioButton";
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Label,
-} from "recharts";
-import { getValorDespesasPorCategoria } from "../common/DepesaFuncoes";
+  getValorDespesasPorCategoria,
+  getValorDespesasPorCarteira,
+} from "../common/DepesaFuncoes";
 import { Box } from "@material-ui/core";
+import Grafico from "./Grafico";
 
-export default function GraficoTest({ stateCheckedDespesas, stateTotais, stateAnoAtual,stateMesAtual }) {
+export default function GraficoTest({
+  stateCheckedDespesas,
+  stateTotais,
+  stateAnoAtual,
+  stateMesAtual,
+}) {
   const [despesas, setDespesas] = useState([]);
+  const [stateGrafico, setStateGrafico] = useState("1");
+  const [descricao, setDescricao] = useState("");
 
   useEffect(() => {
     async function pegaDespesas() {
-      let despesas = await getValorDespesasPorCategoria(stateCheckedDespesas, stateAnoAtual,stateMesAtual);
+      let despesas;
+
+      if (stateGrafico === "1") {
+        despesas = await getValorDespesasPorCategoria(
+          stateCheckedDespesas,
+          stateAnoAtual,
+          stateMesAtual
+        );
+        setDescricao("Despesas por Categoria");
+      } else if (stateGrafico === "2") {
+        despesas = await getValorDespesasPorCarteira(
+          stateCheckedDespesas,
+          stateAnoAtual,
+          stateMesAtual
+        );
+        setDescricao("Despesas por Carteira");
+      }
       setDespesas(despesas);
     }
     pegaDespesas();
-  }, [stateCheckedDespesas, stateTotais, stateAnoAtual, stateMesAtual]);
+  }, [
+    stateCheckedDespesas,
+    stateTotais,
+    stateAnoAtual,
+    stateMesAtual,
+    stateGrafico,
+  ]);
 
   return (
-    <Box className='Grafico'>
-
-      <ResponsiveContainer>
-        <BarChart
-          data={despesas}
-          margin={{
-            top: 15,
-            right: 30,
-            left: -10,
-            bottom: 10,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="categoria">
-            <Label
-              value="Despesas x Categoria"
-              offset={-5}
-              position="insideBottom"
-            />
-          </XAxis>
-          <YAxis type="number" domain={[0, 3000]} />
-          <Tooltip />
-          <Bar dataKey="valor" fill="DarkRed" maxBarSize={30} />
-        </BarChart>
-      </ResponsiveContainer>
+    <Box className="Grafico">
+      <Radio
+        setStateGrafico={(stateGrafico) => {
+          setStateGrafico(stateGrafico);
+        }}
+        cor="DarkRed"
+      />
+      <Grafico
+        data={despesas}
+        chaveX="descricao"
+        chaveY="valor"
+        descricao={descricao}
+        cor="DarkRed"
+      />
     </Box>
   );
 }

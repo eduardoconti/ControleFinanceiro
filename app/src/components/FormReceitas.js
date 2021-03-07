@@ -4,12 +4,15 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import { retornaCarteiras } from "../common/CarteiraFuncoes";
-import { insereReceita,alteraReceita } from "../common/ReceitaFuncoes";
+import { insereReceita, alteraReceita } from "../common/ReceitaFuncoes";
 import { calculaTotais } from "../common/Funcoes";
 import { Box } from "@material-ui/core";
 import { emptyFormularioReceita, emptyAlertState } from "../common/EmptyStates";
-import Alert from './Alert'
-import { retornaStateAlertCadastro, AlertWarning } from "../common/AlertFuncoes";
+import Alert from "./Alert";
+import {
+  retornaStateAlertCadastro,
+  AlertWarning,
+} from "../common/AlertFuncoes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,14 +21,14 @@ const useStyles = makeStyles((theme) => ({
     },
     display: "flex",
     flexWrap: "wrap",
-    alignItems: 'center'
+    alignItems: "center",
   },
   botao: {
     "&:hover": {
       backgroundColor: "#9Ebfc0",
     },
-    margin: 5
-  }
+    margin: 5,
+  },
 }));
 
 function Menu(object) {
@@ -45,23 +48,21 @@ export default function FormReceitas({
   setFormulario,
   formulario,
   stateMesAtual,
-  stateAnoAtual
+  stateAnoAtual,
 }) {
   const [carteiras, setCarteiras] = useState([]);
   const classes = useStyles();
-  const descricaoBotao = formulario.id === 0 ? 'CADASTRAR' : 'ALTERAR'
-  const [alert, setAlert] = useState(emptyAlertState)
+  const descricaoBotao = formulario.id === 0 ? "CADASTRAR" : "ALTERAR";
+  const [alert, setAlert] = useState(emptyAlertState);
 
   useEffect(() => {
-
-    retornaCarteiras().then(carteiras => {
+    retornaCarteiras().then((carteiras) => {
       setCarteiras(carteiras);
 
       if (carteiras.length === 0) {
-        setAlert(AlertWarning('Necessário cadastrar carteira'))
+        setAlert(AlertWarning("Necessário cadastrar carteira"));
       }
-    })
-
+    });
   }, []);
 
   let MenuCarteira = Menu(carteiras);
@@ -132,21 +133,31 @@ export default function FormReceitas({
           size="small"
           className={classes.botao}
           onClick={async () => {
-            let response = 0
-            if(formulario.id === 0 )
-              response = await insereReceita(formulario);
+            let response = 0;
+            if (formulario.id === 0) response = await insereReceita(formulario);
             else {
-              response = await alteraReceita(formulario)
+              response = await alteraReceita(formulario);
             }
 
             if (response.statusCode === 200 || response.statusCode === 201) {
               setFormulario(emptyFormularioReceita);
             }
-   
+
             setStateTotais(
-              await calculaTotais(stateCheckedDespesas, stateCheckedReceitas, stateAnoAtual,stateMesAtual)
+              await calculaTotais(
+                stateCheckedDespesas,
+                stateCheckedReceitas,
+                stateAnoAtual,
+                stateMesAtual
+              )
             );
-            setAlert(retornaStateAlertCadastro(response.statusCode, 'Receita', response.message))
+            setAlert(
+              retornaStateAlertCadastro(
+                response.statusCode,
+                "Receita",
+                response.message
+              )
+            );
           }}
         >
           {descricaoBotao}
@@ -155,7 +166,9 @@ export default function FormReceitas({
           variant="contained"
           size="small"
           className={classes.botao}
-          onClick={() => { setFormulario(emptyFormularioReceita) }}
+          onClick={() => {
+            setFormulario(emptyFormularioReceita);
+          }}
         >
           LIMPAR
         </Button>

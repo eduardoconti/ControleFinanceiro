@@ -1,50 +1,66 @@
 import React, { useEffect, useState } from "react";
+import Grafico from "./Grafico";
+import Radio from "./RadioButton";
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Label,
-} from "recharts";
-import { getReceitas } from "../common/ReceitaFuncoes";
+  getReceitas,
+  retornaReceitasAgrupadasPorCarteiraChecked,
+} from "../common/ReceitaFuncoes";
 import { Box } from "@material-ui/core";
 
-export default function GraficoReceitas({ stateCheckedReceitas, stateTotais, stateAnoAtual, stateMesAtual }) {
-
+export default function GraficoReceitas({
+  stateCheckedReceitas,
+  stateTotais,
+  stateAnoAtual,
+  stateMesAtual,
+}) {
   const [receitas, setReceitas] = useState([]);
-
+  const [stateGrafico, setStateGrafico] = useState("1");
+  const [descricao, setDescricao] = useState("");
   useEffect(() => {
     async function pegaReceitas() {
-      let receitas = await getReceitas(stateCheckedReceitas, stateAnoAtual,stateMesAtual);
+      let receitas;
+
+      if (stateGrafico === "1") {
+        receitas = await getReceitas(
+          stateCheckedReceitas,
+          stateAnoAtual,
+          stateMesAtual
+        );
+        setDescricao("Receitas");
+      } else if (stateGrafico === "2") {
+        receitas = await retornaReceitasAgrupadasPorCarteiraChecked(
+          stateCheckedReceitas,
+          stateAnoAtual,
+          stateMesAtual
+        );
+        setDescricao("Receitas por Carteira");
+      }
       setReceitas(receitas);
     }
     pegaReceitas();
-  }, [stateCheckedReceitas, stateTotais, stateAnoAtual,stateMesAtual]);
+  }, [
+    stateCheckedReceitas,
+    stateTotais,
+    stateAnoAtual,
+    stateMesAtual,
+    stateGrafico,
+  ]);
 
   return (
-    <Box className='Grafico'>
-      <ResponsiveContainer>
-        <BarChart
-          data={receitas}
-          margin={{
-            top: 15,
-            right: 30,
-            left: -10,
-            bottom: 10,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="descricao">
-            <Label value="Receitas" offset={-5} position="insideBottom" />
-          </XAxis>
-          <YAxis domain={[0, 4000]} />
-          <Tooltip />
-          <Bar dataKey="valor" fill="green" maxBarSize={30} />
-        </BarChart>
-      </ResponsiveContainer>
+    <Box className="Grafico">
+      <Radio
+        setStateGrafico={(stateGrafico) => {
+          setStateGrafico(stateGrafico);
+        }}
+        cor="green"
+      />
+      <Grafico
+        data={receitas}
+        chaveX="descricao"
+        chaveY="valor"
+        descricao={descricao}
+        cor="green"
+      />
     </Box>
   );
 }
