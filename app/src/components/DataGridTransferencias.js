@@ -5,22 +5,22 @@ import CreateTwoToneIcon from "@material-ui/icons/CreateTwoTone";
 import DeleteForeverTwoToneIcon from "@material-ui/icons/DeleteForeverTwoTone";
 import FiberManualRecordTwoToneIcon from "@material-ui/icons/FiberManualRecordTwoTone";
 import {
-  getDespesas,
-  deletaDespesa,
+  getTransferencias,
+  deletaTransferencia,
   alteraFlagPago,
   formataDadosParaLinhasDataGrid,
   formataDadosParaFormulario,
-  retornaDespesaPorId
-} from "../common/DepesaFuncoes";
+  getTransferenciaPorId
+} from "../common/TransferenciaFuncoes";
 import { makeStyles } from "@material-ui/core/styles";
-import { calculaTotais } from "../common/Funcoes";
+import { emptyAlertState } from "../common/EmptyStates";
 import Alert from "./Alert";
 import { Box } from "@material-ui/core";
-import { emptyAlertState } from "../common/EmptyStates";
 import {
-  retornaStateAlertExclusao,
   retornaStateAlertAlteracaoFlagPago,
+  retornaStateAlertExclusao,
 } from "../common/AlertFuncoes";
+
 const useStyles = makeStyles({
   operacoes: {
     color: "#216260",
@@ -28,56 +28,53 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DataGridDespesas({
-  stateCheckedDespesas,
-  setStateTotais,
-  stateCheckedReceitas,
-  stateTotais,
+export default function DataGridComponent({
   setFormulario,
   stateMesAtual,
   stateAnoAtual,
+  rows,
+  setRows,
 }) {
-  const [rows, setRows] = useState([]);
-  const [alert, setAlert] = useState(emptyAlertState);
-  const classes = useStyles();
 
+  const classes = useStyles();
+  const [alert, setAlert] = useState(emptyAlertState);
   const columns = [
-    { field: "descricao", headerName: "Descricao", width: 170 },
+    { field: "descricao", headerName: "Descricao", width: 150 },
+
     {
-      field: "categoria",
-      headerName: "Categoria",
+      field: "carteiraOrigem",
+      headerName: "Origem",
       width: 120,
     },
     {
-      field: "carteira",
-      headerName: "Carteira",
-      width: 100,
-    },
-    {
-      field: "vencimento",
-      headerName: "Vencimento",
-      width: 120,
-    },
+        field: "carteiraDestino",
+        headerName: "Destino",
+        width: 120,
+      },
     {
       field: "valor",
       headerName: "Valor",
       type: "number",
       width: 100,
     },
+
     {
       field: "operacoes",
       headerName: "Operacoes",
-      width: 115,
+      width: 120,
       sortable: false,
       renderCell: function operacoes(field) {
+        let cor;
+        field.row.pago ? (cor = "green") : (cor = "DarkRed");
         return (
           <div>
             <IconButton
               aria-label="alterar"
               className={classes.operacoes}
-              onClick={async () => {
-                const formulario = await retornaDespesaPorId(field.row.id)
-                setFormulario(formataDadosParaFormulario(formulario));
+              onClick={async() => {
+                const formulario = await getTransferenciaPorId( field.row.id )
+                console.log(formulario)
+                setFormulario( formataDadosParaFormulario(formulario));
               }}
             >
               <CreateTwoToneIcon />
@@ -87,21 +84,12 @@ export default function DataGridDespesas({
               aria-label="excluir"
               className={classes.operacoes}
               onClick={async () => {
-                let response = await deletaDespesa(field.row.id);
-                await pegaDespesas();
-
-                setStateTotais(
-                  await calculaTotais(
-                    stateCheckedDespesas,
-                    stateCheckedReceitas,
-                    stateAnoAtual,
-                    stateMesAtual
-                  )
-                );
+                let response = await deletaTransferencia(field.row.id);
+                await setState();
                 setAlert(
                   retornaStateAlertExclusao(
                     response.statusCode,
-                    "Despesa",
+                    "Transferencia",
                     response.message
                   )
                 );
@@ -113,29 +101,20 @@ export default function DataGridDespesas({
             <IconButton
               aria-label="pago"
               className={classes.operacoes}
-              style={{ color: field.row.pago ? "green" : "DarkRed" }}
+              style={{ color: cor }}
               onClick={async () => {
-                let despesa = {
+                let transferencia = {
                   id: field.row.id,
                   pago: !field.row.pago,
                 };
-
-                const response = await alteraFlagPago(despesa);
-                await pegaDespesas();
-                setStateTotais(
-                  await calculaTotais(
-                    stateCheckedDespesas,
-                    stateCheckedReceitas,
-                    stateAnoAtual,
-                    stateMesAtual
-                  )
-                );
-
+                let response = await alteraFlagPago(transferencia);
+                await setState();
+               
                 setAlert(
                   retornaStateAlertAlteracaoFlagPago(
                     response.statusCode,
-                    despesa.pago,
-                    "Despesa",
+                    transferencia.pago,
+                    "Transferencia",
                     response.message
                   )
                 );
@@ -149,26 +128,26 @@ export default function DataGridDespesas({
     },
   ];
 
-  async function pegaDespesas() {
-    let despesas = await getDespesas(
-      stateCheckedDespesas,
+  async function setState() {
+    let transferencias = await getTransferencias(
       stateAnoAtual,
       stateMesAtual
     );
-    setRows(formataDadosParaLinhasDataGrid(despesas));
+    setRows(formataDadosParaLinhasDataGrid(transferencias));
   }
 
   useEffect(() => {
-    getDespesas(stateCheckedDespesas, stateAnoAtual, stateMesAtual).then(
-      (despesas) => {
-        setRows(formataDadosParaLinhasDataGrid(despesas));
+    getTransferencias(stateAnoAtual, stateMesAtual).then(
+      (transferencias) => {
+          console.log(transferencias)
+        setRows(formataDadosParaLinhasDataGrid(transferencias));
       }
     );
-  }, [stateCheckedDespesas, stateTotais, stateAnoAtual, stateMesAtual]);
+  }, [stateAnoAtual, stateMesAtual]);
 
   return (
     <Box>
-      <Alert alert={alert} setAlert={(alert) => setAlert(alert)} />
+      <Alert alert={alert} setAlert={(alert) => setAlert(alert)}></Alert>
       <DataGrid rows={rows} columns={columns} />
     </Box>
   );

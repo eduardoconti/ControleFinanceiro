@@ -10,6 +10,7 @@ import {
   alteraFlagPago,
   formataDadosParaLinhasDataGrid,
   formataDadosParaFormulario,
+  retornaReceitaPorId
 } from "../common/ReceitaFuncoes";
 import { makeStyles } from "@material-ui/core/styles";
 import { calculaTotais } from "../common/Funcoes";
@@ -38,7 +39,6 @@ export default function DataGridComponent({
   stateAnoAtual,
 }) {
   const [rows, setRows] = useState([]);
-  const [receitas, setReceitas] = useState([]);
   const classes = useStyles();
   const [alert, setAlert] = useState(emptyAlertState);
   const columns = [
@@ -69,11 +69,9 @@ export default function DataGridComponent({
             <IconButton
               aria-label="alterar"
               className={classes.operacoes}
-              onClick={() => {
-                const [formulario] = receitas.filter(
-                  (receita) => receita.id === field.row.id
-                );
-                setFormulario(formulario);
+              onClick={ async () => {
+                const formulario = await retornaReceitaPorId(field.row.id)
+                setFormulario(formataDadosParaFormulario(formulario));
               }}
             >
               <CreateTwoToneIcon />
@@ -149,14 +147,13 @@ export default function DataGridComponent({
       stateMesAtual
     );
     setRows(formataDadosParaLinhasDataGrid(receitas));
-    setReceitas(formataDadosParaFormulario(receitas));
+
   }
 
   useEffect(() => {
     getReceitas(stateCheckedReceitas, stateAnoAtual, stateMesAtual).then(
       (receitas) => {
         setRows(formataDadosParaLinhasDataGrid(receitas));
-        setReceitas(formataDadosParaFormulario(receitas));
       }
     );
   }, [stateCheckedReceitas, stateTotais, stateAnoAtual, stateMesAtual]);

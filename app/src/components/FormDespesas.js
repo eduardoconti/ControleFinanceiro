@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import MenuItem from "@material-ui/core/MenuItem";
 import { retornaCategorias } from "../common/CategoriaFuncoes";
 import { retornaCarteiras } from "../common/CarteiraFuncoes";
 import { insereDespesa, alteraDespesa } from "../common/DepesaFuncoes";
@@ -14,6 +13,8 @@ import {
   retornaStateAlertCadastro,
   AlertWarning,
 } from "../common/AlertFuncoes";
+import Menu from "./MenuItemForm"
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -30,16 +31,6 @@ const useStyles = makeStyles((theme) => ({
     margin: 5,
   },
 }));
-
-function Menu(object) {
-  return object.map((obj, i) => {
-    return (
-      <MenuItem key={i} value={obj.id}>
-        {obj.descricao}
-      </MenuItem>
-    );
-  });
-}
 
 export default function FormDespesas({
   stateCheckedDespesas,
@@ -74,8 +65,8 @@ export default function FormDespesas({
   }, []);
 
   let MenuCategoria = Menu(categorias);
-
   let MenuCarteira = Menu(carteiras);
+  let MenuPago =  Menu( [{id:false, descricao:'Aberto'}, {id:true, descricao:'Pago'}]) ;
   let TextFieldCategoria = (
     <TextField
       id="categoria"
@@ -107,6 +98,23 @@ export default function FormDespesas({
       }
     >
       {MenuCarteira}
+    </TextField>
+  );
+
+  let TextFieldPago = (
+    <TextField
+      id="pago"
+      label="Pago"
+      variant="outlined"
+      size="small"
+      style={{ width: 150 }}
+      value={formulario.pago}
+      select
+      onChange={(event) =>
+        setFormulario({ ...formulario, pago: event.target.value })
+      }
+    >
+      {MenuPago}
     </TextField>
   );
 
@@ -154,6 +162,7 @@ export default function FormDespesas({
             setFormulario({ ...formulario, valor: event.target.value })
           }
         />
+        {TextFieldPago}
         <Button
           variant="contained"
           size="small"

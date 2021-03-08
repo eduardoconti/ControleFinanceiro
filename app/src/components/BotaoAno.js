@@ -7,7 +7,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
-import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "./MenuItemForm";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -56,6 +56,11 @@ export default function DialogSelect({ stateAnoAtual, setStateAnoAtual }) {
     setStateAnoAtual(ano);
   };
 
+  const Anos = Menu([
+    { id: 2020, descricao: "2020" },
+    { id: 2021, descricao: "2021" },
+    { id: 2022, descricao: "2022" },
+  ]);
   return (
     <div>
       <CardActionArea onClick={handleClickOpen} className={classes.botao}>
@@ -79,9 +84,7 @@ export default function DialogSelect({ stateAnoAtual, setStateAnoAtual }) {
                 onChange={handleChange}
                 input={<Input />}
               >
-                <MenuItem value={2020}>2020</MenuItem>
-                <MenuItem value={2021}>2021</MenuItem>
-                <MenuItem value={2022}>2022</MenuItem>
+                {Anos}
               </Select>
             </FormControl>
           </form>

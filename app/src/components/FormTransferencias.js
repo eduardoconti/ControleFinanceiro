@@ -2,17 +2,17 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { retornaCarteiras } from "../common/CarteiraFuncoes";
-import { insereReceita, alteraReceita } from "../common/ReceitaFuncoes";
-import { calculaTotais } from "../common/Funcoes";
+import { insereTransferencia, alteraTransferencia, getTransferencias, formataDadosParaLinhasDataGrid } from "../common/TransferenciaFuncoes";
 import { Box } from "@material-ui/core";
-import { emptyFormularioReceita, emptyAlertState } from "../common/EmptyStates";
+import { emptyFormularioTransferencia, emptyAlertState } from "../common/EmptyStates";
 import Alert from "./Alert";
 import {
   retornaStateAlertCadastro,
   AlertWarning,
 } from "../common/AlertFuncoes";
+
 import Menu from "./MenuItemForm";
+import { retornaCarteiras } from "../common/CarteiraFuncoes";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -30,14 +30,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FormReceitas({
-  stateCheckedDespesas,
-  stateCheckedReceitas,
-  setStateTotais,
+export default function FormTransferencias({
   setFormulario,
   formulario,
-  stateMesAtual,
+  setRows,
   stateAnoAtual,
+  stateMesAtual
+
 }) {
   const [carteiras, setCarteiras] = useState([]);
   const classes = useStyles();
@@ -78,15 +77,32 @@ export default function FormReceitas({
 
   let TextFieldCarteira = (
     <TextField
-      id="carteira"
-      label="Carteira"
+      id="carteiraOrigem"
+      label="Origem"
       variant="outlined"
       size="small"
       style={{ width: 150 }}
-      value={formulario.carteira}
+      value={formulario.carteiraOrigem}
       select
       onChange={(event) =>
-        setFormulario({ ...formulario, carteira: event.target.value })
+        setFormulario({ ...formulario, carteiraOrigem: event.target.value })
+      }
+    >
+      {MenuCarteira}
+    </TextField>
+  );
+
+  let TextFieldCarteiraDestino = (
+    <TextField
+      id="carteiraDestino"
+      label="Destino"
+      variant="outlined"
+      size="small"
+      style={{ width: 150 }}
+      value={formulario.carteiraDestino}
+      select
+      onChange={(event) =>
+        setFormulario({ ...formulario, carteiraDestino: event.target.value })
       }
     >
       {MenuCarteira}
@@ -111,18 +127,19 @@ export default function FormReceitas({
         />
 
         {TextFieldCarteira}
+        {TextFieldCarteiraDestino}
         <TextField
-          id="pagamento"
-          label="Pagamento"
+          id="dataTransferencia"
+          label="Data"
           variant="outlined"
           type="date"
           InputLabelProps={{
             shrink: true,
           }}
-          value={formulario.pagamento}
+          value={formulario.dataTransferencia}
           size="small"
           onChange={(event) =>
-            setFormulario({ ...formulario, pagamento: event.target.value })
+            setFormulario({ ...formulario, dataTransferencia: event.target.value })
           }
         />
 
@@ -144,27 +161,21 @@ export default function FormReceitas({
           className={classes.botao}
           onClick={async () => {
             let response = 0;
-            if (formulario.id === 0) response = await insereReceita(formulario);
+            let transferencias
+            if (formulario.id === 0) response = await insereTransferencia(formulario);
             else {
-              response = await alteraReceita(formulario);
+              response = await alteraTransferencia(formulario);
             }
 
             if (response.statusCode === 200 || response.statusCode === 201) {
-              setFormulario(emptyFormularioReceita);
+              setFormulario(emptyFormularioTransferencia);
             }
-
-            setStateTotais(
-              await calculaTotais(
-                stateCheckedDespesas,
-                stateCheckedReceitas,
-                stateAnoAtual,
-                stateMesAtual
-              )
-            );
+            transferencias = await getTransferencias( stateAnoAtual, stateMesAtual )
+            setRows(formataDadosParaLinhasDataGrid(transferencias))
             setAlert(
               retornaStateAlertCadastro(
                 response.statusCode,
-                "Receita",
+                "Transferencia",
                 response.message
               )
             );
@@ -177,7 +188,7 @@ export default function FormReceitas({
           size="small"
           className={classes.botao}
           onClick={() => {
-            setFormulario(emptyFormularioReceita);
+            setFormulario(emptyFormularioTransferencia);
           }}
         >
           LIMPAR

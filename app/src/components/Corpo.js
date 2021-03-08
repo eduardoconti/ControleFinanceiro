@@ -5,6 +5,7 @@ import CorpoDespesas from "./CorpoDespesas";
 import CorpoReceitas from "./CorpoReceitas";
 import CorpoCarteiras from "./CorpoCarteiras";
 import CorpoSaldo from "./CorpoSaldo";
+import CorpoTransferencias from "./CorpoTransferencias";
 import * as Constants from "../common/Constantes";
 
 export default function CurrentBody({
@@ -50,5 +51,11 @@ export default function CurrentBody({
     return (
       <CorpoSaldo stateMesAtual={stateMesAtual} stateAnoAtual={stateAnoAtual} />
     );
+  } else if (stateCurrentBody === Constants.CORPO_TRANSFERENCIAS) {
+    return (
+    <CorpoTransferencias
+      stateMesAtual={stateMesAtual}
+      stateAnoAtual={stateAnoAtual}
+    ></CorpoTransferencias>);
   }
 }

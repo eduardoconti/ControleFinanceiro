@@ -57,6 +57,16 @@ export default function LeftMenu({
       <Grid item xs={4} lg={12}>
         <Button
           className={classes.botao}
+          onClick={() => {
+            onClick(Constants.CORPO_TRANSFERENCIAS);
+          }}
+        >
+          Transf.
+        </Button>
+      </Grid>
+      <Grid item xs={4} lg={12}>
+        <Button
+          className={classes.botao}
           onClick={async () => {
             await API.get("/calc");
           }}

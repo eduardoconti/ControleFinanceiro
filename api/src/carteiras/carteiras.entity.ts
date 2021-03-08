@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Despesas } from '../despesas/despesas.entity'
 import { Receitas } from '../receitas/receitas.entity'
+import { Transferencias } from '../transferencias/transferencias.entity'
 @Entity()
 export class Carteiras {
   @PrimaryGeneratedColumn()
@@ -14,4 +15,10 @@ export class Carteiras {
 
   @OneToMany(() => Receitas, receitas => receitas.carteira)
   carteiraReceita: Receitas[];  
+
+  @OneToMany(() => Transferencias, transferencia => transferencia.carteiraOrigem)
+  transferenciaOrigem: Transferencias[];  
+
+  @OneToMany(() => Transferencias, transferencia => transferencia.carteiraDestino)
+  transferenciaDestino: Transferencias[];  
 }

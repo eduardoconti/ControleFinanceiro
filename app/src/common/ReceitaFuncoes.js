@@ -215,6 +215,13 @@ export async function retornaReceitasAgrupadasPorCarteira(
   }
 }
 
+export async function retornaReceitaPorId(id) {
+
+  var res = new Array(0);
+  res = await API.get(ENDPOINT + "id/" + id, headers);
+  return res.data;
+}
+
 export function formataDadosParaLinhasDataGrid(receita) {
   return receita.map((receita) => {
     return {
@@ -226,11 +233,9 @@ export function formataDadosParaLinhasDataGrid(receita) {
 }
 
 export function formataDadosParaFormulario(receita) {
-  return receita.map((receita) => {
-    return {
-      ...receita,
-      carteira: receita.carteira.id,
-      pagamento: new Date(receita.pagamento).toISOString().slice(0, 10),
-    };
-  });
+  return {
+    ...receita,
+    carteira: receita.carteira.id,
+    pagamento: new Date(receita.pagamento).toISOString().slice(0, 10),
+  };
 }
