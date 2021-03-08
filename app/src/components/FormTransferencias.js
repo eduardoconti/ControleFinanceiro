@@ -2,9 +2,17 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { insereTransferencia, alteraTransferencia, getTransferencias, formataDadosParaLinhasDataGrid } from "../common/TransferenciaFuncoes";
+import {
+  insereTransferencia,
+  alteraTransferencia,
+  getTransferencias,
+  formataDadosParaLinhasDataGrid,
+} from "../common/TransferenciaFuncoes";
 import { Box } from "@material-ui/core";
-import { emptyFormularioTransferencia, emptyAlertState } from "../common/EmptyStates";
+import {
+  emptyFormularioTransferencia,
+  emptyAlertState,
+} from "../common/EmptyStates";
 import Alert from "./Alert";
 import {
   retornaStateAlertCadastro,
@@ -35,8 +43,7 @@ export default function FormTransferencias({
   formulario,
   setRows,
   stateAnoAtual,
-  stateMesAtual
-
+  stateMesAtual,
 }) {
   const [carteiras, setCarteiras] = useState([]);
   const classes = useStyles();
@@ -113,21 +120,10 @@ export default function FormTransferencias({
     <Box className="Formularios">
       <Alert alert={alert} setAlert={(alert) => setAlert(alert)} />
       <form className={classes.root} noValidate autoComplete="off">
-        <TextField
-          id="descricao"
-          label="Descricao"
-          variant="outlined"
-          size="small"
-          style={{ width: 150 }}
-          required={true}
-          value={formulario.descricao}
-          onChange={(event) =>
-            setFormulario({ ...formulario, descricao: event.target.value })
-          }
-        />
-
         {TextFieldCarteira}
+
         {TextFieldCarteiraDestino}
+
         <TextField
           id="dataTransferencia"
           label="Data"
@@ -139,7 +135,10 @@ export default function FormTransferencias({
           value={formulario.dataTransferencia}
           size="small"
           onChange={(event) =>
-            setFormulario({ ...formulario, dataTransferencia: event.target.value })
+            setFormulario({
+              ...formulario,
+              dataTransferencia: event.target.value,
+            })
           }
         />
 
@@ -154,15 +153,18 @@ export default function FormTransferencias({
             setFormulario({ ...formulario, valor: event.target.value })
           }
         />
+
         {TextFieldPago}
+
         <Button
           variant="contained"
           size="small"
           className={classes.botao}
           onClick={async () => {
             let response = 0;
-            let transferencias
-            if (formulario.id === 0) response = await insereTransferencia(formulario);
+            let transferencias;
+            if (formulario.id === 0)
+              response = await insereTransferencia(formulario);
             else {
               response = await alteraTransferencia(formulario);
             }
@@ -170,8 +172,11 @@ export default function FormTransferencias({
             if (response.statusCode === 200 || response.statusCode === 201) {
               setFormulario(emptyFormularioTransferencia);
             }
-            transferencias = await getTransferencias( stateAnoAtual, stateMesAtual )
-            setRows(formataDadosParaLinhasDataGrid(transferencias))
+            transferencias = await getTransferencias(
+              stateAnoAtual,
+              stateMesAtual
+            );
+            setRows(formataDadosParaLinhasDataGrid(transferencias));
             setAlert(
               retornaStateAlertCadastro(
                 response.statusCode,
@@ -183,6 +188,7 @@ export default function FormTransferencias({
         >
           {descricaoBotao}
         </Button>
+
         <Button
           variant="contained"
           size="small"

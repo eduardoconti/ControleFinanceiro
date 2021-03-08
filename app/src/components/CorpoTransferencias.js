@@ -4,12 +4,9 @@ import FormularioTransferencias from "./FormTransferencias";
 import { Grid } from "@material-ui/core";
 import { emptyFormularioTransferencia } from "../common/EmptyStates";
 
-export default function Transferencias({
-  stateMesAtual,
-  stateAnoAtual,
-}) {
+export default function Transferencias({ stateMesAtual, stateAnoAtual }) {
   const [formulario, setFormulario] = useState(emptyFormularioTransferencia);
-  const [rows, setRows] = useState([]);  
+  const [rows, setRows] = useState([]);
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
@@ -18,15 +15,15 @@ export default function Transferencias({
           stateMesAtual={stateMesAtual}
           stateAnoAtual={stateAnoAtual}
           rows={rows}
-          setRows={(rows)=>setRows(rows)}
+          setRows={(rows) => setRows(rows)}
         />
       </Grid>
 
       <Grid item xs={12}>
-        <FormularioTransferencias      
+        <FormularioTransferencias
           formulario={formulario}
           setFormulario={(formulario) => setFormulario(formulario)}
-          setRows={(rows)=>setRows(rows)}
+          setRows={(rows) => setRows(rows)}
           stateMesAtual={stateMesAtual}
           stateAnoAtual={stateAnoAtual}
         />

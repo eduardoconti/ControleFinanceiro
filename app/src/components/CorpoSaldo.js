@@ -4,7 +4,10 @@ import CardSaldo from "./CardSaldoCarteira";
 import { retornaReceitasAgrupadasPorCarteira } from "../common/ReceitaFuncoes";
 import { retornaDespesasAgrupadasPorCarteira } from "../common/DepesaFuncoes";
 import { retornaCarteiras } from "../common/CarteiraFuncoes";
-
+import {
+  retornaValoresTransferenciasOrigem,
+  retornaValoresTransferenciasDestino,
+} from "../common/TransferenciaFuncoes";
 async function RetornaCards(stateAnoAtual, stateMesAtual) {
   let object = await retornaDadosParaCard(stateAnoAtual, stateMesAtual);
 
@@ -33,22 +36,45 @@ async function retornaDadosParaCard(stateAnoAtual, stateMesAtual) {
     stateMesAtual,
     true
   );
+  const transferenciasOrigem = await retornaValoresTransferenciasOrigem(
+    stateAnoAtual,
+    stateMesAtual
+  );
+  const transferenciasDestino = await retornaValoresTransferenciasDestino(
+    stateAnoAtual,
+    stateMesAtual
+  );
   const dadosCard = [];
 
   carteiras.forEach((carteira, i) => {
     let receita = receitas.find((receita) => receita.id === carteira.id);
     let despesa = despesas.find((despesa) => despesa.id === carteira.id);
-
+    let transferenciaSaida = transferenciasOrigem.find(
+      (transferencia) => transferencia.id === carteira.id
+    );
+    let transferenciaEntrada = transferenciasDestino.find(
+      (transferencia) => transferencia.id === carteira.id
+    );
     if (receita == null) {
       receita = { descricao: carteira.descricao, valor: 0 };
     }
     if (despesa == null) {
       despesa = { descricao: carteira.descricao, valor: 0 };
     }
+    if (transferenciaSaida == null) {
+      transferenciaSaida = { descricao: carteira.descricao, valor: 0 };
+    }
+
+    if (transferenciaEntrada == null) {
+      transferenciaEntrada = { descricao: carteira.descricao, valor: 0 };
+    }
 
     dadosCard.push({
       descricao: carteira.descricao,
-      valor: receita.valor - despesa.valor,
+      valor:
+        receita.valor -
+        despesa.valor +
+        (transferenciaEntrada.valor - transferenciaSaida.valor),
     });
   });
 
@@ -62,7 +88,7 @@ export default function CorpoSaldo({ stateAnoAtual, stateMesAtual }) {
     RetornaCards(stateAnoAtual, stateMesAtual).then((cards) => {
       setCards(cards);
     });
-  }, [stateMesAtual]);
+  }, [stateMesAtual, stateAnoAtual]);
 
   return (
     <Grid container direction="row" spacing={1}>

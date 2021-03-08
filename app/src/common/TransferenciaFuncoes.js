@@ -10,22 +10,19 @@ export async function getTransferencias(stateAnoAtual, stateMesAtual) {
   var res = new Array(0);
 
   res = await API.get(
-    ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual ,
+    ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual,
     headers
   );
 
   return res.data;
 }
 export async function getTransferenciaPorId(id) {
-    var res = new Array(0);
-  
-    res = await API.get(
-      ENDPOINT + 'id/' + id ,
-      headers
-    );
-  
-    return res.data;
-  }
+  var res = new Array(0);
+
+  res = await API.get(ENDPOINT + "id/" + id, headers);
+
+  return res.data;
+}
 
 export async function deletaTransferencia(id) {
   try {
@@ -102,14 +99,52 @@ export function formataDadosParaLinhasDataGrid(transferencia) {
 }
 
 export function formataDadosParaFormulario(transferencia) {
-
-    return {
-      ...transferencia,
-      carteiraOrigem: transferencia.carteiraOrigem.id,
-      carteiraDestino: transferencia.carteiraDestino.id,
-      dataTransferencia: new Date(transferencia.dataTransferencia)
+  return {
+    ...transferencia,
+    carteiraOrigem: transferencia.carteiraOrigem.id,
+    carteiraDestino: transferencia.carteiraDestino.id,
+    dataTransferencia: new Date(transferencia.dataTransferencia)
       .toISOString()
       .slice(0, 10),
-    };
+  };
+}
 
+export async function retornaValoresTransferenciasOrigem(
+  stateAnoAtual,
+  stateMesAtual
+) {
+  try {
+    const total = await API.get(
+      ENDPOINT +
+        stateAnoAtual +
+        "/mes/" +
+        stateMesAtual +
+        "/valor/origem/?pago=true",
+      headers
+    );
+    return total.data;
+  } catch (error) {
+    console.log(error);
+    return error.response.status;
+  }
+}
+
+export async function retornaValoresTransferenciasDestino(
+  stateAnoAtual,
+  stateMesAtual
+) {
+  try {
+    const total = await API.get(
+      ENDPOINT +
+        stateAnoAtual +
+        "/mes/" +
+        stateMesAtual +
+        "/valor/destino/?pago=true",
+      headers
+    );
+    return total.data;
+  } catch (error) {
+    console.log(error);
+    return error.response.status;
+  }
 }

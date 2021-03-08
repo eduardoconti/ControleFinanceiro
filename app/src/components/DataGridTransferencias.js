@@ -10,7 +10,7 @@ import {
   alteraFlagPago,
   formataDadosParaLinhasDataGrid,
   formataDadosParaFormulario,
-  getTransferenciaPorId
+  getTransferenciaPorId,
 } from "../common/TransferenciaFuncoes";
 import { makeStyles } from "@material-ui/core/styles";
 import { emptyAlertState } from "../common/EmptyStates";
@@ -35,22 +35,19 @@ export default function DataGridComponent({
   rows,
   setRows,
 }) {
-
   const classes = useStyles();
   const [alert, setAlert] = useState(emptyAlertState);
   const columns = [
-    { field: "descricao", headerName: "Descricao", width: 150 },
-
     {
       field: "carteiraOrigem",
       headerName: "Origem",
       width: 120,
     },
     {
-        field: "carteiraDestino",
-        headerName: "Destino",
-        width: 120,
-      },
+      field: "carteiraDestino",
+      headerName: "Destino",
+      width: 120,
+    },
     {
       field: "valor",
       headerName: "Valor",
@@ -71,10 +68,9 @@ export default function DataGridComponent({
             <IconButton
               aria-label="alterar"
               className={classes.operacoes}
-              onClick={async() => {
-                const formulario = await getTransferenciaPorId( field.row.id )
-                console.log(formulario)
-                setFormulario( formataDadosParaFormulario(formulario));
+              onClick={async () => {
+                const formulario = await getTransferenciaPorId(field.row.id);
+                setFormulario(formataDadosParaFormulario(formulario));
               }}
             >
               <CreateTwoToneIcon />
@@ -109,7 +105,7 @@ export default function DataGridComponent({
                 };
                 let response = await alteraFlagPago(transferencia);
                 await setState();
-               
+
                 setAlert(
                   retornaStateAlertAlteracaoFlagPago(
                     response.statusCode,
@@ -129,20 +125,14 @@ export default function DataGridComponent({
   ];
 
   async function setState() {
-    let transferencias = await getTransferencias(
-      stateAnoAtual,
-      stateMesAtual
-    );
+    let transferencias = await getTransferencias(stateAnoAtual, stateMesAtual);
     setRows(formataDadosParaLinhasDataGrid(transferencias));
   }
 
   useEffect(() => {
-    getTransferencias(stateAnoAtual, stateMesAtual).then(
-      (transferencias) => {
-          console.log(transferencias)
-        setRows(formataDadosParaLinhasDataGrid(transferencias));
-      }
-    );
+    getTransferencias(stateAnoAtual, stateMesAtual).then((transferencias) => {
+      setRows(formataDadosParaLinhasDataGrid(transferencias));
+    });
   }, [stateAnoAtual, stateMesAtual]);
 
   return (

@@ -115,8 +115,8 @@ function App() {
                   descricao="Balanço"
                   cor="DarkSlateGrey"
                   valor={stateTotais.balanco}
-                  setStateCurrentBody={(currentBody) =>
-                    setStateCurrentBody(currentBody)
+                  setStateCurrentBody={() =>
+                    setStateCurrentBody(Constantes.CORPO_BALANCO)
                   }
                 />
               </Grid>

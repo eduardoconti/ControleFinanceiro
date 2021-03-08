@@ -8,6 +8,7 @@ import CorpoSaldo from "./CorpoSaldo";
 import CorpoTransferencias from "./CorpoTransferencias";
 import * as Constants from "../common/Constantes";
 
+import Alert from "./Alert";
 export default function CurrentBody({
   stateCurrentBody,
   stateCheckedDespesas,
@@ -53,9 +54,22 @@ export default function CurrentBody({
     );
   } else if (stateCurrentBody === Constants.CORPO_TRANSFERENCIAS) {
     return (
-    <CorpoTransferencias
-      stateMesAtual={stateMesAtual}
-      stateAnoAtual={stateAnoAtual}
-    ></CorpoTransferencias>);
+      <CorpoTransferencias
+        stateMesAtual={stateMesAtual}
+        stateAnoAtual={stateAnoAtual}
+      ></CorpoTransferencias>
+    );
+  } else if (stateCurrentBody === Constants.CORPO_BALANCO) {
+    return (
+      <Alert
+        alert={{
+          isOpen: true,
+          title: "Alerta",
+          type: "warning",
+          message: "Em Desenvolvimento",
+        }}
+        setAlert={() => {}}
+      />
+    );
   }
 }

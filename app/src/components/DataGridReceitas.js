@@ -10,7 +10,7 @@ import {
   alteraFlagPago,
   formataDadosParaLinhasDataGrid,
   formataDadosParaFormulario,
-  retornaReceitaPorId
+  retornaReceitaPorId,
 } from "../common/ReceitaFuncoes";
 import { makeStyles } from "@material-ui/core/styles";
 import { calculaTotais } from "../common/Funcoes";
@@ -69,8 +69,8 @@ export default function DataGridComponent({
             <IconButton
               aria-label="alterar"
               className={classes.operacoes}
-              onClick={ async () => {
-                const formulario = await retornaReceitaPorId(field.row.id)
+              onClick={async () => {
+                const formulario = await retornaReceitaPorId(field.row.id);
                 setFormulario(formataDadosParaFormulario(formulario));
               }}
             >
@@ -147,7 +147,6 @@ export default function DataGridComponent({
       stateMesAtual
     );
     setRows(formataDadosParaLinhasDataGrid(receitas));
-
   }
 
   useEffect(() => {

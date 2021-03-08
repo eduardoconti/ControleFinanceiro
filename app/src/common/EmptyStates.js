@@ -46,13 +46,11 @@ export const emptyAlertState = {
   title: "",
 };
 
-export const emptyFormularioTransferencia ={
+export const emptyFormularioTransferencia = {
   id: 0,
-  descricao: "",
   carteiraOrigem: "",
   carteiraDestino: "",
   valor: 0,
   pago: false,
   dataTransferencia: new Date().toISOString().slice(0, 10),
- 
-}
+};

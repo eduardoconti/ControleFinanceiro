@@ -5,7 +5,6 @@ import { Repository } from 'typeorm';
 
 const select = [
     'transferencias.id',
-    'transferencias.descricao',
     'transferencias.valor',
     'transferencias.pago',
     'transferencias.dataTransferencia',
@@ -46,7 +45,7 @@ export class TransferenciaService {
           .select(select)
           .innerJoin('transferencias.carteiraOrigem', 'carteiraOrigem')
           .innerJoin('transferencias.carteiraDestino', 'carteiraDestino')
-          .orderBy('transferencias.valor', 'DESC')
+          .orderBy('carteiraOrigem.descricao', 'ASC')
           .where(CriaWhereAno(ano))
           .andWhere(CriaWhereMes(mes))
           .andWhere(CriaWherePago(pago))
@@ -62,9 +61,7 @@ export class TransferenciaService {
     }
 
     async insereTransferencia(transferencia: TransferenciasDTO): Promise<Transferencias> {
-        if (transferencia.descricao.length < 1) {
-            throw new BadRequestException('Descrição deve ter ao menos 1 caractere');
-        }
+
         if (transferencia.valor < 0) {
             throw new BadRequestException('Valor deve ser >= 0');
         }
@@ -99,4 +96,52 @@ export class TransferenciaService {
 
         return data
     }
+
+    async retornaValorDespesasAgrupadosPorCarteiraOrigem(
+        ano?: number,
+        mes?: number,
+        pago?: boolean,
+      ) {
+        let transferencias = await this.transferenciaRepository
+          .createQueryBuilder('transferencias')
+          .select([
+            'transferencias.carteiraOrigem id',
+            'carteiraOrigem.descricao descricao',
+            'SUM(transferencias.valor) valor',
+            
+           
+          ])
+          .innerJoin('transferencias.carteiraOrigem', 'carteiraOrigem')
+          .where(CriaWhereAno(ano))
+          .andWhere(CriaWhereMes(mes))
+          .andWhere(CriaWherePago(pago))
+          .groupBy('transferencias.carteiraOrigem')
+          .orderBy('valor', 'DESC')
+          .getRawMany();
+    
+        return transferencias;
+      }
+
+      async retornaValorDespesasAgrupadosPorCarteiraDestino(
+        ano?: number,
+        mes?: number,
+        pago?: boolean,
+      ) {
+        let transferencias = await this.transferenciaRepository
+          .createQueryBuilder('transferencias')
+          .select([
+            'transferencias.carteiraDestino id',
+            'carteiraDestino.descricao descricao',
+            'SUM(transferencias.valor) valor',
+          ])
+          .innerJoin('transferencias.carteiraDestino', 'carteiraDestino')
+          .where(CriaWhereAno(ano))
+          .andWhere(CriaWhereMes(mes))
+          .andWhere(CriaWherePago(pago))
+          .groupBy('transferencias.carteiraDestino')
+          .orderBy('valor', 'DESC')
+          .getRawMany();
+    
+        return transferencias;
+      }
 }

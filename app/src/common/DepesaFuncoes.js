@@ -236,10 +236,7 @@ export async function retornaTotalDespesasAbertas(
 
 export async function retornaDespesaPorId(id) {
   try {
-    const total = await API.get(
-      ENDPOINT + 'id/' + id,
-      headers
-    );
+    const total = await API.get(ENDPOINT + "id/" + id, headers);
     return total.data;
   } catch (error) {
     console.log(error);
@@ -258,10 +255,10 @@ export function formataDadosParaLinhasDataGrid(despesas) {
 }
 
 export function formataDadosParaFormulario(despesa) {
-    return {
-      ...despesa,
-      categoria: despesa.categoria.id,
-      carteira: despesa.carteira.id,
-      vencimento: new Date(despesa.vencimento).toISOString().slice(0, 10),
-    };
+  return {
+    ...despesa,
+    categoria: despesa.categoria.id,
+    carteira: despesa.carteira.id,
+    vencimento: new Date(despesa.vencimento).toISOString().slice(0, 10),
+  };
 }

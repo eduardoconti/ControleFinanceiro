@@ -216,7 +216,6 @@ export async function retornaReceitasAgrupadasPorCarteira(
 }
 
 export async function retornaReceitaPorId(id) {
-
   var res = new Array(0);
   res = await API.get(ENDPOINT + "id/" + id, headers);
   return res.data;

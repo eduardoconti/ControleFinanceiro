@@ -10,7 +10,7 @@ import {
   alteraFlagPago,
   formataDadosParaLinhasDataGrid,
   formataDadosParaFormulario,
-  retornaDespesaPorId
+  retornaDespesaPorId,
 } from "../common/DepesaFuncoes";
 import { makeStyles } from "@material-ui/core/styles";
 import { calculaTotais } from "../common/Funcoes";
@@ -76,7 +76,7 @@ export default function DataGridDespesas({
               aria-label="alterar"
               className={classes.operacoes}
               onClick={async () => {
-                const formulario = await retornaDespesaPorId(field.row.id)
+                const formulario = await retornaDespesaPorId(field.row.id);
                 setFormulario(formataDadosParaFormulario(formulario));
               }}
             >

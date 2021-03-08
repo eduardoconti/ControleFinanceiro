@@ -17,6 +17,15 @@ export class TransferenciasController {
     async retornaTodasTransferenciasAnoMes( @Param('ano') ano?:number, @Param('mes') mes?:number, @Query('pago') pago?:boolean) {   
         return await this.transferenciaService.retornaTodas(ano,mes,pago);
     }
+    @Get('/:ano/mes/:mes/valor/origem')
+    async retornaTodasTransferenciasAgrupadosOrigem( @Param('ano') ano?:number, @Param('mes') mes?:number, @Query('pago') pago?:boolean) {   
+        return await this.transferenciaService.retornaValorDespesasAgrupadosPorCarteiraOrigem(ano,mes,pago);
+    }
+    @Get('/:ano/mes/:mes/valor/destino')
+    async retornaTodasTransferenciasAgrupadosDestino( @Param('ano') ano?:number, @Param('mes') mes?:number, @Query('pago') pago?:boolean) {   
+        return await this.transferenciaService.retornaValorDespesasAgrupadosPorCarteiraDestino(ano,mes,pago);
+    }
+
     @Patch('flag/:id')
     async alteraFlagPago(@Param('id') id: number, @Body() transferencia: { id:number, pago:boolean}): Promise<{ id:number, pago:boolean}> {
         return this.transferenciaService.alteraFlagPago(transferencia);

@@ -5,9 +5,6 @@ export class Transferencias {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 255, type:String })
-  descricao: string;
-
   @ManyToOne(() => Carteiras, carteiras => carteiras.transferenciaOrigem)
   carteiraOrigem: Carteiras;
 

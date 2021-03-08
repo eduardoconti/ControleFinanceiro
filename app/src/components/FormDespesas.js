@@ -13,7 +13,7 @@ import {
   retornaStateAlertCadastro,
   AlertWarning,
 } from "../common/AlertFuncoes";
-import Menu from "./MenuItemForm"
+import Menu from "./MenuItemForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,7 +66,10 @@ export default function FormDespesas({
 
   let MenuCategoria = Menu(categorias);
   let MenuCarteira = Menu(carteiras);
-  let MenuPago =  Menu( [{id:false, descricao:'Aberto'}, {id:true, descricao:'Pago'}]) ;
+  let MenuPago = Menu([
+    { id: false, descricao: "Aberto" },
+    { id: true, descricao: "Pago" },
+  ]);
   let TextFieldCategoria = (
     <TextField
       id="categoria"
