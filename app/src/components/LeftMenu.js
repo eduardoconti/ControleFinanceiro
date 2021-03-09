@@ -13,6 +13,7 @@ const useStyles = makeStyles({
     "&:hover": {
       backgroundColor: "#9Ebfc0",
     },
+    fontWeight:'bold'
   },
 });
 

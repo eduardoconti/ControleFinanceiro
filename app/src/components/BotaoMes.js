@@ -1,7 +1,7 @@
 import React from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
+import { Grid} from "@material-ui/core";
 import CardActionArea from "@material-ui/core/CardActionArea";
 
 export default function BotaoMes({ setStateMesAtual, stateMesAtual }) {
@@ -12,6 +12,7 @@ export default function BotaoMes({ setStateMesAtual, stateMesAtual }) {
       minHeight: 36,
       borderRadius: 5,
       textAlign: "center",
+      fontWeight:'bold',
 
       "&:hover": {
         backgroundColor: "#9Ebfc0",
@@ -23,7 +24,9 @@ export default function BotaoMes({ setStateMesAtual, stateMesAtual }) {
       minHeight: 36,
       borderRadius: 5,
       textAlign: "center",
+      fontWeight:'bold',
     },
+
   });
 
   const classes = useStyles();
@@ -31,13 +34,15 @@ export default function BotaoMes({ setStateMesAtual, stateMesAtual }) {
     setStateMesAtual(mesAtual);
   }
   return (
-    <Grid container justify="center" spacing={1}>
+    <Grid container justify="center" spacing={1} >
       <Grid item xs={2} sm={1} lg={1}>
         <CardActionArea
           className={stateMesAtual === 1 ? classes.ativo : classes.botao}
           onClick={() => onClick(1)}
         >
+
           JAN
+
         </CardActionArea>
       </Grid>
       <Grid item xs={2} sm={1} lg={1}>

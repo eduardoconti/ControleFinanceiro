@@ -39,7 +39,7 @@ export default function Cards({
             >
               Despesas
             </Typography>
-            <Typography variant="h6">{valor.toFixed(2)} R$</Typography>
+            <Typography variant="h6">{valor.toFixed(2)}</Typography>
           </CardContent>
         </CardActionArea>
         <CheckboxLabels

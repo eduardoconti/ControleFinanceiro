@@ -25,7 +25,7 @@ export default function Grafico({ data, chaveX, chaveY, descricao, cor }) {
         <XAxis dataKey={chaveX}>
           <Label value={descricao} offset={-5} position="insideBottom" />
         </XAxis>
-        <YAxis type="number" domain={[0, 3000]} />
+        <YAxis type="number" domain={[0, 4000]} />
         <Tooltip />
         <Bar dataKey={chaveY} fill={cor} maxBarSize={30} />
       </BarChart>

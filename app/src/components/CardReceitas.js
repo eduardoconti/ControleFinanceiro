@@ -36,7 +36,7 @@ export default function Cards({
             <Typography variant="h5" style={{ color: "green", paddingTop: 5 }}>
               Receitas
             </Typography>
-            <Typography variant="h6">{valor.toFixed(2)} R$</Typography>
+            <Typography variant="h6">{valor.toFixed(2)}</Typography>
           </CardContent>
         </CardActionArea>
         <CheckboxLabels

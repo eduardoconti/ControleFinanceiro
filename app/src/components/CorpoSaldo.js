@@ -17,7 +17,7 @@ async function RetornaCards(stateAnoAtual, stateMesAtual) {
         <CardSaldo
           valor={obj.valor}
           descricao={obj.descricao}
-          cor="#483d8b"
+          cor="DarkGoldenRod"
         ></CardSaldo>
       </Grid>
     );

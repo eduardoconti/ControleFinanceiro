@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: 36,
     borderRadius: 5,
     textAlign: "center",
+    fontWeight:'bold',
 
     "&:hover": {
       backgroundColor: "#9Ebfc0",

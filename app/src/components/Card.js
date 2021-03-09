@@ -28,7 +28,7 @@ export default function Cards({ descricao, cor, valor, setStateCurrentBody }) {
             <Typography variant="h5" style={{ color: cor, paddingTop: 5 }}>
               {descricao}
             </Typography>
-            <Typography variant="h6">{valor.toFixed(2)} R$</Typography>
+            <Typography variant="h6">{valor.toFixed(2)}</Typography>
           </CardContent>
         </CardActionArea>
       </Card>
