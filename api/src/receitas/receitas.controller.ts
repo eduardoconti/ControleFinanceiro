@@ -16,9 +16,12 @@ export class ReceitasController {
     async retornaTotalReceitasRecebidas( @Query('pago') pago:boolean) {
         return this.receitaService.retornaTotalReceitas(0,0,pago);
     }
+    @Get('/:ano/mes')
+    async retornaReceitasAgrupadasPorMes(@Param('ano') ano:number, @Query('pago') pago:boolean) {   
+        return await this.receitaService.retornaDespesasAgrupadasPorMes(ano, pago);
+    }
     @Get('/:ano/mes/:mes')
     async retornaReceitasAnoMes(@Param('ano') ano:number,@Param('mes') mes: number, @Query('pago') pago:boolean) {   
-        console.log(pago)
         return await this.receitaService.retornaTodasReceitas(ano,mes,pago);
     }
     @Get('/:ano/mes/:mes/carteira/valor')

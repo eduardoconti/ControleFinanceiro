@@ -221,6 +221,22 @@ export async function retornaReceitaPorId(id) {
   return res.data;
 }
 
+export async function rertornaReceitasAgrupadasPorMes(stateAnoAtual,pago){
+
+  try {
+    const total = await API.get(
+      ENDPOINT +
+        stateAnoAtual +
+        "/mes/",
+      headers
+    );
+    return total.data;
+  } catch (error) {
+    console.log(error);
+    return error.response.status;
+  }
+}
+
 export function formataDadosParaLinhasDataGrid(receita) {
   return receita.map((receita) => {
     return {

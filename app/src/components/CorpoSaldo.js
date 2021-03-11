@@ -23,7 +23,13 @@ async function RetornaCards(stateAnoAtual, stateMesAtual) {
     );
   });
 }
+function retornaDados(obj){
 
+  if (typeof(obj)==='undefined'){
+    return {valor:0}
+  }else
+  return obj
+}
 async function retornaDadosParaCard(stateAnoAtual, stateMesAtual) {
   const carteiras = await retornaCarteiras();
   const despesas = await retornaDespesasAgrupadasPorCarteira(
@@ -47,35 +53,22 @@ async function retornaDadosParaCard(stateAnoAtual, stateMesAtual) {
   const dadosCard = [];
 
   carteiras.forEach((carteira, i) => {
-    let receita = receitas.find((receita) => receita.id === carteira.id);
-    let despesa = despesas.find((despesa) => despesa.id === carteira.id);
-    let transferenciaSaida = transferenciasOrigem.find(
+    let {valor:receita } = retornaDados(receitas.find((receita) => receita.id === carteira.id ));
+    let {valor:despesa } = retornaDados( despesas.find((despesa) => despesa.id === carteira.id));
+    let {valor:transferenciaSaida } = retornaDados( transferenciasOrigem.find(
       (transferencia) => transferencia.id === carteira.id
-    );
-    let transferenciaEntrada = transferenciasDestino.find(
+    ));
+    let {valor:transferenciaEntrada } = retornaDados( transferenciasDestino.find(
       (transferencia) => transferencia.id === carteira.id
-    );
-    if (receita == null) {
-      receita = { descricao: carteira.descricao, valor: 0 };
-    }
-    if (despesa == null) {
-      despesa = { descricao: carteira.descricao, valor: 0 };
-    }
-    if (transferenciaSaida == null) {
-      transferenciaSaida = { descricao: carteira.descricao, valor: 0 };
-    }
-
-    if (transferenciaEntrada == null) {
-      transferenciaEntrada = { descricao: carteira.descricao, valor: 0 };
-    }
-
-    dadosCard.push({
+    ));
+      dadosCard.push({
       descricao: carteira.descricao,
       valor:
-        receita.valor -
-        despesa.valor +
-        (transferenciaEntrada.valor - transferenciaSaida.valor),
+        receita -
+        despesa +
+        (transferenciaEntrada - transferenciaSaida),
     });
+    console.log(dadosCard)
   });
 
   return await dadosCard;

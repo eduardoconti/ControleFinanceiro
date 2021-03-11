@@ -16,7 +16,7 @@ export class CategoriasService {
       }
 
       async retornaTodasCategorias(): Promise<Categorias[]> {
-        return await this.categoriaRepository.find();
+        return await this.categoriaRepository.find({order:{id:"ASC"}});
       }
 
       async insereCategoria(categoria: CategoriasDTO): Promise<Categorias> {

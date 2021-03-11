@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Grafico from "./Grafico";
-import Radio from "./RadioButton";
+import Radio from "./HeaderGraficos";
 import {
   getReceitas,
   retornaReceitasAgrupadasPorCarteiraChecked,
@@ -52,14 +52,15 @@ export default function GraficoReceitas({
         setStateGrafico={(stateGrafico) => {
           setStateGrafico(stateGrafico);
         }}
-        cor="green"
+        cor="#85f07b"
+        descricao={descricao}
       />
       <Grafico
         data={receitas}
         chaveX="descricao"
         chaveY="valor"
-        descricao={descricao}
-        cor="green"
+        cor="#85f07b"
+        stroke="#4E9258"
       />
     </Box>
   );

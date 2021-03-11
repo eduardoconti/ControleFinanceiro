@@ -8,7 +8,7 @@ export default function Browser(props) {
       <DataGrid
         rows={props.rows}
         columns={props.columns}
-        rowHeight={30}
+        rowHeight={26}
         hideFooterSelectedRowCount
         hideFooterRowCount
         disableColumnMenu

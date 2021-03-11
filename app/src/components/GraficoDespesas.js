@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Radio from "./RadioButton";
+import Radio from "./HeaderGraficos";
 import {
   getValorDespesasPorCategoria,
   getValorDespesasPorCarteira,
@@ -53,14 +53,15 @@ export default function GraficoTest({
         setStateGrafico={(stateGrafico) => {
           setStateGrafico(stateGrafico);
         }}
-        cor="DarkRed"
+        cor="#E55451"
+        descricao={descricao}
       />
       <Grafico
         data={despesas}
         chaveX="descricao"
         chaveY="valor"
-        descricao={descricao}
-        cor="DarkRed"
+        cor="#E55451"
+        stroke="#F62217"
       />
     </Box>
   );

@@ -15,7 +15,7 @@ export class CarteirasService {
   }
 
   async retornaTodasCarteiras(): Promise<Carteiras[]> {
-    return await this.carteiraRepository.find();
+    return await this.carteiraRepository.find({order:{id:"ASC"}});
   }
 
   async insereCarteira(carteira: CarteirasDTO): Promise<Carteiras> {

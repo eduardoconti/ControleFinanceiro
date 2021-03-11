@@ -9,25 +9,24 @@ const select = [
   'receitas.descricao',
   'receitas.valor',
   'receitas.pago',
-  'receitas.carteira',
   'receitas.pagamento',
   'carteira',
 ];
 
 function CriaWhereMes(mes: number) {
-  return typeof mes === 'undefined' || mes === 0
+  return typeof(mes) ==='undefined' || mes === 0
     ? 'TRUE'
     : 'MONTH(receitas.pagamento)=' + String(mes);
 }
 
 function CriaWherePago(pago: boolean) {
-  return typeof pago === 'undefined'
+  return typeof(pago) === 'undefined'
     ? 'TRUE'
     : 'receitas.pago=' + pago
 }
 
 function CriaWhereAno(ano: number) {
-  return ( typeof ano == 'undefined' || ano === 0 )
+  return ( typeof (ano)==='undefined' || ano === 0 )
     ? 'TRUE'
     : 'YEAR(receitas.pagamento)=' + String(ano);
 }
@@ -41,17 +40,17 @@ export class ReceitaService {
 
   async retornaTodasReceitas(ano?: number, mes?: number, pago?: boolean) {
 
-    !mes ? (mes = 0) : (mes = mes);
-    !ano ? (ano = 0) : (ano = ano);
+    mes = mes ?? 0
+    ano = ano ?? 0
 
     let receitas = await this.receitaRepository
       .createQueryBuilder('receitas')
       .select(select)
       .innerJoin('receitas.carteira', 'carteira')
-      .orderBy('receitas.valor', 'DESC')
       .where(CriaWhereAno(ano))
       .andWhere(CriaWhereMes(mes))
       .andWhere(CriaWherePago(pago))
+      .orderBy('receitas.valor', 'DESC')
       .getMany();
     return receitas;
   }
@@ -76,15 +75,31 @@ export class ReceitaService {
   }
 
   async retornaTotalReceitas(ano?:number, mes?: number, pago?:boolean) {
+
     let { sum } = await this.receitaRepository
-      .createQueryBuilder('RECEITAS')
-      .select('SUM(RECEITAS.valor)', 'sum')
+      .createQueryBuilder('receitas')
+      .select('SUM(receitas.valor)', 'sum')
       .where(CriaWhereAno(ano))
       .andWhere(CriaWhereMes(mes))
       .andWhere(CriaWherePago(pago))
       .getRawOne();
 
     return sum;
+  }
+
+  async retornaDespesasAgrupadasPorMes(
+    ano?: number,
+    pago?: boolean,
+  ) {
+    let receitas = await this.receitaRepository
+      .createQueryBuilder('receitas')
+      .select(['SUM(receitas.valor) valor', 'MONTH(receitas.pagamento) mes'])
+      .where(CriaWhereAno(ano))
+      .andWhere(CriaWherePago(pago))
+      .groupBy('MONTH(receitas.pagamento)')
+      .getRawMany();
+
+    return receitas;
   }
 
   async getOne(id: number): Promise<Receitas> {

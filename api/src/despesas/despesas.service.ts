@@ -111,6 +111,20 @@ export class DespesaService {
     return sum;
   }
 
+  async retornaDespesasAgrupadasPorMes(
+    ano?: number,
+    pago?: boolean,
+  ) {
+    let despesas = await this.despesaRepository
+      .createQueryBuilder('despesas')
+      .select(['SUM(despesas.valor) valor', 'MONTH(despesas.vencimento) mes'])
+      .where(CriaWhereAno(ano))
+      .andWhere(CriaWherePago(pago))
+      .groupBy('MONTH(despesas.vencimento)')
+      .getRawMany();
+
+    return despesas;
+  }
   async getOne(id: number): Promise<Despesas> {
     return this.despesaRepository.findOneOrFail(
       { id },

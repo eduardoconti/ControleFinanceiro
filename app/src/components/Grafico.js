@@ -7,27 +7,31 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  Label,
+  Legend,
 } from "recharts";
-export default function Grafico({ data, chaveX, chaveY, descricao, cor }) {
+
+const renderColorfulLegendText = (value,entry) => {
+  const { color } = entry;
+
+  return <span style={{ color }}>{value} </span>;
+};
+
+export default function Grafico({ data, chaveX, chaveY, stroke, cor }) {
   return (
     <ResponsiveContainer>
       <BarChart
         data={data}
         margin={{
-          top: 5,
-          right: 30,
-          left: -10,
-          bottom: 10,
+          right: 20
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey={chaveX}>
-          <Label value={descricao} offset={-5} position="insideBottom" />
         </XAxis>
+        <Legend formatter={renderColorfulLegendText}/>
         <YAxis type="number" domain={[0, 4000]} />
         <Tooltip />
-        <Bar dataKey={chaveY} fill={cor} maxBarSize={30} />
+        <Bar dataKey={chaveY} fill={cor} maxBarSize={30} stroke={stroke}/>
       </BarChart>
     </ResponsiveContainer>
   );

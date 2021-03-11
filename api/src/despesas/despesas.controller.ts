@@ -16,6 +16,11 @@ export class DespesasController {
     async retornaTotalDespesas( @Query('pago') pago:boolean) {   
         return await this.despesaService.retornaTotalDespesas(0,0,pago);
     }
+    @Get('/:ano/mes')
+    async retornaDespesasAgrupadasPorMes(@Param('ano') ano:number, @Query('pago') pago:boolean) {   
+        return await this.despesaService.retornaDespesasAgrupadasPorMes(ano, pago);
+    }
+
     @Get('/:ano/mes/:mes')
     async retornaDespesasAnoMes(@Param('ano') ano:number,@Param('mes') mes: number, @Query('pago') pago:boolean) {   
         return await this.despesaService.retornaTodasDespesas(ano,mes,pago);

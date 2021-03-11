@@ -20,7 +20,7 @@
   flex-direction: column;
 }
 .DataGrid {
-  height: 300px;
+  height: 350px;
   display: flex;
 }
 
@@ -35,11 +35,10 @@
   min-height: 200px;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 .Header {
-  height: 40px;
+  height: 0px;
   text-align: center;
 }
 

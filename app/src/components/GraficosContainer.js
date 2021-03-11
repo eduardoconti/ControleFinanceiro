@@ -2,7 +2,7 @@ import React from "react";
 import { Grid } from "@material-ui/core";
 import GraficoDespesas from "./GraficoDespesas";
 import GraficoReceitas from "./GraficoReceitas";
-
+import GraficoMensal from "./GraficoMensal";
 export default function GraficosContainer({
   stateCheckedDespesas,
   stateCheckedReceitas,
@@ -11,22 +11,30 @@ export default function GraficosContainer({
   stateAnoAtual,
 }) {
   return (
-    <Grid container item spacing={1}>
-      <Grid item xs={12} sm={6} md={6} lg={12}>
-        <GraficoDespesas
-          stateCheckedDespesas={stateCheckedDespesas}
+    <Grid container spacing={1}>
+      <Grid item xs={12} sm={4} md={4} lg={12}>
+        <GraficoMensal
           stateTotais={stateTotais}
-          stateMesAtual={stateMesAtual}
+          stateCheckedDespesas={stateCheckedDespesas}
+          stateCheckedReceitas={stateCheckedReceitas}
           stateAnoAtual={stateAnoAtual}
-        ></GraficoDespesas>
+        ></GraficoMensal>
       </Grid>
-      <Grid item xs={12} sm={6} md={6} lg={12}>
+      <Grid item xs={12} sm={4} md={4} lg={12}>
         <GraficoReceitas
           stateCheckedReceitas={stateCheckedReceitas}
           stateTotais={stateTotais}
           stateMesAtual={stateMesAtual}
           stateAnoAtual={stateAnoAtual}
         ></GraficoReceitas>
+      </Grid>
+      <Grid item xs={12} sm={4} md={4} lg={12}>
+        <GraficoDespesas
+          stateCheckedDespesas={stateCheckedDespesas}
+          stateTotais={stateTotais}
+          stateMesAtual={stateMesAtual}
+          stateAnoAtual={stateAnoAtual}
+        ></GraficoDespesas>
       </Grid>
     </Grid>
   );

@@ -37,8 +37,8 @@ export class TransferenciaService {
         private transferenciaRepository: Repository<Transferencias>,
     ) { }
     async retornaTodas(ano: number, mes: number, pago: boolean): Promise<Transferencias[]> {
-        !mes ? (mes = 0) : (mes = mes);
-        !ano ? (ano = 0) : (ano = ano);
+        mes = mes ?? 0
+        ano = ano ?? 0
     
         let transferencias = await this.transferenciaRepository
           .createQueryBuilder('transferencias')
