@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import GridDespesas from "./DataGridDespesas";
 import FormularioDespesas from "./FormDespesas";
@@ -12,8 +12,11 @@ export default function CorpoDespesas({
   stateMesAtual,
   stateAnoAtual,
 }) {
-  const [formulario, setFormulario] = useState(emptyFormularioDespesa);
-
+  const [formulario, setFormulario] = useState(emptyFormularioDespesa(stateAnoAtual, stateMesAtual));
+  
+  useEffect(() => {
+    setFormulario(emptyFormularioDespesa(stateAnoAtual, stateMesAtual))
+  }, [stateMesAtual,stateAnoAtual]);
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>

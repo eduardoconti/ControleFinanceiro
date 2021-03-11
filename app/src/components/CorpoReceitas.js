@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import GridReceitas from "./DataGridReceitas";
 import FormularioReceitas from "./FormReceitas";
@@ -12,8 +12,10 @@ export default function CorpoReceitas({
   stateMesAtual,
   stateAnoAtual,
 }) {
-  const [formulario, setFormulario] = useState(emptyFormularioReceita);
-
+  const [formulario, setFormulario] = useState(emptyFormularioReceita(stateAnoAtual, stateMesAtual));
+  useEffect(() => {
+    setFormulario(emptyFormularioReceita(stateAnoAtual, stateMesAtual))
+  }, [stateMesAtual,stateAnoAtual]);
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>

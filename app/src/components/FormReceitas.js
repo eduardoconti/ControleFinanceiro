@@ -43,13 +43,14 @@ export default function FormReceitas({
   const classes = useStyles();
   const descricaoBotao = formulario.id === 0 ? "CADASTRAR" : "ALTERAR";
   const [alert, setAlert] = useState(emptyAlertState);
+  const [data, setData] = useState(new Date());
 
   useEffect(() => {
     retornaCarteiras().then((carteiras) => {
-      setCarteiras(carteiras);
-
       if (carteiras.length === 0) {
         setAlert(AlertWarning("Necessário cadastrar carteira"));
+      } else {
+        setCarteiras(carteiras);
       }
     });
   }, []);
@@ -150,7 +151,9 @@ export default function FormReceitas({
             }
 
             if (response.statusCode === 200 || response.statusCode === 201) {
-              setFormulario(emptyFormularioReceita);
+              setFormulario(
+                emptyFormularioReceita(stateAnoAtual, stateMesAtual)
+              );
             }
 
             setStateTotais(
@@ -177,7 +180,7 @@ export default function FormReceitas({
           size="small"
           className={classes.botao}
           onClick={() => {
-            setFormulario(emptyFormularioReceita);
+            setFormulario(emptyFormularioReceita(stateAnoAtual, stateMesAtual));
           }}
         >
           LIMPAR

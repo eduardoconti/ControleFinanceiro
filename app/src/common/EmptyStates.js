@@ -1,13 +1,14 @@
-export const emptyFormularioDespesa = {
+export function emptyFormularioDespesa(ano, mes) {
+  return{
   descricao: "",
   categoria: "",
   carteira: "",
   valor: 0,
   pago: false,
-  pagamento: new Date().toISOString().slice(0, 10),
-  vencimento: new Date().toISOString().slice(0, 10),
+  pagamento: new Date(ano+'-'+mes+'-10').toISOString().slice(0, 10),
+  vencimento: new Date(ano+'-'+mes+'-10').toISOString().slice(0, 10),
   id: 0,
-};
+}};
 
 export const emptyFormularioCategoria = {
   descricao: "",
@@ -30,14 +31,16 @@ export const emptyChecked = {
   checkedAberto: true,
 };
 
-export const emptyFormularioReceita = {
+export function emptyFormularioReceita(ano,mes){
+
+return {
   descricao: "",
   carteira: "",
   valor: 0,
   pago: false,
-  pagamento: new Date().toISOString().slice(0, 10),
+  pagamento: new Date(ano+'-'+mes+'-10').toISOString().slice(0, 10),
   id: 0,
-};
+}};
 
 export const emptyAlertState = {
   isOpen: false,
@@ -46,11 +49,14 @@ export const emptyAlertState = {
   title: "",
 };
 
-export const emptyFormularioTransferencia = {
+export function emptyFormularioTransferencia(ano,mes){
+
+  return {
   id: 0,
   carteiraOrigem: "",
   carteiraDestino: "",
   valor: 0,
   pago: false,
-  dataTransferencia: new Date().toISOString().slice(0, 10),
+  dataTransferencia: new Date(ano+'-'+mes+'-10').toISOString().slice(0, 10),
+  }
 };

@@ -35,7 +35,7 @@ export default function GraficoReceitas({
   stateCheckedDespesas,
   stateCheckedReceitas,
   stateAnoAtual,
-  stateTotais
+  stateTotais,
 }) {
   const [stateGrafico, setStateGrafico] = useState("1");
   const [descricao, setDescricao] = useState("");
@@ -47,42 +47,46 @@ export default function GraficoReceitas({
     } else return obj;
   }
 
-  async function retornaDadosGrafico(stateAnoAtual ){
+  async function retornaDadosGrafico(stateAnoAtual) {
+    let i,
+      dados = [],
+      despesas,
+      receitas;
 
-    let i, dados = [], despesas, receitas;
-
-    despesas = await rertornaDespesasAgrupadasPorMes(stateAnoAtual)
-    receitas = await  rertornaReceitasAgrupadasPorMes(stateAnoAtual)
-
-    for (i = 1; i <= 12; i++) {
-      let { valor: receita } = retornaDados(
-        receitas.find((receita) => receita.mes === i)
-      );
-      let { valor: despesa } = retornaDados(
-        despesas.find((despesa) => despesa.mes === i)
-      );
-
-      dados.push({
-        name: retornaMes(i),
-        despesa: despesa,
-        receita: receita,
-        balanco: (receita - despesa).toFixed(2),
-      });
+    despesas = await rertornaDespesasAgrupadasPorMes(stateAnoAtual);
+    receitas = await rertornaReceitasAgrupadasPorMes(stateAnoAtual);
+    try {
+      for (i = 1; i <= 12; i++) {
+        let { valor: receita } = retornaDados(
+          receitas.find((receita) => receita.mes === i)
+        );
+        let { valor: despesa } = retornaDados(
+          despesas.find((despesa) => despesa.mes === i)
+        );
+  
+        dados.push({
+          name: retornaMes(i),
+          despesa: despesa,
+          receita: receita,
+          balanco: (receita - despesa).toFixed(2),
+        });
+      }
+    } catch (error) {
+      console.log(error)
     }
+   
 
-    return await dados
+    return await dados;
   }
   useEffect(() => {
-      
-    retornaDadosGrafico(stateAnoAtual).then((dados)=>{
-      setDados(dados)
-    })
-  
-  }, [ stateAnoAtual,stateTotais ]);
+    retornaDadosGrafico(stateAnoAtual).then((dados) => {
+      setDados(dados);
+    });
+  }, [stateAnoAtual, stateTotais]);
 
-  const renderColorfulLegendText = (value,entry) => {
+  const renderColorfulLegendText = (value, entry) => {
     const { color } = entry;
-  
+
     return <span style={{ color }}>{value} </span>;
   };
 
@@ -93,16 +97,19 @@ export default function GraficoReceitas({
           setStateGrafico(stateGrafico);
         }}
         cor="#6C2DC7"
-        descricao='Grafico Geral'
+        descricao="Grafico Geral"
       />
       <ResponsiveContainer>
-        <ComposedChart data={dados}  margin={{
-          right: 20,
-        }} >
+        <ComposedChart
+          data={dados}
+          margin={{
+            right: 20,
+          }}
+        >
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
-          <Legend formatter={renderColorfulLegendText}/>
+          <Legend formatter={renderColorfulLegendText} />
           <CartesianGrid stroke="#f5f5f5" />
           <Area
             type="monotone"
@@ -110,8 +117,8 @@ export default function GraficoReceitas({
             fill="#85f07b"
             stroke="#4E9258"
           />
-          
-          <Bar dataKey="despesa" barSize={15} fill="#E55451" stroke="#F62217"/>
+
+          <Bar dataKey="despesa" barSize={15} fill="#E55451" stroke="#F62217" />
           <Line type="monotone" dataKey="balanco" stroke="#6C2DC7" />
         </ComposedChart>
       </ResponsiveContainer>

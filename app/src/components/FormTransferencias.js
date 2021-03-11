@@ -52,10 +52,11 @@ export default function FormTransferencias({
 
   useEffect(() => {
     retornaCarteiras().then((carteiras) => {
-      setCarteiras(carteiras);
-
+     
       if (carteiras.length === 0) {
         setAlert(AlertWarning("Necessário cadastrar carteira"));
+      }else {
+        setCarteiras(carteiras);
       }
     });
   }, []);
@@ -170,7 +171,7 @@ export default function FormTransferencias({
             }
 
             if (response.statusCode === 200 || response.statusCode === 201) {
-              setFormulario(emptyFormularioTransferencia);
+              setFormulario(emptyFormularioTransferencia(stateAnoAtual, stateMesAtual));
             }
             transferencias = await getTransferencias(
               stateAnoAtual,
@@ -194,7 +195,7 @@ export default function FormTransferencias({
           size="small"
           className={classes.botao}
           onClick={() => {
-            setFormulario(emptyFormularioTransferencia);
+            setFormulario(emptyFormularioTransferencia(stateAnoAtual, stateMesAtual));
           }}
         >
           LIMPAR

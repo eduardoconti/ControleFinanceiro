@@ -49,17 +49,20 @@ export default function FormDespesas({
 
   useEffect(() => {
     retornaCategorias().then((categorias) => {
-      setCategorias(categorias);
-
+      
       if (categorias.length === 0) {
-        setAlert(AlertWarning("Necessário cadastrar categoria"));
+        setAlert(AlertWarning("Necessário cadastrar categoria"));    
+      }else {
+        setCategorias(categorias);
       }
     });
 
     retornaCarteiras().then((carteiras) => {
-      setCarteiras(carteiras);
+      
       if (carteiras.length === 0) {
         setAlert(AlertWarning("Necessário cadastrar carteira"));
+      }else {
+        setCarteiras(carteiras);
       }
     });
   }, []);
@@ -179,7 +182,7 @@ export default function FormDespesas({
             }
 
             if (response.statusCode === 200 || response.statusCode === 201) {
-              setFormulario(emptyFormularioDespesa);
+              setFormulario(emptyFormularioDespesa(stateAnoAtual, stateMesAtual));
             }
 
             setStateTotais(
@@ -206,7 +209,7 @@ export default function FormDespesas({
           size="small"
           className={classes.botao}
           onClick={() => {
-            setFormulario(emptyFormularioDespesa);
+            setFormulario(emptyFormularioDespesa(stateAnoAtual, stateMesAtual));
           }}
         >
           LIMPAR
