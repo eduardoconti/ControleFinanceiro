@@ -12,11 +12,13 @@ export default function CorpoDespesas({
   stateMesAtual,
   stateAnoAtual,
 }) {
-  const [formulario, setFormulario] = useState(emptyFormularioDespesa(stateAnoAtual, stateMesAtual));
-  
+  const [formulario, setFormulario] = useState(
+    emptyFormularioDespesa(stateAnoAtual, stateMesAtual)
+  );
+
   useEffect(() => {
-    setFormulario(emptyFormularioDespesa(stateAnoAtual, stateMesAtual))
-  }, [stateMesAtual,stateAnoAtual]);
+    setFormulario(emptyFormularioDespesa(stateAnoAtual, stateMesAtual));
+  }, [stateMesAtual, stateAnoAtual]);
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>

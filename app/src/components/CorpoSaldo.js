@@ -9,7 +9,7 @@ import {
   retornaValoresTransferenciasDestino,
 } from "../common/TransferenciaFuncoes";
 async function RetornaCards(stateAnoAtual, stateMesAtual) {
-  let object = await retornaDadosParaCard(stateAnoAtual, stateMesAtual);
+  let object = await retornaDadosParaCard();
 
   return object.map((obj, i) => {
     return (
@@ -17,58 +17,46 @@ async function RetornaCards(stateAnoAtual, stateMesAtual) {
         <CardSaldo
           valor={obj.valor}
           descricao={obj.descricao}
-          cor="DarkGoldenRod"
+          cor="#3EA99F"
         ></CardSaldo>
       </Grid>
     );
   });
 }
-function retornaDados(obj){
-
-  if (typeof(obj)==='undefined'){
-    return {valor:0}
-  }else
-  return obj
+function retornaDados(obj) {
+  if (typeof obj === "undefined") {
+    return { valor: 0 };
+  } else return obj;
 }
-async function retornaDadosParaCard(stateAnoAtual, stateMesAtual) {
+async function retornaDadosParaCard() {
   const carteiras = await retornaCarteiras();
-  const despesas = await retornaDespesasAgrupadasPorCarteira(
-    stateAnoAtual,
-    stateMesAtual,
-    true
-  );
-  const receitas = await retornaReceitasAgrupadasPorCarteira(
-    stateAnoAtual,
-    stateMesAtual,
-    true
-  );
-  const transferenciasOrigem = await retornaValoresTransferenciasOrigem(
-    stateAnoAtual,
-    stateMesAtual
-  );
-  const transferenciasDestino = await retornaValoresTransferenciasDestino(
-    stateAnoAtual,
-    stateMesAtual
-  );
+  const despesas = await retornaDespesasAgrupadasPorCarteira(0, 0, true);
+  const receitas = await retornaReceitasAgrupadasPorCarteira(0, 0, true);
+  const transferenciasOrigem = await retornaValoresTransferenciasOrigem(0, 0);
+  const transferenciasDestino = await retornaValoresTransferenciasDestino(0, 0);
   const dadosCard = [];
 
   carteiras.forEach((carteira, i) => {
-    let {valor:receita } = retornaDados(receitas.find((receita) => receita.id === carteira.id ));
-    let {valor:despesa } = retornaDados( despesas.find((despesa) => despesa.id === carteira.id));
-    let {valor:transferenciaSaida } = retornaDados( transferenciasOrigem.find(
-      (transferencia) => transferencia.id === carteira.id
-    ));
-    let {valor:transferenciaEntrada } = retornaDados( transferenciasDestino.find(
-      (transferencia) => transferencia.id === carteira.id
-    ));
-      dadosCard.push({
+    let { valor: receita } = retornaDados(
+      receitas.find((receita) => receita.id === carteira.id)
+    );
+    let { valor: despesa } = retornaDados(
+      despesas.find((despesa) => despesa.id === carteira.id)
+    );
+    let { valor: transferenciaSaida } = retornaDados(
+      transferenciasOrigem.find(
+        (transferencia) => transferencia.id === carteira.id
+      )
+    );
+    let { valor: transferenciaEntrada } = retornaDados(
+      transferenciasDestino.find(
+        (transferencia) => transferencia.id === carteira.id
+      )
+    );
+    dadosCard.push({
       descricao: carteira.descricao,
-      valor:
-        receita -
-        despesa +
-        (transferenciaEntrada - transferenciaSaida),
+      valor: receita - despesa + (transferenciaEntrada - transferenciaSaida),
     });
-    console.log(dadosCard)
   });
 
   return await dadosCard;

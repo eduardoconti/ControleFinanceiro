@@ -31,54 +31,58 @@ function retornaMes(mes) {
   else if (mes === 11) return "Nov";
   else return "Dez";
 }
+
+function retornaDados(obj) {
+  if (typeof obj === "undefined") {
+    return { valor: 0 };
+  } else return obj;
+}
+
+function adicionaNoArrayDeDados(dados, receitas, despesas) {
+  for (let i = 1; i <= 12; i++) {
+    let { valor: receita } = retornaDados(
+      receitas.find((receita) => receita.mes === i)
+    );
+    let { valor: despesa } = retornaDados(
+      despesas.find((despesa) => despesa.mes === i)
+    );
+
+    dados.push({
+      name: retornaMes(i),
+      despesa: despesa,
+      receita: receita,
+      balanco: (receita - despesa).toFixed(2),
+    });
+  }
+}
+
 export default function GraficoReceitas({
   stateCheckedDespesas,
   stateCheckedReceitas,
   stateAnoAtual,
   stateTotais,
 }) {
-  const [stateGrafico, setStateGrafico] = useState("1");
-  const [descricao, setDescricao] = useState("");
+  //const [stateGrafico, setStateGrafico] = useState("1");
+  //const [descricao, setDescricao] = useState("");
   const [dados, setDados] = useState([]);
 
-  function retornaDados(obj) {
-    if (typeof obj === "undefined") {
-      return { valor: 0 };
-    } else return obj;
-  }
-
-  async function retornaDadosGrafico(stateAnoAtual) {
-    let i,
-      dados = [],
-      despesas,
-      receitas;
-
-    despesas = await rertornaDespesasAgrupadasPorMes(stateAnoAtual);
-    receitas = await rertornaReceitasAgrupadasPorMes(stateAnoAtual);
-    try {
-      for (i = 1; i <= 12; i++) {
-        let { valor: receita } = retornaDados(
-          receitas.find((receita) => receita.mes === i)
-        );
-        let { valor: despesa } = retornaDados(
-          despesas.find((despesa) => despesa.mes === i)
-        );
-  
-        dados.push({
-          name: retornaMes(i),
-          despesa: despesa,
-          receita: receita,
-          balanco: (receita - despesa).toFixed(2),
-        });
-      }
-    } catch (error) {
-      console.log(error)
-    }
-   
-
-    return await dados;
-  }
   useEffect(() => {
+    async function retornaDadosGrafico(stateAnoAtual) {
+      let dados = [],
+        despesas,
+        receitas;
+
+      despesas = await rertornaDespesasAgrupadasPorMes(stateAnoAtual);
+      receitas = await rertornaReceitasAgrupadasPorMes(stateAnoAtual);
+      try {
+        adicionaNoArrayDeDados(dados, receitas, despesas);
+      } catch (error) {
+        console.log(error);
+      }
+
+      return await dados;
+    }
+
     retornaDadosGrafico(stateAnoAtual).then((dados) => {
       setDados(dados);
     });
@@ -94,7 +98,7 @@ export default function GraficoReceitas({
     <Box className="Grafico">
       <HeaderGrafico
         setStateGrafico={(stateGrafico) => {
-          setStateGrafico(stateGrafico);
+          //setStateGrafico(stateGrafico);
         }}
         cor="#6C2DC7"
         descricao="Grafico Geral"

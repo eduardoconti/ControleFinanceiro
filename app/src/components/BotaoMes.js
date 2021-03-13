@@ -1,32 +1,33 @@
 import React from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid} from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import CardActionArea from "@material-ui/core/CardActionArea";
 
 export default function BotaoMes({ setStateMesAtual, stateMesAtual }) {
   const useStyles = makeStyles({
     botao: {
-      backgroundColor: "#F9FEFB",
-      maxWidth: "100%",
+      background: "linear-gradient(45deg, #C2DFFF 10%, #48CCCD 90%)",
       minHeight: 36,
       borderRadius: 5,
       textAlign: "center",
-      fontWeight:'bold',
+      fontWeight: "bold",
+      boxShadow: "2px 2px 2px 1px rgba(0, 0, 0, 0.2)",
 
       "&:hover": {
-        backgroundColor: "#9Ebfc0",
+        boxShadow:
+          "inset 2px 2px 1px 1px rgba(0, 0, 0, 0.1), 1px 1px 1px 1px rgba(0, 0, 0, 0.2)",
       },
     },
     ativo: {
-      backgroundColor: "#9Ebfc0",
-      maxWidth: "100%",
+      backgroundColor: "#48CCCD",
       minHeight: 36,
       borderRadius: 5,
       textAlign: "center",
-      fontWeight:'bold',
+      fontWeight: "bold",
+      boxShadow:
+        "inset 2px 2px 2px 1px rgba(0, 0, 0, 0.2),  0px 0px 1px 1px rgba(0, 0, 0, 0.2)",
     },
-
   });
 
   const classes = useStyles();
@@ -34,15 +35,13 @@ export default function BotaoMes({ setStateMesAtual, stateMesAtual }) {
     setStateMesAtual(mesAtual);
   }
   return (
-    <Grid container justify="center" spacing={1} >
+    <Grid container justify="center" spacing={1}>
       <Grid item xs={2} sm={1} lg={1}>
         <CardActionArea
           className={stateMesAtual === 1 ? classes.ativo : classes.botao}
           onClick={() => onClick(1)}
         >
-
           JAN
-
         </CardActionArea>
       </Grid>
       <Grid item xs={2} sm={1} lg={1}>

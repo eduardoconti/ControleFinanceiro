@@ -43,7 +43,6 @@ export default function FormReceitas({
   const classes = useStyles();
   const descricaoBotao = formulario.id === 0 ? "CADASTRAR" : "ALTERAR";
   const [alert, setAlert] = useState(emptyAlertState);
-  const [data, setData] = useState(new Date());
 
   useEffect(() => {
     retornaCarteiras().then((carteiras) => {

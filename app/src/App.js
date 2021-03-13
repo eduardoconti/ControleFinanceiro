@@ -19,6 +19,7 @@ function App() {
   const [stateCurrentBody, setStateCurrentBody] = useState(0);
   const [stateMesAtual, setStateMesAtual] = useState(new Date().getMonth() + 1);
   const [stateAnoAtual, setStateAnoAtual] = useState(new Date().getFullYear());
+
   useEffect(() => {
     async function setTotais() {
       setStateTotais(
@@ -41,11 +42,6 @@ function App() {
   return (
     <Box className="Container">
       <Grid container direction="row" spacing={1} justify="center">
-        <Grid item xs={12}>
-          {/* HEADER */}
-          <Box className="Header"></Box>
-        </Grid>
-
         <Grid item xs={12} sm={12} md={12} lg={1} xl={1}>
           {/* LEFT */}
           <LeftMenu
@@ -103,7 +99,7 @@ function App() {
               <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
                 <Card
                   descricao="Saldo"
-                  cor="DarkGoldenRod"
+                  cor="#3EA99F"
                   valor={stateTotais.saldo}
                   setStateCurrentBody={() =>
                     setStateCurrentBody(Constantes.CORPO_SALDO)
@@ -150,11 +146,6 @@ function App() {
             stateMesAtual={stateMesAtual}
             stateAnoAtual={stateAnoAtual}
           />
-        </Grid>
-
-        <Grid item xs={12}>
-          {/* FOOTER */}
-          {/*<Box className="Footer" />*/}
         </Grid>
       </Grid>
     </Box>

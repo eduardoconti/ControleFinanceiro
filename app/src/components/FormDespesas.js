@@ -49,19 +49,17 @@ export default function FormDespesas({
 
   useEffect(() => {
     retornaCategorias().then((categorias) => {
-      
       if (categorias.length === 0) {
-        setAlert(AlertWarning("Necessário cadastrar categoria"));    
-      }else {
+        setAlert(AlertWarning("Necessário cadastrar categoria"));
+      } else {
         setCategorias(categorias);
       }
     });
 
     retornaCarteiras().then((carteiras) => {
-      
       if (carteiras.length === 0) {
         setAlert(AlertWarning("Necessário cadastrar carteira"));
-      }else {
+      } else {
         setCarteiras(carteiras);
       }
     });
@@ -182,7 +180,9 @@ export default function FormDespesas({
             }
 
             if (response.statusCode === 200 || response.statusCode === 201) {
-              setFormulario(emptyFormularioDespesa(stateAnoAtual, stateMesAtual));
+              setFormulario(
+                emptyFormularioDespesa(stateAnoAtual, stateMesAtual)
+              );
             }
 
             setStateTotais(

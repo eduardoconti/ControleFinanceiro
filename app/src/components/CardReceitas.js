@@ -33,7 +33,10 @@ export default function Cards({
       >
         <CardActionArea onClick={() => onClik()}>
           <CardContent style={{ margin: 0, padding: 0 }}>
-            <Typography variant="h5" style={{ color: "green", paddingTop: 5 }}>
+            <Typography
+              variant="h5"
+              style={{ color: "#85f07b", paddingTop: 5 }}
+            >
               Receitas
             </Typography>
             <Typography variant="h6">{valor.toFixed(2)}</Typography>

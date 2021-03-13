@@ -18,7 +18,7 @@ const select = [
 ];
 
 function CriaWhereMes(mes: number) {
-  return !mes || mes === 0
+  return !mes || mes == 0
     ? 'TRUE'
     : 'MONTH(despesas.vencimento)=' + String(mes);
 }
@@ -28,7 +28,7 @@ function CriaWherePago(pago: boolean) {
 }
 
 function CriaWhereAno(ano: number) {
-  return !ano || ano === 0
+  return (!ano || ano == 0)
     ? 'TRUE'
     : 'YEAR(despesas.vencimento)=' + String(ano);
 }

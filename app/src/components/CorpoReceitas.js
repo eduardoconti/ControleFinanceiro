@@ -12,10 +12,12 @@ export default function CorpoReceitas({
   stateMesAtual,
   stateAnoAtual,
 }) {
-  const [formulario, setFormulario] = useState(emptyFormularioReceita(stateAnoAtual, stateMesAtual));
+  const [formulario, setFormulario] = useState(
+    emptyFormularioReceita(stateAnoAtual, stateMesAtual)
+  );
   useEffect(() => {
-    setFormulario(emptyFormularioReceita(stateAnoAtual, stateMesAtual))
-  }, [stateMesAtual,stateAnoAtual]);
+    setFormulario(emptyFormularioReceita(stateAnoAtual, stateMesAtual));
+  }, [stateMesAtual, stateAnoAtual]);
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>

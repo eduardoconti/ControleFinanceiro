@@ -62,7 +62,7 @@ export default function DataGridComponent({
       sortable: false,
       renderCell: function operacoes(field) {
         let cor;
-        field.row.pago ? (cor = "green") : (cor = "DarkRed");
+        field.row.pago ? (cor = "#85f07b") : (cor = "#E55451");
         return (
           <div>
             <IconButton

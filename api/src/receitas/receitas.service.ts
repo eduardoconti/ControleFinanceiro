@@ -14,7 +14,7 @@ const select = [
 ];
 
 function CriaWhereMes(mes: number) {
-  return typeof(mes) ==='undefined' || mes === 0
+  return typeof(mes) ==='undefined' || mes == 0
     ? 'TRUE'
     : 'MONTH(receitas.pagamento)=' + String(mes);
 }
@@ -26,7 +26,7 @@ function CriaWherePago(pago: boolean) {
 }
 
 function CriaWhereAno(ano: number) {
-  return ( typeof (ano)==='undefined' || ano === 0 )
+  return ( typeof (ano)==='undefined' || ano == 0 )
     ? 'TRUE'
     : 'YEAR(receitas.pagamento)=' + String(ano);
 }

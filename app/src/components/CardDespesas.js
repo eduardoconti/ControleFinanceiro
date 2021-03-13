@@ -35,7 +35,7 @@ export default function Cards({
           <CardContent style={{ margin: 0, padding: 0 }}>
             <Typography
               variant="h5"
-              style={{ color: "DarkRed", paddingTop: 5 }}
+              style={{ color: "#E55451", paddingTop: 5 }}
             >
               Despesas
             </Typography>

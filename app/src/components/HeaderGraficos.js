@@ -10,7 +10,7 @@ export default function RadioButtons({ setStateGrafico, cor, descricao }) {
   };
 
   return (
-    <Grid container direction="row" spacing={1} alignItems='center'>
+    <Grid container direction="row" spacing={1} alignItems="center">
       <Grid item xs={1}>
         <Radio
           checked={selectedValue === "1"}
@@ -33,7 +33,7 @@ export default function RadioButtons({ setStateGrafico, cor, descricao }) {
           size="small"
         />
       </Grid>
-      <Grid item xs={8} style={{textAlign:'center', color:'#625D5D'}}>
+      <Grid item xs={8} style={{ textAlign: "center", color: "#625D5D" }}>
         <p>{descricao}</p>
       </Grid>
     </Grid>

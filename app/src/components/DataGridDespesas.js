@@ -11,6 +11,7 @@ import {
   formataDadosParaLinhasDataGrid,
   formataDadosParaFormulario,
   retornaDespesaPorId,
+  insereDespesa,
 } from "../common/DepesaFuncoes";
 import { makeStyles } from "@material-ui/core/styles";
 import { calculaTotais } from "../common/Funcoes";
@@ -20,11 +21,14 @@ import { emptyAlertState } from "../common/EmptyStates";
 import {
   retornaStateAlertExclusao,
   retornaStateAlertAlteracaoFlagPago,
+  retornaStateAlertCadastro,
 } from "../common/AlertFuncoes";
+import ImportExportTwoToneIcon from "@material-ui/icons/ImportExportTwoTone";
+
 const useStyles = makeStyles({
   operacoes: {
     color: "#216260",
-    padding: 4,
+    padding: 2,
   },
 });
 
@@ -67,11 +71,11 @@ export default function DataGridDespesas({
     {
       field: "operacoes",
       headerName: "Operacoes",
-      width: 115,
+      width: 140,
       sortable: false,
       renderCell: function operacoes(field) {
         return (
-          <div>
+          <Box>
             <IconButton
               aria-label="alterar"
               className={classes.operacoes}
@@ -109,11 +113,45 @@ export default function DataGridDespesas({
             >
               <DeleteForeverTwoToneIcon />
             </IconButton>
-
+            <IconButton
+              aria-label="transfere"
+              className={classes.operacoes}
+              onClick={async () => {
+                const despesa = await retornaDespesaPorId(field.row.id);
+                despesa.vencimento = new Date(
+                  stateAnoAtual + "-" + (stateMesAtual + 1) + "-10"
+                );
+                despesa.id = 0;
+                despesa.pago = false;
+                despesa.dataPagamento = new Date(
+                  stateAnoAtual + "-" + (stateMesAtual + 1) + "-10"
+                );
+                const response = await insereDespesa(despesa);
+                await pegaDespesas();
+                setStateTotais(
+                  await calculaTotais(
+                    stateCheckedDespesas,
+                    stateCheckedReceitas,
+                    stateAnoAtual,
+                    stateMesAtual
+                  )
+                );
+                setAlert(
+                  retornaStateAlertCadastro(
+                    response.statusCode,
+                    "Despesa",
+                    response.message
+                  )
+                );
+              }}
+              size="small"
+            >
+              <ImportExportTwoToneIcon />
+            </IconButton>
             <IconButton
               aria-label="pago"
               className={classes.operacoes}
-              style={{ color: field.row.pago ? "green" : "DarkRed" }}
+              style={{ color: field.row.pago ? "#85f07b" : "#E55451" }}
               onClick={async () => {
                 let despesa = {
                   id: field.row.id,
@@ -143,7 +181,7 @@ export default function DataGridDespesas({
             >
               <FiberManualRecordTwoToneIcon />
             </IconButton>
-          </div>
+          </Box>
         );
       },
     },

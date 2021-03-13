@@ -5,17 +5,25 @@ import { Grid } from "@material-ui/core";
 import Ano from "./BotaoAno";
 import * as Constants from "../common/Constantes";
 import API from "../common/Api";
-
+import {
+  createMuiTheme,
+  responsiveFontSizes,
+  MuiThemeProvider,
+} from "@material-ui/core";
 const useStyles = makeStyles({
   botao: {
     backgroundColor: "#F9FEFB",
     width: "100%",
+    boxShadow: "2px 2px 2px 1px rgba(47, 65, 167, 0.2)",
     "&:hover": {
       backgroundColor: "#9Ebfc0",
     },
-    fontWeight:'bold'
+    fontWeight: "bold",
   },
 });
+
+let theme = createMuiTheme();
+theme = responsiveFontSizes(theme);
 
 export default function LeftMenu({
   setStateCurrentBody,
@@ -27,54 +35,56 @@ export default function LeftMenu({
     setStateCurrentBody(currentBody);
   }
   return (
-    <Grid container direction="row" spacing={1}>
-      <Grid item xs={4} lg={12}>
-        <Ano
-          stateAnoAtual={stateAnoAtual}
-          setStateAnoAtual={setStateAnoAtual}
-        ></Ano>
-      </Grid>
+    <MuiThemeProvider theme={theme}>
+      <Grid container direction="row" spacing={1}>
+        <Grid item xs={4} lg={12}>
+          <Ano
+            stateAnoAtual={stateAnoAtual}
+            setStateAnoAtual={setStateAnoAtual}
+          ></Ano>
+        </Grid>
 
-      <Grid item xs={4} lg={12}>
-        <Button
-          className={classes.botao}
-          onClick={() => {
-            onClick(Constants.CORPO_CATEGORIAS);
-          }}
-        >
-          Categorias
-        </Button>
+        <Grid item xs={4} lg={12}>
+          <Button
+            className={classes.botao}
+            onClick={() => {
+              onClick(Constants.CORPO_CATEGORIAS);
+            }}
+          >
+            Categorias
+          </Button>
+        </Grid>
+        <Grid item xs={4} lg={12}>
+          <Button
+            className={classes.botao}
+            onClick={() => {
+              onClick(Constants.CORPO_CARTEIRAS);
+            }}
+          >
+            Carteiras
+          </Button>
+        </Grid>
+        <Grid item xs={4} lg={12}>
+          <Button
+            className={classes.botao}
+            onClick={() => {
+              onClick(Constants.CORPO_TRANSFERENCIAS);
+            }}
+          >
+            Transf.
+          </Button>
+        </Grid>
+        <Grid item xs={4} lg={12}>
+          <Button
+            className={classes.botao}
+            onClick={async () => {
+              await API.get("/calc");
+            }}
+          >
+            Calc.
+          </Button>
+        </Grid>
       </Grid>
-      <Grid item xs={4} lg={12}>
-        <Button
-          className={classes.botao}
-          onClick={() => {
-            onClick(Constants.CORPO_CARTEIRAS);
-          }}
-        >
-          Carteiras
-        </Button>
-      </Grid>
-      <Grid item xs={4} lg={12}>
-        <Button
-          className={classes.botao}
-          onClick={() => {
-            onClick(Constants.CORPO_TRANSFERENCIAS);
-          }}
-        >
-          Transf.
-        </Button>
-      </Grid>
-      <Grid item xs={4} lg={12}>
-        <Button
-          className={classes.botao}
-          onClick={async () => {
-            await API.get("/calc");
-          }}
-        >
-          Calculadora
-        </Button>
-      </Grid>
-    </Grid>
+    </MuiThemeProvider>
   );
 }

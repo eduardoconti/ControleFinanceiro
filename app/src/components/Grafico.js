@@ -10,7 +10,7 @@ import {
   Legend,
 } from "recharts";
 
-const renderColorfulLegendText = (value,entry) => {
+const renderColorfulLegendText = (value, entry) => {
   const { color } = entry;
 
   return <span style={{ color }}>{value} </span>;
@@ -22,16 +22,15 @@ export default function Grafico({ data, chaveX, chaveY, stroke, cor }) {
       <BarChart
         data={data}
         margin={{
-          right: 20
+          right: 20,
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey={chaveX}>
-        </XAxis>
-        <Legend formatter={renderColorfulLegendText}/>
+        <XAxis dataKey={chaveX}></XAxis>
+        <Legend formatter={renderColorfulLegendText} />
         <YAxis type="number" domain={[0, 4000]} />
         <Tooltip />
-        <Bar dataKey={chaveY} fill={cor} maxBarSize={30} stroke={stroke}/>
+        <Bar dataKey={chaveY} fill={cor} maxBarSize={30} stroke={stroke} />
       </BarChart>
     </ResponsiveContainer>
   );

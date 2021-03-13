@@ -4,6 +4,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CreateTwoToneIcon from "@material-ui/icons/CreateTwoTone";
 import DeleteForeverTwoToneIcon from "@material-ui/icons/DeleteForeverTwoTone";
 import FiberManualRecordTwoToneIcon from "@material-ui/icons/FiberManualRecordTwoTone";
+import ImportExportTwoToneIcon from "@material-ui/icons/ImportExportTwoTone";
 import {
   getReceitas,
   deletaReceita,
@@ -11,6 +12,7 @@ import {
   formataDadosParaLinhasDataGrid,
   formataDadosParaFormulario,
   retornaReceitaPorId,
+  insereReceita,
 } from "../common/ReceitaFuncoes";
 import { makeStyles } from "@material-ui/core/styles";
 import { calculaTotais } from "../common/Funcoes";
@@ -20,12 +22,13 @@ import { Box } from "@material-ui/core";
 import {
   retornaStateAlertAlteracaoFlagPago,
   retornaStateAlertExclusao,
+  retornaStateAlertCadastro,
 } from "../common/AlertFuncoes";
 
 const useStyles = makeStyles({
   operacoes: {
     color: "#216260",
-    padding: 4,
+    padding: 2,
   },
 });
 
@@ -59,13 +62,13 @@ export default function DataGridComponent({
     {
       field: "operacoes",
       headerName: "Operacoes",
-      width: 120,
+      width: 150,
       sortable: false,
       renderCell: function operacoes(field) {
         let cor;
-        field.row.pago ? (cor = "green") : (cor = "DarkRed");
+        field.row.pago ? (cor = "#85f07b") : (cor = "#E55451");
         return (
-          <div>
+          <Box>
             <IconButton
               aria-label="alterar"
               className={classes.operacoes}
@@ -102,7 +105,37 @@ export default function DataGridComponent({
             >
               <DeleteForeverTwoToneIcon />
             </IconButton>
-
+            <IconButton
+              aria-label="transfere"
+              className={classes.operacoes}
+              onClick={async () => {
+                const receita = await retornaReceitaPorId(field.row.id);
+                receita.pagamento = new Date(
+                  stateAnoAtual + "-" + (stateMesAtual + 1) + "-10"
+                );
+                receita.id = 0;
+                receita.pago = false;
+                const response = await insereReceita(receita);
+                await setState();
+                setStateTotais(
+                  await calculaTotais(
+                    stateCheckedDespesas,
+                    stateCheckedReceitas,
+                    stateAnoAtual,
+                    stateMesAtual
+                  )
+                );
+                setAlert(
+                  retornaStateAlertCadastro(
+                    response.statusCode,
+                    "Receita",
+                    response.message
+                  )
+                );
+              }}
+            >
+              <ImportExportTwoToneIcon />
+            </IconButton>
             <IconButton
               aria-label="pago"
               className={classes.operacoes}
@@ -134,7 +167,7 @@ export default function DataGridComponent({
             >
               <FiberManualRecordTwoToneIcon />
             </IconButton>
-          </div>
+          </Box>
         );
       },
     },

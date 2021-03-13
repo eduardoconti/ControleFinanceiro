@@ -58,7 +58,7 @@ async function calculaTotais(
   return {
     totalDespesas: totalDespesas,
     totalReceitas: totalReceitas,
-    saldo: totalReceitasPagas - totalDespesasPagas,
+    saldo: totalGeralReceitasPagas - totalGeralDespesasPagas,
     balanco:
       totalReceitasAbertas +
       totalReceitasPagas -

@@ -107,7 +107,7 @@ export async function getValorDespesasPorCarteira(
 export async function deletaDespesa(id) {
   try {
     const res = await API.delete(ENDPOINT + id, headers);
-    return  resposta(res, "Deletado Despesa");
+    return resposta(res, "Deletado Despesa");
   } catch (error) {
     console.log(error);
     return error.response.data;
@@ -117,7 +117,7 @@ export async function deletaDespesa(id) {
 export async function insereDespesa(despesa) {
   try {
     const res = await API.post(ENDPOINT, despesa, headers);
-    return  resposta(res, "Inserido Despesa");
+    return resposta(res, "Inserido Despesa");
   } catch (error) {
     console.log(error);
     return error.response.data;
@@ -131,7 +131,7 @@ export async function alteraFlagPago(despesa) {
       despesa,
       headers
     );
-    return  resposta(res, "Alterado Flag Pago");
+    return resposta(res, "Alterado Flag Pago");
   } catch (error) {
     console.log(error);
     return error.response.data;
@@ -142,7 +142,6 @@ export async function alteraDespesa(despesa) {
   try {
     const res = await API.put(ENDPOINT + despesa.id, despesa, headers);
     return resposta(res, "Alterado Despesa");
-
   } catch (error) {
     console.log(error);
     return error.response.data;
@@ -247,31 +246,20 @@ export function formataDadosParaFormulario(despesa) {
     vencimento: new Date(despesa.vencimento).toISOString().slice(0, 10),
   };
 }
- export async function rertornaDespesasAgrupadasPorMes(stateAnoAtual,pago){
-
-    try {
-      const total = await API.get(
-        ENDPOINT +
-          stateAnoAtual +
-          "/mes/",
-        headers
-      );
-      return total.data;
-    } catch (error) {
-      console.log(error);
-      return error.response.status;
-    }
- }
-
-
-
-
-function resposta(res, message){
-  
-  return{
-  statusCode: res.status.valueOf(),
-  data: res.data,
-  message: message,
+export async function rertornaDespesasAgrupadasPorMes(stateAnoAtual, pago) {
+  try {
+    const total = await API.get(ENDPOINT + stateAnoAtual + "/mes/", headers);
+    return total.data;
+  } catch (error) {
+    console.log(error);
+    return error.response.status;
+  }
 }
-  
+
+function resposta(res, message) {
+  return {
+    statusCode: res.status.valueOf(),
+    data: res.data,
+    message: message,
+  };
 }

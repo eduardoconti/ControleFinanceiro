@@ -221,15 +221,9 @@ export async function retornaReceitaPorId(id) {
   return res.data;
 }
 
-export async function rertornaReceitasAgrupadasPorMes(stateAnoAtual,pago){
-
+export async function rertornaReceitasAgrupadasPorMes(stateAnoAtual, pago) {
   try {
-    const total = await API.get(
-      ENDPOINT +
-        stateAnoAtual +
-        "/mes/",
-      headers
-    );
+    const total = await API.get(ENDPOINT + stateAnoAtual + "/mes/", headers);
     return total.data;
   } catch (error) {
     console.log(error);
