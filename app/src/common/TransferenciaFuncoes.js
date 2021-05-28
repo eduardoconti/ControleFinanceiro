@@ -33,7 +33,7 @@ export async function deletaTransferencia(id) {
       message: "Deletado Transferencia",
     };
   } catch (error) {
-    console.log(error);
+    
     return error.response.data;
   }
 }
@@ -47,7 +47,7 @@ export async function insereTransferencia(transferencia) {
       message: "Inserido Transferencia",
     };
   } catch (error) {
-    console.log(error);
+    
     return error.response.data;
   }
 }
@@ -64,7 +64,7 @@ export async function alteraTransferencia(transferencia) {
       message: "Alterado Transferencia",
     };
   } catch (error) {
-    console.log(error);
+    
     return error.response.data;
   }
 }
@@ -81,7 +81,7 @@ export async function alteraFlagPago(transferencia) {
       message: "Alterado Flag Pago Transferencia",
     };
   } catch (error) {
-    console.log(error);
+    
     return error.response.data;
   }
 }
@@ -124,7 +124,7 @@ export async function retornaValoresTransferenciasOrigem(
     );
     return total.data;
   } catch (error) {
-    console.log(error);
+    
     return error.response.status;
   }
 }
@@ -144,7 +144,7 @@ export async function retornaValoresTransferenciasDestino(
     );
     return total.data;
   } catch (error) {
-    console.log(error);
+    
     return error.response.status;
   }
 }

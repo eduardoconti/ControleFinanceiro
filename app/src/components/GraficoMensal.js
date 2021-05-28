@@ -77,7 +77,7 @@ export default function GraficoReceitas({
       try {
         adicionaNoArrayDeDados(dados, receitas, despesas);
       } catch (error) {
-        console.log(error);
+        
       }
 
       return await dados;

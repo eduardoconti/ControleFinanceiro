@@ -84,7 +84,7 @@ export async function deletaReceita(id) {
       message: "Deletado Receita",
     };
   } catch (error) {
-    console.log(error);
+    
     return error.response.data;
   }
 }
@@ -98,7 +98,7 @@ export async function insereReceita(receita) {
       message: "Inserido Receita",
     };
   } catch (error) {
-    console.log(error);
+    
     return error.response.data;
   }
 }
@@ -111,7 +111,7 @@ export async function alteraReceita(receita) {
       message: "Alterado Receita",
     };
   } catch (error) {
-    console.log(error);
+    
     return error.response.data;
   }
 }
@@ -128,7 +128,7 @@ export async function alteraFlagPago(receita) {
       message: "Alterado Flag Pago Receita",
     };
   } catch (error) {
-    console.log(error);
+    
     return error.response.data;
   }
 }
@@ -140,7 +140,7 @@ export async function retornaTotalReceitas(stateAnoAtual, stateMesAtual) {
     );
     return total.data;
   } catch (error) {
-    console.log(error);
+    
     return error.response.status;
   }
 }
@@ -156,7 +156,7 @@ export async function retornaTotalReceitasPagas(stateAnoAtual, stateMesAtual) {
     }
     return total.data;
   } catch (error) {
-    console.log(error);
+    
     return error.response.status;
   }
 }
@@ -169,7 +169,7 @@ export async function retornaTotalGeralReceitasPagas() {
     }
     return total.data;
   } catch (error) {
-    console.log(error);
+    
     return error.response.status;
   }
 }
@@ -188,7 +188,7 @@ export async function retornaTotalReceitasAbertas(
     }
     return total.data;
   } catch (error) {
-    console.log(error);
+    
     return error.response.status;
   }
 }
@@ -210,7 +210,7 @@ export async function retornaReceitasAgrupadasPorCarteira(
     );
     return total.data;
   } catch (error) {
-    console.log(error);
+    
     return error.response.status;
   }
 }
@@ -226,7 +226,7 @@ export async function rertornaReceitasAgrupadasPorMes(stateAnoAtual, pago) {
     const total = await API.get(ENDPOINT + stateAnoAtual + "/mes/", headers);
     return total.data;
   } catch (error) {
-    console.log(error);
+    
     return error.response.status;
   }
 }

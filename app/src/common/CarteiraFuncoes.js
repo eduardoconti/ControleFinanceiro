@@ -12,7 +12,7 @@ export async function retornaCarteiras() {
     const res = await API.get(ENDPOINT, headers);
     return res.data;
   } catch (error) {
-    console.log(error);
+    
     return error.response.status;
   }
 }
@@ -26,7 +26,7 @@ export async function insereCarteira(carteira) {
       message: "Inserido Carteira",
     };
   } catch (error) {
-    console.log(error);
+    
     return error.response.data;
   }
 }
@@ -40,7 +40,7 @@ export async function deletaCarteira(id) {
       message: "Deletado Categoria",
     };
   } catch (error) {
-    console.log(error);
+    
     return error.response.data;
   }
 }
@@ -54,7 +54,7 @@ export async function alteraCarteira(carteira) {
       message: "Alterado Categoria",
     };
   } catch (error) {
-    console.log(error);
+    
     return error.response.data;
   }
 }

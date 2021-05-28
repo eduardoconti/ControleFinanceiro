@@ -109,8 +109,7 @@ export async function deletaDespesa(id) {
     const res = await API.delete(ENDPOINT + id, headers);
     return resposta(res, "Deletado Despesa");
   } catch (error) {
-    console.log(error);
-    return error.response.data;
+    return error
   }
 }
 
@@ -119,8 +118,7 @@ export async function insereDespesa(despesa) {
     const res = await API.post(ENDPOINT, despesa, headers);
     return resposta(res, "Inserido Despesa");
   } catch (error) {
-    console.log(error);
-    return error.response.data;
+    return error
   }
 }
 
@@ -133,8 +131,7 @@ export async function alteraFlagPago(despesa) {
     );
     return resposta(res, "Alterado Flag Pago");
   } catch (error) {
-    console.log(error);
-    return error.response.data;
+    return error
   }
 }
 
@@ -143,8 +140,7 @@ export async function alteraDespesa(despesa) {
     const res = await API.put(ENDPOINT + despesa.id, despesa, headers);
     return resposta(res, "Alterado Despesa");
   } catch (error) {
-    console.log(error);
-    return error.response.data;
+    return error
   }
 }
 
@@ -156,8 +152,7 @@ export async function retornaTotalDespesas(stateAnoAtual, stateMesAtual) {
     );
     return total.data;
   } catch (error) {
-    console.log(error);
-    return error.response.status;
+    return error
   }
 }
 
@@ -166,8 +161,7 @@ export async function retornaTotalGeralDespesasPagas() {
     const total = await API.get(ENDPOINT + "total/?pago=true", headers);
     return total.data;
   } catch (error) {
-    console.log(error);
-    return error.response.status;
+    return error
   }
 }
 
@@ -188,8 +182,7 @@ export async function retornaDespesasAgrupadasPorCarteira(
     );
     return total.data;
   } catch (error) {
-    console.log(error);
-    return error.response.status;
+    return error
   }
 }
 
@@ -223,7 +216,7 @@ export async function retornaDespesaPorId(id) {
     const total = await API.get(ENDPOINT + "id/" + id, headers);
     return total.data;
   } catch (error) {
-    console.log(error);
+    
     return error.response.status;
   }
 }
@@ -233,7 +226,7 @@ export function formataDadosParaLinhasDataGrid(despesas) {
       ...despesa,
       categoria: despesa.categoria.descricao,
       carteira: despesa.carteira.descricao,
-      vencimento: new Date(despesa.vencimento).toISOString().slice(0, 10),
+      vencimento: new Date(despesa.vencimento).toUTCString().slice(5, 12),
     };
   });
 }
@@ -251,8 +244,7 @@ export async function rertornaDespesasAgrupadasPorMes(stateAnoAtual, pago) {
     const total = await API.get(ENDPOINT + stateAnoAtual + "/mes/", headers);
     return total.data;
   } catch (error) {
-    console.log(error);
-    return error.response.status;
+    return error
   }
 }
 

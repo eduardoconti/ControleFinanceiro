@@ -30,118 +30,128 @@ function CriaWhereAno(ano: number) {
     ? 'TRUE'
     : 'YEAR(transferencias.dataTransferencia)=' + String(ano);
 }
+
 @Injectable()
 export class TransferenciaService {
   constructor(
     @Inject('TRANSFERENCIAS')
     private transferenciaRepository: Repository<Transferencias>,
   ) { }
+
   async retornaTodas(ano: number, mes: number, pago: boolean): Promise<Transferencias[]> {
     mes = mes ?? 0
     ano = ano ?? 0
-
-    let transferencias = await this.transferenciaRepository
-      .createQueryBuilder('transferencias')
-      .select(select)
-      .innerJoin('transferencias.carteiraOrigem', 'carteiraOrigem')
-      .innerJoin('transferencias.carteiraDestino', 'carteiraDestino')
-      .orderBy('carteiraOrigem.descricao', 'ASC')
-      .where(CriaWhereAno(ano))
-      .andWhere(CriaWhereMes(mes))
-      .andWhere(CriaWherePago(pago))
-      .getMany();
-    return transferencias;
+    try {
+      let transferencias = await this.transferenciaRepository
+        .createQueryBuilder('transferencias')
+        .select(select)
+        .innerJoin('transferencias.carteiraOrigem', 'carteiraOrigem')
+        .innerJoin('transferencias.carteiraDestino', 'carteiraDestino')
+        .orderBy('carteiraOrigem.descricao', 'ASC')
+        .where(CriaWhereAno(ano))
+        .andWhere(CriaWhereMes(mes))
+        .andWhere(CriaWherePago(pago))
+        .getMany();
+      return transferencias;
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   async getOne(id: number): Promise<Transferencias> {
-    return this.transferenciaRepository.findOneOrFail(
-      { id },
-      { relations: ['carteiraOrigem', 'carteiraDestino'] },
-    );
+    try {
+      return this.transferenciaRepository.findOneOrFail(
+        { id },
+        { relations: ['carteiraOrigem', 'carteiraDestino'] },
+      );
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   async insereTransferencia(transferencia: TransferenciasDTO): Promise<Transferencias> {
-
-    if (transferencia.valor < 0) {
-      throw new BadRequestException('Valor deve ser >= 0');
+    try {
+      const newTransferencias = this.transferenciaRepository.create(transferencia);
+      await this.transferenciaRepository.save(newTransferencias);
+      return newTransferencias;
+    } catch (error) {
+      throw new BadRequestException(error);
     }
-    const newTransferencias = this.transferenciaRepository.create(transferencia);
-    await this.transferenciaRepository.save(newTransferencias);
-    return newTransferencias;
   }
 
   async alteraTransferencia(transferencia: TransferenciasDTO): Promise<Transferencias> {
-    const { id } = transferencia;
-    await this.transferenciaRepository.update({ id }, transferencia);
-    return this.getOne(id);
+    try {
+      const { id } = transferencia;
+      await this.transferenciaRepository.update({ id }, transferencia);
+      return this.getOne(id);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   async alteraFlagPago(transferencia) {
-    const { id } = transferencia;
-    await this.transferenciaRepository.update({ id }, transferencia);
-    return this.getOne(id);
+    try {
+      const { id } = transferencia;
+      await this.transferenciaRepository.update({ id }, transferencia);
+      return this.getOne(id);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
-  async deletaTransferencia(
-    id: number,
-  ): Promise<{ deleted: boolean; message?: string }> {
+  async deletaTransferencia(id: number): Promise<{ deleted: boolean; message?: string }> {
 
-    let data
     try {
       await this.transferenciaRepository.delete({ id });
-      data = { deleted: true };
-    } catch (err) {
-      data = { deleted: false, message: err.message };
+      return { deleted: true };
+    } catch (error) {
+      throw new BadRequestException(error);
     }
-
-    return data
   }
 
-  async retornaValorDespesasAgrupadosPorCarteiraOrigem(
-    ano?: number,
-    mes?: number,
-    pago?: boolean,
-  ) {
-    let transferencias = await this.transferenciaRepository
-      .createQueryBuilder('transferencias')
-      .select([
-        'transferencias.carteiraOrigem id',
-        'carteiraOrigem.descricao descricao',
-        'SUM(transferencias.valor) valor',
+  async retornaValorDespesasAgrupadosPorCarteiraOrigem(ano?: number, mes?: number, pago?: boolean) {
+    try {
+      let transferencias = await this.transferenciaRepository
+        .createQueryBuilder('transferencias')
+        .select([
+          'transferencias.carteiraOrigem id',
+          'carteiraOrigem.descricao descricao',
+          'SUM(transferencias.valor) valor',
+        ])
+        .innerJoin('transferencias.carteiraOrigem', 'carteiraOrigem')
+        .where(CriaWhereAno(ano))
+        .andWhere(CriaWhereMes(mes))
+        .andWhere(CriaWherePago(pago))
+        .groupBy('transferencias.carteiraOrigem')
+        .orderBy('valor', 'DESC')
+        .getRawMany();
 
-
-      ])
-      .innerJoin('transferencias.carteiraOrigem', 'carteiraOrigem')
-      .where(CriaWhereAno(ano))
-      .andWhere(CriaWhereMes(mes))
-      .andWhere(CriaWherePago(pago))
-      .groupBy('transferencias.carteiraOrigem')
-      .orderBy('valor', 'DESC')
-      .getRawMany();
-
-    return transferencias;
+      return transferencias;
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
-  async retornaValorDespesasAgrupadosPorCarteiraDestino(
-    ano?: number,
-    mes?: number,
-    pago?: boolean,
-  ) {
-    let transferencias = await this.transferenciaRepository
-      .createQueryBuilder('transferencias')
-      .select([
-        'transferencias.carteiraDestino id',
-        'carteiraDestino.descricao descricao',
-        'SUM(transferencias.valor) valor',
-      ])
-      .innerJoin('transferencias.carteiraDestino', 'carteiraDestino')
-      .where(CriaWhereAno(ano))
-      .andWhere(CriaWhereMes(mes))
-      .andWhere(CriaWherePago(pago))
-      .groupBy('transferencias.carteiraDestino')
-      .orderBy('valor', 'DESC')
-      .getRawMany();
+  async retornaValorDespesasAgrupadosPorCarteiraDestino(ano?: number, mes?: number, pago?: boolean) {
+    try {
+      let transferencias = await this.transferenciaRepository
+        .createQueryBuilder('transferencias')
+        .select([
+          'transferencias.carteiraDestino id',
+          'carteiraDestino.descricao descricao',
+          'SUM(transferencias.valor) valor',
+        ])
+        .innerJoin('transferencias.carteiraDestino', 'carteiraDestino')
+        .where(CriaWhereAno(ano))
+        .andWhere(CriaWhereMes(mes))
+        .andWhere(CriaWherePago(pago))
+        .groupBy('transferencias.carteiraDestino')
+        .orderBy('valor', 'DESC')
+        .getRawMany();
 
-    return transferencias;
+      return transferencias;
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 }

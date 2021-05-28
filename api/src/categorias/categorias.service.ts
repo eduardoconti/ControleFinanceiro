@@ -6,47 +6,55 @@ import { CategoriasDTO } from './categorias.dto'
 @Injectable()
 export class CategoriasService {
 
-    constructor(
-        @Inject('CATEGORIAS')
-        private categoriaRepository: Repository<Categorias>,
-      ) { }
-      
-      async getOne(id: number): Promise<Categorias> {
-        return this.categoriaRepository.findOneOrFail({ id });
-      }
+  constructor(
+    @Inject('CATEGORIAS')
+    private categoriaRepository: Repository<Categorias>,
+  ) { }
 
-      async retornaTodasCategorias(): Promise<Categorias[]> {
-        return await this.categoriaRepository.find({order:{id:"ASC"}});
-      }
+  async getOne(id: number): Promise<Categorias> {
+    try {
+      return this.categoriaRepository.findOneOrFail({ id });
+    } catch (error) {
+      throw new BadRequestException(error)
+    }
+  }
 
-      async insereCategoria(categoria: CategoriasDTO): Promise<Categorias> {
-        if(categoria.descricao.length < 1 ){
-          throw new BadRequestException('Descrição deve ter ao menos 1 caractere')
-        }
-        const newDespesas = this.categoriaRepository.create(categoria);
-        await this.categoriaRepository.save(newDespesas);
-        return newDespesas;
-      }
+  async retornaTodasCategorias(): Promise<Categorias[]> {
+    try {
+      return await this.categoriaRepository.find({ order: { id: "ASC" } });
+    } catch (error) {
+      throw new BadRequestException(error)
+    }
+  }
 
-      async deletaCategoria(id: number): Promise<{ deleted: boolean; message?: string }> {
-        let data, error
-        try {
-          await this.categoriaRepository.delete({ id });
-          data = { deleted: true };
-        } catch (err) {
-          data= { deleted: false, message: err.message };
-          if(err.code === 'ER_ROW_IS_REFERENCED_2'){
-            error = 'Erro de integridade'
-          }
-          throw new BadRequestException(error)
-        }
-        
-        return data
-      }
+  async insereCategoria(categoria: CategoriasDTO): Promise<Categorias> {
+    try {
+      const newDespesas = this.categoriaRepository.create(categoria);
+      await this.categoriaRepository.save(newDespesas);
+      return newDespesas;
+    } catch (error) {
+      throw new BadRequestException(error)
+    }
+  }
 
-      async alteraCategoria(categoria: CategoriasDTO): Promise<Categorias> {
-        const { id } = categoria;
-        await this.categoriaRepository.update({ id }, categoria);
-        return this.getOne(id);
-      }
+  async deletaCategoria(id: number): Promise<{ deleted: boolean; message?: string }> {
+    try {
+      await this.categoriaRepository.delete({ id });
+      return { deleted: true };
+    } catch (error) {
+      throw new BadRequestException(error)
+    }
+  }
+
+  async alteraCategoria(categoria: CategoriasDTO): Promise<Categorias> {
+
+    try {
+      const { id } = categoria;
+      await this.categoriaRepository.update({ id }, categoria);
+      return this.getOne(id);
+    } catch (error) {
+      throw new BadRequestException(error)
+    }
+
+  }
 }

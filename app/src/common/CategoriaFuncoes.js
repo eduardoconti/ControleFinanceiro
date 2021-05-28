@@ -11,7 +11,7 @@ export async function retornaCategorias() {
     const res = await API.get(ENDPOINT, headers);
     return res.data;
   } catch (error) {
-    console.log(error);
+    
     return error.response.status;
   }
 }
@@ -25,7 +25,6 @@ export async function insereCategoria(categoria) {
       message: "Inserido Categoria",
     };
   } catch (error) {
-    console.log(error.response);
     return error.response.data;
   }
 }
@@ -39,7 +38,7 @@ export async function deletaCategoria(id) {
       message: "Excluido Categoria",
     };
   } catch (error) {
-    console.log(error);
+    
     return error.response.data;
   }
 }
@@ -53,7 +52,7 @@ export async function alteraCategoria(carteira) {
       message: "Alterado Categoria",
     };
   } catch (error) {
-    console.log(error);
+    
     return error.response.data;
   }
 }

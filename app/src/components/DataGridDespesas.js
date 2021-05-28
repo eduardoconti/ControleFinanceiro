@@ -66,7 +66,7 @@ export default function DataGridDespesas({
       field: "valor",
       headerName: "Valor",
       type: "number",
-      width: 100,
+      width: 90,
     },
     {
       field: "operacoes",

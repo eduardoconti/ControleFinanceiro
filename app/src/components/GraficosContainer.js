@@ -21,14 +21,6 @@ export default function GraficosContainer({
         ></GraficoMensal>
       </Grid>
       <Grid item xs={12} sm={4} md={4} lg={12}>
-        <GraficoReceitas
-          stateCheckedReceitas={stateCheckedReceitas}
-          stateTotais={stateTotais}
-          stateMesAtual={stateMesAtual}
-          stateAnoAtual={stateAnoAtual}
-        ></GraficoReceitas>
-      </Grid>
-      <Grid item xs={12} sm={4} md={4} lg={12}>
         <GraficoDespesas
           stateCheckedDespesas={stateCheckedDespesas}
           stateTotais={stateTotais}
@@ -36,6 +28,15 @@ export default function GraficosContainer({
           stateAnoAtual={stateAnoAtual}
         ></GraficoDespesas>
       </Grid>
+      <Grid item xs={12} sm={4} md={4} lg={12}>
+        <GraficoReceitas
+          stateCheckedReceitas={stateCheckedReceitas}
+          stateTotais={stateTotais}
+          stateMesAtual={stateMesAtual}
+          stateAnoAtual={stateAnoAtual}
+        ></GraficoReceitas>
+      </Grid>
+    
     </Grid>
   );
 }

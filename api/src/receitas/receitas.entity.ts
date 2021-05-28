@@ -17,7 +17,7 @@ export class Receitas {
   @Column()
   pago: boolean;
 
-  @ManyToOne(() => Carteiras, carteiras => carteiras.descricao )
+  @ManyToOne(() => Carteiras, carteiras => carteiras.id )
   carteira: Carteiras;
 
 }

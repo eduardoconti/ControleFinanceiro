@@ -1,4 +1,8 @@
-export interface CarteirasDTO {
+import { IsString, Length } from "class-validator";
+
+export class CarteirasDTO {
     id?: number;
-    descricao?: string;
+    @IsString()
+    @Length(2,20)
+    descricao: string;
   }
