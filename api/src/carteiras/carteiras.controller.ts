@@ -2,7 +2,9 @@ import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common'
 import { CarteirasService } from './carteiras.service'
 import { Carteiras } from './carteiras.entity'
 import { CarteirasDTO } from './carteiras.dto'
+import { ApiTags } from '@nestjs/swagger';
 @Controller('carteiras')
+@ApiTags('carteiras')
 export class CarteirasController {
 
     constructor(private readonly carteiraService: CarteirasService) { }

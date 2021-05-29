@@ -114,6 +114,7 @@ export async function deletaDespesa(id) {
 }
 
 export async function insereDespesa(despesa) {
+
   try {
     const res = await API.post(ENDPOINT, despesa, headers);
     return resposta(res, "Inserido Despesa");
@@ -236,7 +237,7 @@ export function formataDadosParaFormulario(despesa) {
     ...despesa,
     categoria: despesa.categoria.id,
     carteira: despesa.carteira.id,
-    vencimento: new Date(despesa.vencimento).toISOString().slice(0, 10),
+    vencimento: new Date(despesa.vencimento).toISOString().slice(0, 10)
   };
 }
 export async function rertornaDespesasAgrupadasPorMes(stateAnoAtual, pago) {

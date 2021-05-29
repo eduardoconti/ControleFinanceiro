@@ -10,10 +10,7 @@ export class Despesas {
   @Column({ length: 255 })
   descricao: string;
 
-  @ManyToOne(() => Categorias, categorias => categorias.id )
-  categoria: Categorias;
-
-  @Column({type:'decimal', scale:2, precision:10}) 
+  @Column({type:'float', scale:2, precision:10}) 
   valor: number;
 
   @Column()
@@ -27,5 +24,8 @@ export class Despesas {
 
   @ManyToOne(() => Carteiras, carteiras => carteiras.id )
   carteira: Carteiras;
+
+  @ManyToOne(() => Categorias, categorias => categorias.id )
+  categoria: Categorias;
 
 }

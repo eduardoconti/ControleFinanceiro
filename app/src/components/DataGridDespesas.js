@@ -118,15 +118,12 @@ export default function DataGridDespesas({
               className={classes.operacoes}
               onClick={async () => {
                 const despesa = await retornaDespesaPorId(field.row.id);
-                despesa.vencimento = new Date(
-                  stateAnoAtual + "-" + (stateMesAtual + 1) + "-10"
-                );
+                console.log(stateAnoAtual, stateMesAtual)
+                despesa.vencimento = new Date(stateAnoAtual, stateMesAtual, 10 ).toISOString();
                 despesa.id = 0;
                 despesa.pago = false;
-                despesa.dataPagamento = new Date(
-                  stateAnoAtual + "-" + (stateMesAtual + 1) + "-10"
-                );
-                const response = await insereDespesa(despesa);
+                despesa.dataPagamento = new Date(stateAnoAtual, stateMesAtual, 10 ).toISOString();
+                const response = await insereDespesa( formataDadosParaFormulario(despesa));
                 await pegaDespesas();
                 setStateTotais(
                   await calculaTotais(

@@ -2,8 +2,10 @@ import { Controller, Get, Param, Put, Body, Delete, Post, Patch, Query } from '@
 import { ReceitaService } from './receitas.service'
 import { Receitas } from './receitas.entity'
 import { ReceitasDTO } from './receitas.dto'
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('receitas')
+@ApiTags('receitas')
 export class ReceitasController {
 
     constructor(private readonly receitaService: ReceitaService) { }

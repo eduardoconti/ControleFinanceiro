@@ -2,7 +2,9 @@ import { Controller, Get, Param, Patch, Query, Body, Put, Delete, Post } from '@
 import { TransferenciaService} from './transferencias.service'
 import { TransferenciasDTO } from './transferencias.dto'
 import { Transferencias } from './transferencias.entity'
+import { ApiTags } from '@nestjs/swagger';
 @Controller('transferencias')
+@ApiTags('transferencias')
 export class TransferenciasController {
     constructor(private readonly transferenciaService: TransferenciaService) { }
     @Get()

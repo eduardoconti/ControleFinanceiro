@@ -2,8 +2,10 @@ import { Controller, Get, Param, Put, Body, Delete, Post, Patch, Query } from '@
 import { DespesaService } from './despesas.service'
 import { Despesas } from './despesas.entity'
 import { DespesasDTO } from './despesas.dto'
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('despesas')
+@ApiTags('despesas')
 export class DespesasController {
 
     constructor(private readonly despesaService: DespesaService) { }
@@ -20,7 +22,6 @@ export class DespesasController {
     async retornaDespesasAgrupadasPorMes(@Param('ano') ano:number, @Query('pago') pago:boolean) {   
         return await this.despesaService.retornaDespesasAgrupadasPorMes(ano, pago);
     }
-
     @Get('/:ano/mes/:mes')
     async retornaDespesasAnoMes(@Param('ano') ano:number,@Param('mes') mes: number, @Query('pago') pago:boolean) {   
         return await this.despesaService.retornaTodasDespesas(ano,mes,pago);

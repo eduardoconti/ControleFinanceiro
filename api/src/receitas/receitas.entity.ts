@@ -8,7 +8,7 @@ export class Receitas {
   @Column({ length: 255 })
   descricao: string; 
 
-  @Column({type:'decimal', scale:2, precision:10}) 
+  @Column({type:'float', scale:2, precision:10}) 
   valor: number;
 
   @Column()

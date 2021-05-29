@@ -50,7 +50,7 @@ export default function FormDespesas({
   useEffect(() => {
     retornaCategorias().then((categorias) => {
       if (categorias.length === 0) {
-        setAlert(AlertWarning("Necessário cadastrar categoria"));
+        setAlert(AlertWarning("Necessário cadastrar categoriaid"));
       } else {
         setCategorias(categorias);
       }
@@ -58,7 +58,7 @@ export default function FormDespesas({
 
     retornaCarteiras().then((carteiras) => {
       if (carteiras.length === 0) {
-        setAlert(AlertWarning("Necessário cadastrar carteira"));
+        setAlert(AlertWarning("Necessário cadastrar carteiraid"));
       } else {
         setCarteiras(carteiras);
       }
@@ -163,7 +163,7 @@ export default function FormDespesas({
           style={{ width: 120 }}
           value={formulario.valor}
           onChange={(event) =>
-            setFormulario({ ...formulario, valor: event.target.value })
+            setFormulario({ ...formulario, valor: parseFloat(event.target.value) })
           }
         />
         {TextFieldPago}

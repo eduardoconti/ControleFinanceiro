@@ -1,6 +1,7 @@
 import { PipeTransform, Injectable, ArgumentMetadata, BadRequestException } from '@nestjs/common';
 import { validate } from 'class-validator';
-import { plainToClass } from 'class-transformer';
+import { plainToClass, classToPlain, deserialize, deserializeArray, serialize } from 'class-transformer';
+import { ConstratinsErrorsDto } from '../dto/constraints-errors.dto';
 
 @Injectable()
 export class ValidationPipe implements PipeTransform<any> {
@@ -9,10 +10,12 @@ export class ValidationPipe implements PipeTransform<any> {
       return value;
     }
     const object = plainToClass(metatype, value);
-
+    console.log(object)
     const errors = await validate(object);
     if (errors.length > 0) {
-      throw new BadRequestException(errors.toString());
+      
+      let constraintsErrors = plainToClass(ConstratinsErrorsDto, errors, { excludeExtraneousValues: true })
+      throw new BadRequestException(constraintsErrors);
     }
     return value;
   }
