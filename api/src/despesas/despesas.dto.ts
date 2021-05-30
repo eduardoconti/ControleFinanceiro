@@ -14,11 +14,11 @@ export class DespesasDTO {
 
 
     @ApiProperty({name:'categoria'})
-    categoria: Categorias|number;
+    categoria: Categorias;
 
 
     @ApiProperty({name:'carteira'})
-    carteira: Carteiras|number;
+    carteira: Carteiras;
 
     @IsNumber()
     @ApiProperty()
