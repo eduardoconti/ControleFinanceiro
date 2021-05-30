@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Despesas } from '../despesas/despesas.entity'
 import { Receitas } from '../receitas/receitas.entity'
@@ -5,9 +6,10 @@ import { Transferencias } from '../transferencias/transferencias.entity'
 @Entity()
 export class Carteiras {
   @PrimaryGeneratedColumn()
+  @ApiProperty()
   id: number;
 
-  @Column({ length: 255, unique:true }) 
+  @Column({ length: 255, unique:true, nullable:false }) 
   descricao: string;
 
   @OneToMany(() => Despesas, despesas => despesas.carteira)

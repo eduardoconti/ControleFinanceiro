@@ -12,13 +12,13 @@ export class DespesasDTO {
     @IsNotEmpty({message:"o campo descricao não pode ser nulo"})
     descricao: string;
 
-    @IsNumber()
-    @ApiProperty({name:'categoria'})
-    categoria: Categorias;
 
-    @IsNumber()
+    @ApiProperty({name:'categoria'})
+    categoria: Categorias|number;
+
+
     @ApiProperty({name:'carteira'})
-    carteira: Carteiras;
+    carteira: Carteiras|number;
 
     @IsNumber()
     @ApiProperty()
