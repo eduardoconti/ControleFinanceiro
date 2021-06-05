@@ -76,9 +76,7 @@ export default function GraficoReceitas({
       receitas = await rertornaReceitasAgrupadasPorMes(stateAnoAtual);
       try {
         adicionaNoArrayDeDados(dados, receitas, despesas);
-      } catch (error) {
-        
-      }
+      } catch (error) {}
 
       return await dados;
     }

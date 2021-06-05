@@ -1,11 +1,7 @@
-import {
-  Injectable,
-  Inject,
-  BadRequestException,
-} from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { Despesas } from './despesas.entity';
-import { DespesasDTO } from './despesas.dto';
+import { Injectable, Inject, BadRequestException } from '@nestjs/common';
+import { Between, Repository } from 'typeorm';
+import { Despesas } from '../entity/despesas.entity';
+import { DespesasDTO } from '../dto/despesas.dto';
 
 const select = [
   'despesas.id',
@@ -16,7 +12,7 @@ const select = [
   'categoria',
   'carteira',
 ];
-
+ 
 function CriaWhereMes(mes: number) {
   return !mes || mes == 0
     ? 'TRUE'
@@ -28,9 +24,7 @@ function CriaWherePago(pago: boolean) {
 }
 
 function CriaWhereAno(ano: number) {
-  return (!ano || ano == 0)
-    ? 'TRUE'
-    : 'YEAR(despesas.vencimento)=' + String(ano);
+  return !ano || ano == 0 ? 'TRUE' : 'YEAR(despesas.vencimento)=' + String(ano);
 }
 
 @Injectable()
@@ -41,8 +35,8 @@ export class DespesaService {
   ) { }
 
   async retornaTodasDespesas(ano?: number, mes?: number, pago?: boolean) {
-    mes = mes ?? 0
-    ano = ano ?? 0
+    mes = mes ?? 0;
+    ano = ano ?? 0;
     try {
       let despesas = await this.despesaRepository
         .createQueryBuilder('despesas')
@@ -58,10 +52,13 @@ export class DespesaService {
     } catch (error) {
       throw new BadRequestException(error);
     }
-
   }
 
-  async retornaValorDespesasAgrupadosPorCategoria(ano?: number, mes?: number, pago?: boolean) {
+  async retornaValorDespesasAgrupadosPorCategoria(
+    ano?: number,
+    mes?: number,
+    pago?: boolean,
+  ) {
     try {
       let despesas = await this.despesaRepository
         .createQueryBuilder('despesas')
@@ -80,7 +77,11 @@ export class DespesaService {
     }
   }
 
-  async retornaValorDespesasAgrupadosPorCarteira(ano?: number, mes?: number, pago?: boolean) {
+  async retornaValorDespesasAgrupadosPorCarteira(
+    ano?: number,
+    mes?: number,
+    pago?: boolean,
+  ) {
     try {
       let despesas = await this.despesaRepository
         .createQueryBuilder('despesas')
@@ -134,6 +135,27 @@ export class DespesaService {
       throw new BadRequestException(error);
     }
   }
+  async testeFind(ano?: number, mes?: number, pago: boolean = false) {
+
+    ano ?? new Date().getFullYear();
+    mes ?? 0;
+
+    try {
+      let despesas = await this.despesaRepository.find({
+        relations: [
+          'categoria',
+          'carteira'
+        ],
+        where:{
+          vencimento: Between( new Date(ano, mes), new Date(2021,18)),
+          pago: pago          
+        }       
+      })
+      return despesas
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
+  }
 
   async getOne(id: number): Promise<Despesas> {
     try {
@@ -144,7 +166,6 @@ export class DespesaService {
     } catch (error) {
       throw new BadRequestException(error);
     }
-
   }
 
   async insereDespesa(despesa: DespesasDTO): Promise<Despesas> {
@@ -177,12 +198,15 @@ export class DespesaService {
     }
   }
 
-  async deletaDespesa(id: number): Promise<{ deleted: boolean; message?: string }> {
+  async deletaDespesa(
+    id: number,
+  ): Promise<{ deleted: boolean; message?: string }> {
     try {
+      await this.getOne(id);
       await this.despesaRepository.delete({ id });
       return { deleted: true };
     } catch (error) {
-      throw new BadRequestException(error);;
+      throw new BadRequestException(error);
     }
   }
 }

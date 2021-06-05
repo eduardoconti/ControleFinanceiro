@@ -8,7 +8,7 @@ export class CarteirasService {
   constructor(
     @Inject('CARTEIRAS')
     private carteiraRepository: Repository<Carteiras>,
-  ) { }
+  ) {}
 
   async getOne(id: number): Promise<Carteiras> {
     try {
@@ -20,7 +20,7 @@ export class CarteirasService {
 
   async retornaTodasCarteiras(): Promise<Carteiras[]> {
     try {
-      return await this.carteiraRepository.find({ order: { id: "ASC" } });
+      return await this.carteiraRepository.find({ order: { id: 'ASC' } });
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -36,7 +36,9 @@ export class CarteirasService {
     }
   }
 
-  async deletaCarteira(id: number): Promise<{ deleted: boolean; message?: string }> {
+  async deletaCarteira(
+    id: number,
+  ): Promise<{ deleted: boolean; message?: string }> {
     try {
       await this.carteiraRepository.delete({ id });
       return { deleted: true };

@@ -1,16 +1,19 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { DatabaseModule } from '../db/database.module';
 import { despesasProviders } from './despesas.providers';
-import { DespesaService } from './despesas.service';
-import { DespesasController } from './despesas.controller'
+import { DespesaService } from './service/despesas.service';
+import { DespesasController } from './despesas.controller';
+import { DespesasMiddleware } from './middleware/despesas.middleware';
 
 @Module({
   imports: [DatabaseModule],
-  controllers:[DespesasController],
-  providers: [
-    ...despesasProviders,
-    DespesaService,
-  ],
+  controllers: [DespesasController],
+  providers: [...despesasProviders, DespesaService],
 })
-
-export class DespesasModule {}
+export class DespesasModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(DespesasMiddleware)
+      .forRoutes(DespesasController);
+  }
+}

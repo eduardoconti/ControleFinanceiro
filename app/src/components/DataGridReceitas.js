@@ -110,10 +110,12 @@ export default function DataGridComponent({
               className={classes.operacoes}
               onClick={async () => {
                 const receita = await retornaReceitaPorId(field.row.id);
-                receita.pagamento = new Date(stateAnoAtual,stateMesAtual,10);
+                receita.pagamento = new Date(stateAnoAtual, stateMesAtual, 10);
                 receita.id = 0;
                 receita.pago = false;
-                const response = await insereReceita(formataDadosParaFormulario(receita));
+                const response = await insereReceita(
+                  formataDadosParaFormulario(receita)
+                );
                 await setState();
                 setStateTotais(
                   await calculaTotais(

@@ -84,7 +84,6 @@ export async function deletaReceita(id) {
       message: "Deletado Receita",
     };
   } catch (error) {
-    
     return error.response.data;
   }
 }
@@ -98,8 +97,7 @@ export async function insereReceita(receita) {
       message: "Inserido Receita",
     };
   } catch (error) {
-    
-    return error.response.data;
+    return errorResponse(error.response.data);
   }
 }
 export async function alteraReceita(receita) {
@@ -111,8 +109,7 @@ export async function alteraReceita(receita) {
       message: "Alterado Receita",
     };
   } catch (error) {
-    
-    return error.response.data;
+    return errorResponse(error.response.data);
   }
 }
 export async function alteraFlagPago(receita) {
@@ -128,7 +125,6 @@ export async function alteraFlagPago(receita) {
       message: "Alterado Flag Pago Receita",
     };
   } catch (error) {
-    
     return error.response.data;
   }
 }
@@ -140,7 +136,6 @@ export async function retornaTotalReceitas(stateAnoAtual, stateMesAtual) {
     );
     return total.data;
   } catch (error) {
-    
     return error.response.status;
   }
 }
@@ -156,7 +151,6 @@ export async function retornaTotalReceitasPagas(stateAnoAtual, stateMesAtual) {
     }
     return total.data;
   } catch (error) {
-    
     return error.response.status;
   }
 }
@@ -169,7 +163,6 @@ export async function retornaTotalGeralReceitasPagas() {
     }
     return total.data;
   } catch (error) {
-    
     return error.response.status;
   }
 }
@@ -188,7 +181,6 @@ export async function retornaTotalReceitasAbertas(
     }
     return total.data;
   } catch (error) {
-    
     return error.response.status;
   }
 }
@@ -210,7 +202,6 @@ export async function retornaReceitasAgrupadasPorCarteira(
     );
     return total.data;
   } catch (error) {
-    
     return error.response.status;
   }
 }
@@ -226,7 +217,6 @@ export async function rertornaReceitasAgrupadasPorMes(stateAnoAtual, pago) {
     const total = await API.get(ENDPOINT + stateAnoAtual + "/mes/", headers);
     return total.data;
   } catch (error) {
-    
     return error.response.status;
   }
 }
@@ -236,7 +226,7 @@ export function formataDadosParaLinhasDataGrid(receita) {
     return {
       ...receita,
       carteira: receita.carteira.descricao,
-      pagamento: new Date(receita.pagamento).toUTCString().slice(5, 12)
+      pagamento: new Date(receita.pagamento).toUTCString().slice(5, 12),
     };
   });
 }
@@ -245,6 +235,15 @@ export function formataDadosParaFormulario(receita) {
   return {
     ...receita,
     carteira: receita.carteira.id,
-    pagamento: new Date(receita.pagamento).toISOString().slice(0, 10)
+    pagamento: new Date(receita.pagamento).toISOString().slice(0, 10),
+  };
+
+}
+
+function errorResponse(error) {
+  return {
+    statusCode: error.statusCode,
+    data: error.response,
+    message: error.response.message,
   };
 }

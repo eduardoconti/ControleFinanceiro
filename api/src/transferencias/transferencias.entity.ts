@@ -1,23 +1,29 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from 'typeorm';
-import { Carteiras } from '../carteiras/carteiras.entity'
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToOne,
+  CreateDateColumn,
+} from 'typeorm';
+import { Carteiras } from '../carteiras/carteiras.entity';
 @Entity()
 export class Transferencias {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Carteiras, carteiras => carteiras.transferenciaOrigem)
-  carteiraOrigem: Carteiras;
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  dataTransferencia: Date;
 
-  @ManyToOne(() => Carteiras, carteiras => carteiras.transferenciaDestino)
-  carteiraDestino: Carteiras;
+  @Column({ type: 'boolean', default: false })
+  pago: boolean;
 
-  @Column()
-  dataTransferencia:Date;
-
-  @Column()
-  pago:boolean;
-
-  @Column({type:'decimal', scale:2, precision:10}) 
+  @Column({ type: 'float', scale: 2, precision: 10 })
   valor: number;
 
+  @ManyToOne(() => Carteiras, (carteiras) => carteiras.transferenciaOrigem)
+  carteiraOrigem: number;
+
+  @ManyToOne(() => Carteiras, (carteiras) => carteiras.transferenciaDestino)
+  carteiraDestino: number;
 }

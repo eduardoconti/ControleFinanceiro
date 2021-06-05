@@ -1,8 +1,7 @@
-
 import { Injectable, Inject, BadRequestException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Receitas } from './receitas.entity';
-import { ReceitasDTO } from './receitas.dto';
+import { Receitas } from '../entity/receitas.entity';
+import { ReceitasDTO } from '../dto/receitas.dto';
 
 const select = [
   'receitas.id',
@@ -14,19 +13,17 @@ const select = [
 ];
 
 function CriaWhereMes(mes: number) {
-  return typeof (mes) === 'undefined' || mes == 0
+  return typeof mes === 'undefined' || mes == 0
     ? 'TRUE'
     : 'MONTH(receitas.pagamento)=' + String(mes);
 }
 
 function CriaWherePago(pago: boolean) {
-  return typeof (pago) === 'undefined'
-    ? 'TRUE'
-    : 'receitas.pago=' + pago
+  return typeof pago === 'undefined' ? 'TRUE' : 'receitas.pago=' + pago;
 }
 
 function CriaWhereAno(ano: number) {
-  return (typeof (ano) === 'undefined' || ano == 0)
+  return typeof ano === 'undefined' || ano == 0
     ? 'TRUE'
     : 'YEAR(receitas.pagamento)=' + String(ano);
 }
@@ -36,11 +33,11 @@ export class ReceitaService {
   constructor(
     @Inject('RECEITAS')
     private receitaRepository: Repository<Receitas>,
-  ) { }
+  ) {}
 
   async retornaTodasReceitas(ano?: number, mes?: number, pago?: boolean) {
-    mes = mes ?? 0
-    ano = ano ?? 0
+    mes = mes ?? 0;
+    ano = ano ?? 0;
 
     try {
       let receitas = await this.receitaRepository
@@ -58,7 +55,11 @@ export class ReceitaService {
     }
   }
 
-  async retornaValorReceitasAgrupadosPorCarteira(ano?: number, mes?: number, pago?: boolean) {
+  async retornaValorReceitasAgrupadosPorCarteira(
+    ano?: number,
+    mes?: number,
+    pago?: boolean,
+  ) {
     try {
       let receitas = await this.receitaRepository
         .createQueryBuilder('receitas')
@@ -152,7 +153,9 @@ export class ReceitaService {
     }
   }
 
-  async deletaReceita(id: number): Promise<{ deleted: boolean; message?: string }> {
+  async deletaReceita(
+    id: number,
+  ): Promise<{ deleted: boolean; message?: string }> {
     try {
       await this.receitaRepository.delete({ id });
       return { deleted: true };

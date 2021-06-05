@@ -17,7 +17,6 @@ const renderColorfulLegendText = (value, entry) => {
 };
 
 export default function Grafico({ data, chaveX, chaveY, stroke, cor }) {
-
   return (
     <ResponsiveContainer>
       <BarChart
@@ -27,7 +26,7 @@ export default function Grafico({ data, chaveX, chaveY, stroke, cor }) {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey={chaveX}/>
+        <XAxis dataKey={chaveX} />
         <Legend formatter={renderColorfulLegendText} />
         <YAxis type="number" domain={[0, 4000]} />
         <Tooltip />

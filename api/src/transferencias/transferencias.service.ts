@@ -1,6 +1,6 @@
 import { Injectable, Inject, BadRequestException } from '@nestjs/common';
-import { TransferenciasDTO } from './transferencias.dto'
-import { Transferencias } from './transferencias.entity'
+import { TransferenciasDTO } from './transferencias.dto';
+import { Transferencias } from './transferencias.entity';
 import { Repository } from 'typeorm';
 
 const select = [
@@ -9,8 +9,7 @@ const select = [
   'transferencias.pago',
   'transferencias.dataTransferencia',
   'carteiraOrigem',
-  'carteiraDestino'
-
+  'carteiraDestino',
 ];
 
 function CriaWhereMes(mes: number) {
@@ -20,13 +19,11 @@ function CriaWhereMes(mes: number) {
 }
 
 function CriaWherePago(pago: boolean) {
-  return typeof pago === 'undefined'
-    ? 'TRUE'
-    : 'transferencias.pago=' + pago
+  return typeof pago === 'undefined' ? 'TRUE' : 'transferencias.pago=' + pago;
 }
 
 function CriaWhereAno(ano: number) {
-  return (typeof ano == 'undefined' || ano == 0)
+  return typeof ano == 'undefined' || ano == 0
     ? 'TRUE'
     : 'YEAR(transferencias.dataTransferencia)=' + String(ano);
 }
@@ -36,11 +33,15 @@ export class TransferenciaService {
   constructor(
     @Inject('TRANSFERENCIAS')
     private transferenciaRepository: Repository<Transferencias>,
-  ) { }
+  ) {}
 
-  async retornaTodas(ano: number, mes: number, pago: boolean): Promise<Transferencias[]> {
-    mes = mes ?? 0
-    ano = ano ?? 0
+  async retornaTodas(
+    ano: number,
+    mes: number,
+    pago: boolean,
+  ): Promise<Transferencias[]> {
+    mes = mes ?? 0;
+    ano = ano ?? 0;
     try {
       let transferencias = await this.transferenciaRepository
         .createQueryBuilder('transferencias')
@@ -69,9 +70,13 @@ export class TransferenciaService {
     }
   }
 
-  async insereTransferencia(transferencia: TransferenciasDTO): Promise<Transferencias> {
+  async insereTransferencia(
+    transferencia: TransferenciasDTO,
+  ): Promise<Transferencias> {
     try {
-      const newTransferencias = this.transferenciaRepository.create(transferencia);
+      const newTransferencias = this.transferenciaRepository.create(
+        transferencia,
+      );
       await this.transferenciaRepository.save(newTransferencias);
       return newTransferencias;
     } catch (error) {
@@ -79,7 +84,9 @@ export class TransferenciaService {
     }
   }
 
-  async alteraTransferencia(transferencia: TransferenciasDTO): Promise<Transferencias> {
+  async alteraTransferencia(
+    transferencia: TransferenciasDTO,
+  ): Promise<Transferencias> {
     try {
       const { id } = transferencia;
       await this.transferenciaRepository.update({ id }, transferencia);
@@ -99,8 +106,9 @@ export class TransferenciaService {
     }
   }
 
-  async deletaTransferencia(id: number): Promise<{ deleted: boolean; message?: string }> {
-
+  async deletaTransferencia(
+    id: number,
+  ): Promise<{ deleted: boolean; message?: string }> {
     try {
       await this.transferenciaRepository.delete({ id });
       return { deleted: true };
@@ -109,7 +117,11 @@ export class TransferenciaService {
     }
   }
 
-  async retornaValorDespesasAgrupadosPorCarteiraOrigem(ano?: number, mes?: number, pago?: boolean) {
+  async retornaValorDespesasAgrupadosPorCarteiraOrigem(
+    ano?: number,
+    mes?: number,
+    pago?: boolean,
+  ) {
     try {
       let transferencias = await this.transferenciaRepository
         .createQueryBuilder('transferencias')
@@ -132,7 +144,11 @@ export class TransferenciaService {
     }
   }
 
-  async retornaValorDespesasAgrupadosPorCarteiraDestino(ano?: number, mes?: number, pago?: boolean) {
+  async retornaValorDespesasAgrupadosPorCarteiraDestino(
+    ano?: number,
+    mes?: number,
+    pago?: boolean,
+  ) {
     try {
       let transferencias = await this.transferenciaRepository
         .createQueryBuilder('transferencias')

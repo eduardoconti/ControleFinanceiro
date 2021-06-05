@@ -7,5 +7,4 @@ export const categoriasProviders = [
     useFactory: (connection: Connection) => connection.getRepository(Carteiras),
     inject: ['DATABASE_CONNECTION'],
   },
-
 ];

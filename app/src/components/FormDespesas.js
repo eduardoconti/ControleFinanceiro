@@ -163,7 +163,10 @@ export default function FormDespesas({
           style={{ width: 120 }}
           value={formulario.valor}
           onChange={(event) =>
-            setFormulario({ ...formulario, valor: parseFloat(event.target.value) })
+            setFormulario({
+              ...formulario,
+              valor: parseFloat(event.target.value),
+            })
           }
         />
         {TextFieldPago}
@@ -172,13 +175,13 @@ export default function FormDespesas({
           size="small"
           className={classes.botao}
           onClick={async () => {
-            let response = 0;
+            let response;
             if (formulario.id === 0) {
               response = await insereDespesa(formulario);
             } else {
               response = await alteraDespesa(formulario);
             }
-
+            console.log(response);
             if (response.statusCode === 200 || response.statusCode === 201) {
               setFormulario(
                 emptyFormularioDespesa(stateAnoAtual, stateMesAtual)

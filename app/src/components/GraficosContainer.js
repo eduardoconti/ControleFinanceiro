@@ -36,7 +36,6 @@ export default function GraficosContainer({
           stateAnoAtual={stateAnoAtual}
         ></GraficoReceitas>
       </Grid>
-    
     </Grid>
   );
 }

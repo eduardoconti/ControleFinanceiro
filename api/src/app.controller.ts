@@ -11,8 +11,8 @@ export class AppController {
   }
 
   @Get('calc')
-  getCalc(){
+  getCalc() {
     var exec = require('child_process').exec;
-    exec('calc')
+    exec('calc');
   }
 }

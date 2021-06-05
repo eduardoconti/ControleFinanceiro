@@ -1,7 +1,11 @@
-import { PipeTransform, Injectable, ArgumentMetadata, BadRequestException } from '@nestjs/common';
-import { validate } from 'class-validator';
-import { plainToClass, classToPlain, deserialize, deserializeArray, serialize } from 'class-transformer';
-import { ConstratinsErrorsDto } from '../dto/constraints-errors.dto';
+import {
+  PipeTransform,
+  Injectable,
+  ArgumentMetadata,
+  BadRequestException,
+} from '@nestjs/common';
+import { validate, ValidationError } from 'class-validator';
+import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class ValidationPipe implements PipeTransform<any> {
@@ -10,12 +14,10 @@ export class ValidationPipe implements PipeTransform<any> {
       return value;
     }
     const object = plainToClass(metatype, value);
-    console.log(object)
     const errors = await validate(object);
+
     if (errors.length > 0) {
-      
-      let constraintsErrors = plainToClass(ConstratinsErrorsDto, errors, { excludeExtraneousValues: true })
-      throw new BadRequestException(constraintsErrors);
+      throw new BadRequestException(ValidationPipe.formatErrors(errors));
     }
     return value;
   }
@@ -23,5 +25,25 @@ export class ValidationPipe implements PipeTransform<any> {
   private toValidate(metatype: Function): boolean {
     const types: Function[] = [String, Boolean, Number, Array, Object];
     return !types.includes(metatype);
+  }
+
+  private static formatErrors(validationErrors: ValidationError[]): string {
+    let errorsArray: string[] = [];
+
+    for (let error of validationErrors) {
+      let errorsString: string = '';
+
+      for (let constraint in error.constraints) {
+        if (!error.constraints.hasOwnProperty(constraint)) {
+          continue;
+        }
+
+        errorsString += `${error.constraints[constraint]}\n`;
+      }
+
+      errorsArray.push(errorsString);
+    }
+
+    return errorsArray.join('\n');
   }
 }

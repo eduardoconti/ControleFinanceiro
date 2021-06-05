@@ -5,35 +5,36 @@ import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
-  IsPositive,
+  IsString,
+  Length,
 } from 'class-validator';
 import { CONSTRAINTS_MESSAGES } from 'src/shared/constants';
 
-export class TransferenciasDTO {
+export class ReceitasDTO {
   id?: number;
 
   @ApiProperty()
-  @IsNumber({}, { message: CONSTRAINTS_MESSAGES.IS_NUMBER })
   @IsNotEmpty({ message: CONSTRAINTS_MESSAGES.IS_NOT_EMPTY })
-  carteiraOrigem: number;
+  @IsString({ message: CONSTRAINTS_MESSAGES.IS_STRING })
+  @Length(2, 50, { message: CONSTRAINTS_MESSAGES.IS_LENGTH })
+  descricao: string;
 
   @ApiProperty()
   @IsNotEmpty({ message: CONSTRAINTS_MESSAGES.IS_NOT_EMPTY })
-  @IsNumber({}, { message: CONSTRAINTS_MESSAGES.IS_NUMBER })
-  carteiraDestino: number;
+  valor: number;
 
   @ApiPropertyOptional()
-  @IsOptional()
   @IsDateString({}, { message: CONSTRAINTS_MESSAGES.IS_DATE })
-  dataTransferencia: Date;
-
-  @ApiPropertyOptional()
   @IsOptional()
+  pagamento: Date;
+
   @IsBoolean({ message: CONSTRAINTS_MESSAGES.IS_BOOLEAN })
+  @IsOptional()
+  @ApiPropertyOptional()
   pago: boolean;
 
   @ApiProperty()
   @IsNotEmpty({ message: CONSTRAINTS_MESSAGES.IS_NOT_EMPTY })
   @IsNumber({}, { message: CONSTRAINTS_MESSAGES.IS_NUMBER })
-  valor: number;
+  carteira: number;
 }

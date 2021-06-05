@@ -1,13 +1,12 @@
 export function emptyFormularioDespesa(ano, mes) {
-
   return {
     descricao: "",
     categoria: "",
     carteira: "",
     valor: 0,
     pago: false,
-    pagamento: retornaDia10( ano, mes ).toISOString().slice(0, 10),
-    vencimento: retornaDia10( ano, mes ).toISOString().slice(0, 10),
+    pagamento: retornaDia10(ano, mes).toISOString().slice(0, 10),
+    vencimento: retornaDia10(ano, mes).toISOString().slice(0, 10),
     id: 0,
   };
 }
@@ -39,7 +38,7 @@ export function emptyFormularioReceita(ano, mes) {
     carteira: "",
     valor: 0,
     pago: false,
-    pagamento: retornaDia10( ano, mes ).toISOString().slice(0, 10),
+    pagamento: retornaDia10(ano, mes).toISOString().slice(0, 10),
     id: 0,
   };
 }
@@ -58,17 +57,16 @@ export function emptyFormularioTransferencia(ano, mes) {
     carteiraDestino: "",
     valor: 0,
     pago: false,
-    dataTransferencia: retornaDia10( ano, mes )
-      .toISOString()
-      .slice(0, 10),
+    dataTransferencia: retornaDia10(ano, mes).toISOString().slice(0, 10),
   };
 }
 
-function retornaDia10( ano, mes ){
+function retornaDia10(ano, mes) {
+  let dia = 10;
 
-  let dia = 10 
+  new Date().getDate() > 10 && new Date().getMonth() + 1 === mes
+    ? (dia = new Date().getDate())
+    : (dia = dia);
 
-   new Date().getDate() > 10 && new Date().getMonth() +1 === mes   ? dia = new Date().getDate() : dia = dia 
-
-  return  new Date(ano + "-" + mes + "-" + dia)
+  return new Date(ano + "-" + mes + "-" + dia);
 }

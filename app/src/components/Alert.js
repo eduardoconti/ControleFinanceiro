@@ -17,7 +17,7 @@ export default function AlertComponent(props) {
       open={alert.isOpen}
       onClose={handleClose}
       anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-      autoHideDuration={2500}
+      autoHideDuration={4000}
     >
       <Alert variant="filled" severity={alert.type} onClose={handleClose}>
         <AlertTitle>{alert.title}</AlertTitle>

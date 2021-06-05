@@ -11,7 +11,6 @@ export async function retornaCategorias() {
     const res = await API.get(ENDPOINT, headers);
     return res.data;
   } catch (error) {
-    
     return error.response.status;
   }
 }
@@ -38,7 +37,6 @@ export async function deletaCategoria(id) {
       message: "Excluido Categoria",
     };
   } catch (error) {
-    
     return error.response.data;
   }
 }
@@ -52,7 +50,6 @@ export async function alteraCategoria(carteira) {
       message: "Alterado Categoria",
     };
   } catch (error) {
-    
     return error.response.data;
   }
 }
