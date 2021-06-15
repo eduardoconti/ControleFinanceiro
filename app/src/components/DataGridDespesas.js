@@ -55,7 +55,7 @@ export default function DataGridDespesas({
     {
       field: "carteira",
       headerName: "Carteira",
-      width: 100,
+      width: 120,
     },
     {
       field: "vencimento",

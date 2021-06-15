@@ -12,7 +12,8 @@ export async function retornaCarteiras() {
     const res = await API.get(ENDPOINT, headers);
     return res.data;
   } catch (error) {
-    return error.response.status;
+    console.log(error)
+    return  [{ id: 0, descricao: "" }];
   }
 }
 

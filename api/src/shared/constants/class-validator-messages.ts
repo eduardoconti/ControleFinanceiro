@@ -4,6 +4,5 @@ export const CONSTRAINTS_MESSAGES = {
   IS_NUMBER: 'O campo $property deve ser numérico',
   IS_DATE: 'O campo $property deve ser data',
   IS_BOOLEAN: 'O campo $property deve ser boolean',
-  IS_LENGTH:
-    'O campo $property deve ter de $constraint1 a $constraint2 caracteres',
+  IS_LENGTH: 'O campo $property deve ter de $constraint1 a $constraint2 caracteres',
 };

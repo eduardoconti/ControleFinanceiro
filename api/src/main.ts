@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { AppModule } from './app/app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as helmet from 'helmet';
 import { HttpExceptionFilter } from './shared/exceptions/http-exception.filter';
@@ -12,18 +12,14 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(new ValidationPipe());
 
-  const APP_NAME = 'Controle Financeiro';
-  const APP_VERSION = '1.0';
-
   const options = new DocumentBuilder()
-    .setTitle(APP_NAME)
+    .setTitle(process.env.API_NAME)
     .setDescription('API controle financeiro')
-    .setVersion(APP_VERSION)
+    .setVersion(process.env.VERSION)
     .build();
   const document = SwaggerModule.createDocument(app, options);
 
   SwaggerModule.setup('docs', app, document);
-
-  await app.listen(3001);
+  await app.listen(parseInt(process.env.PORT));
 }
 bootstrap();

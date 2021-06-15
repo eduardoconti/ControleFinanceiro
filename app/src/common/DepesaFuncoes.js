@@ -226,6 +226,7 @@ export function formataDadosParaLinhasDataGrid(despesas) {
       categoria: despesa.categoria.descricao,
       carteira: despesa.carteira.descricao,
       vencimento: new Date(despesa.vencimento).toUTCString().slice(5, 12),
+      valor:despesa.valor.toFixed(2)
     };
   });
 }

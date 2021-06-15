@@ -49,16 +49,16 @@ export default function FormDespesas({
 
   useEffect(() => {
     retornaCategorias().then((categorias) => {
-      if (categorias.length === 0) {
-        setAlert(AlertWarning("Necessário cadastrar categoriaid"));
+      if ( categorias && categorias.length === 0) {
+        setAlert(AlertWarning("Necessário cadastrar categoria"));
       } else {
         setCategorias(categorias);
       }
     });
 
     retornaCarteiras().then((carteiras) => {
-      if (carteiras.length === 0) {
-        setAlert(AlertWarning("Necessário cadastrar carteiraid"));
+      if (carteiras && carteiras.length === 0) {
+        setAlert(AlertWarning("Necessário cadastrar carteira"));
       } else {
         setCarteiras(carteiras);
       }

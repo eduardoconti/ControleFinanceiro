@@ -145,12 +145,13 @@ export default function FormTransferencias({
         <TextField
           id="valor"
           label="Valor"
+          type="number"
           variant="outlined"
           size="small"
           style={{ width: 120 }}
           value={formulario.valor}
           onChange={(event) =>
-            setFormulario({ ...formulario, valor: event.target.value })
+            setFormulario({ ...formulario, valor: parseFloat(event.target.value) })
           }
         />
 
@@ -163,6 +164,7 @@ export default function FormTransferencias({
           onClick={async () => {
             let response = 0;
             let transferencias;
+
             if (formulario.id === 0)
               response = await insereTransferencia(formulario);
             else {

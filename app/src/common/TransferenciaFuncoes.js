@@ -90,6 +90,7 @@ export function formataDadosParaLinhasDataGrid(transferencia) {
       dataTransferencia: new Date(transferencia.dataTransferencia)
         .toISOString()
         .slice(0, 10),
+      valor:transferencia.valor.toFixed(2)  
     };
   });
 }

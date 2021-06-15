@@ -227,6 +227,7 @@ export function formataDadosParaLinhasDataGrid(receita) {
       ...receita,
       carteira: receita.carteira.descricao,
       pagamento: new Date(receita.pagamento).toUTCString().slice(5, 12),
+      valor: receita.valor.toFixed(2) 
     };
   });
 }
