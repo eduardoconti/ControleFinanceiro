@@ -8,14 +8,17 @@ import {
   Post,
   Patch,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ReceitaService } from './service/receitas.service';
 import { Receitas } from './entity/receitas.entity';
 import { ReceitasDTO } from './dto/receitas.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('receitas')
 @ApiTags('receitas')
+@UseGuards(JwtAuthGuard)
 export class ReceitasController {
   constructor(private readonly receitaService: ReceitaService) {}
 

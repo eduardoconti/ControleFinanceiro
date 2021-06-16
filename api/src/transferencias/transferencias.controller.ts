@@ -8,13 +8,16 @@ import {
   Put,
   Delete,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { TransferenciaService } from './transferencias.service';
 import { TransferenciasDTO } from './transferencias.dto';
 import { Transferencias } from './transferencias.entity';
 import { ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 @Controller('transferencias')
 @ApiTags('transferencias')
+@UseGuards(JwtAuthGuard)
 export class TransferenciasController {
   constructor(private readonly transferenciaService: TransferenciaService) {}
   @Get()

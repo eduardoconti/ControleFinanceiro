@@ -6,13 +6,16 @@ import {
   Param,
   Delete,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { CarteirasService } from './carteiras.service';
 import { Carteiras } from './carteiras.entity';
 import { CarteirasDTO } from './carteiras.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 @Controller('carteiras')
 @ApiTags('carteiras')
+@UseGuards(JwtAuthGuard)
 export class CarteirasController {
   constructor(private readonly carteiraService: CarteirasService) {}
 

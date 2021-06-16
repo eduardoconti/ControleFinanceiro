@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Categorias } from '../../categorias/categorias.entity';
 import { Carteiras } from '../../carteiras/carteiras.entity';
+import { Users } from 'src/users/entity/users.entity';
 
 @Entity({schema:'public', name:'despesas'})
 export class Despesas {
@@ -34,4 +35,7 @@ export class Despesas {
 
   @ManyToOne(() => Categorias, (categorias) => categorias.id)
   categoria: number;
+
+  @ManyToOne(() => Users, (users) => users.id )
+  user: string;
 }

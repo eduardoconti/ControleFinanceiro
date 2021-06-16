@@ -1,3 +1,4 @@
+import { Users } from 'src/users/entity/users.entity';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Carteiras } from '../../carteiras/carteiras.entity';
 @Entity( {schema:'public', name:'receitas'})
@@ -19,4 +20,7 @@ export class Receitas {
 
   @ManyToOne(() => Carteiras, (carteiras) => carteiras.id)
   carteira: number;
+
+  @ManyToOne(() =>Users, (users) => users.userReceita )
+  user: string;
 }

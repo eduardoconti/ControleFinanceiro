@@ -13,6 +13,8 @@ import { CONSTRAINTS_MESSAGES } from 'src/shared/constants';
 export class DespesasDTO {
   id?: number;
 
+  userId: string;
+
   @ApiProperty({
     description: 'Descrição da despesa',
     minLength: 2,
@@ -25,12 +27,12 @@ export class DespesasDTO {
 
   @ApiProperty({ description: 'Id da categoria' })
   @IsNotEmpty({ message: CONSTRAINTS_MESSAGES.IS_NOT_EMPTY })
-  @IsNumber({}, { message: CONSTRAINTS_MESSAGES.IS_NUMBER })
+  //@IsNumber({}, { message: CONSTRAINTS_MESSAGES.IS_NUMBER })
   categoria: number;
 
   @ApiProperty({ description: 'Id da carteira' })
   @IsNotEmpty({ message: CONSTRAINTS_MESSAGES.IS_NOT_EMPTY })
-  @IsNumber({}, { message: CONSTRAINTS_MESSAGES.IS_NUMBER })
+  //@IsNumber({}, { message: CONSTRAINTS_MESSAGES.IS_NUMBER })
   carteira: number;
 
   @ApiProperty({ description: 'Valor da despesa', default: 0 })

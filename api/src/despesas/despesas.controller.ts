@@ -8,14 +8,17 @@ import {
   Post,
   Patch,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { DespesaService } from './service/despesas.service';
 import { Despesas } from './entity/despesas.entity';
 import { DespesasDTO } from './dto/despesas.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('despesas')
 @ApiTags('despesas')
+@UseGuards(JwtAuthGuard)
 export class DespesasController {
   constructor(private readonly despesaService: DespesaService) {}
 
