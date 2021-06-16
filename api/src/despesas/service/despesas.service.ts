@@ -109,7 +109,7 @@ export class DespesaService {
     try {
       let { sum } = await this.despesaRepository
         .createQueryBuilder('despesas')
-        .select('SUM(despesas.valor) valor')
+        .select('SUM(despesas.valor)', 'sum')
         .where(CriaWhereAno(ano))
         .andWhere(CriaWhereMes(mes))
         .andWhere(CriaWherePago(pago))
