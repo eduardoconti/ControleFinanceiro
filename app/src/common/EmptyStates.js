@@ -62,11 +62,11 @@ export function emptyFormularioTransferencia(ano, mes) {
 }
 
 function retornaDia10(ano, mes) {
-  let dia = 10;
+  let dia 
 
   new Date().getDate() > 10 && new Date().getMonth() + 1 === mes
     ? (dia = new Date().getDate())
-    : (dia = dia);
+    : (dia = 10);
 
   return new Date(ano + "-" + mes + "-" + dia);
 }

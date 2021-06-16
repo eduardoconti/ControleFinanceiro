@@ -132,7 +132,7 @@ export default function DataGridComponent({
   useEffect(() => {
     getTransferencias(stateAnoAtual, stateMesAtual).then((transferencias) => {
       setRows(formataDadosParaLinhasDataGrid(transferencias));
-    });
+    });// eslint-disable-next-line
   }, [stateAnoAtual, stateMesAtual]);
 
   return (
