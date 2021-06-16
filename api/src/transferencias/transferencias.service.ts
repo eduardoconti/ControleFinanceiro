@@ -126,7 +126,7 @@ export class TransferenciaService {
       let transferencias = await this.transferenciaRepository
         .createQueryBuilder('transferencias')
         .select([
-          'transferencias.carteiraOrigem id',
+          'carteiraOrigem.id id',
           'carteiraOrigem.descricao descricao',
           'SUM(transferencias.valor) valor',
         ])
@@ -134,7 +134,7 @@ export class TransferenciaService {
         .where(CriaWhereAno(ano))
         .andWhere(CriaWhereMes(mes))
         .andWhere(CriaWherePago(pago))
-        .groupBy('transferencias.carteiraOrigem')
+        .groupBy('carteiraOrigem.id')
         .orderBy('valor', 'DESC')
         .getRawMany();
 
@@ -153,7 +153,7 @@ export class TransferenciaService {
       let transferencias = await this.transferenciaRepository
         .createQueryBuilder('transferencias')
         .select([
-          'transferencias.carteiraDestino id',
+          'carteiraDestino.id id',
           'carteiraDestino.descricao descricao',
           'SUM(transferencias.valor) valor',
         ])
@@ -161,7 +161,7 @@ export class TransferenciaService {
         .where(CriaWhereAno(ano))
         .andWhere(CriaWhereMes(mes))
         .andWhere(CriaWherePago(pago))
-        .groupBy('transferencias.carteiraDestino')
+        .groupBy('carteiraDestino.id')
         .orderBy('valor', 'DESC')
         .getRawMany();
 

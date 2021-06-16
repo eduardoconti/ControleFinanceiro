@@ -89,13 +89,13 @@ export class DespesaService {
         .select([
           'SUM(despesas.valor) valor',
           'carteira.descricao descricao',
-          'despesas.carteira id',
+          'carteira.id id',
         ])
         .innerJoin('despesas.carteira', 'carteira')
         .where(CriaWhereAno(ano))
         .andWhere(CriaWhereMes(mes))
         .andWhere(CriaWherePago(pago))
-        .groupBy('despesas.carteira')
+        .groupBy('carteira.id')
         .orderBy('valor', 'DESC')
         .getRawMany();
 
