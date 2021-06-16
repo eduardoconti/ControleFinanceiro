@@ -3,13 +3,13 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Despesas } from '../despesas/entity/despesas.entity';
 import { Receitas } from '../receitas/entity/receitas.entity';
 import { Transferencias } from '../transferencias/transferencias.entity';
-@Entity()
+@Entity( {schema:'public', name:'carteiras'})
 export class Carteiras {
   @PrimaryGeneratedColumn()
   @ApiProperty()
   id: number;
 
-  @Column({ length: 255, unique: true, nullable: false })
+  @Column()
   descricao: string;
 
   @OneToMany(() => Despesas, (despesas) => despesas.carteira)

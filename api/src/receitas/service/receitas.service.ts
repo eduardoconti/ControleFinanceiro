@@ -13,9 +13,9 @@ const select = [
 ];
 
 function CriaWhereMes(mes: number) {
-  return typeof mes === 'undefined' || mes == 0
+  return !mes || mes == 0
     ? 'TRUE'
-    : 'MONTH(receitas.pagamento)=' + String(mes);
+    : "date_part('month',receitas.pagamento)=" + String(mes);
 }
 
 function CriaWherePago(pago: boolean) {
@@ -23,9 +23,7 @@ function CriaWherePago(pago: boolean) {
 }
 
 function CriaWhereAno(ano: number) {
-  return typeof ano === 'undefined' || ano == 0
-    ? 'TRUE'
-    : 'YEAR(receitas.pagamento)=' + String(ano);
+  return !ano || ano == 0 ? 'TRUE' : "date_part('year',receitas.pagamento)=" + String(ano);
 }
 
 @Injectable()
@@ -100,10 +98,10 @@ export class ReceitaService {
     try {
       let receitas = await this.receitaRepository
         .createQueryBuilder('receitas')
-        .select(['SUM(receitas.valor) valor', 'MONTH(receitas.pagamento) mes'])
+        .select(['SUM(receitas.valor) valor', "date_part('month',receitas.pagamento) mes"])
         .where(CriaWhereAno(ano))
         .andWhere(CriaWherePago(pago))
-        .groupBy('MONTH(receitas.pagamento)')
+        .groupBy("date_part('month',receitas.pagamento)")
         .getRawMany();
       return receitas;
     } catch (error) {

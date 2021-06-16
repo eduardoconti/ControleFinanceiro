@@ -16,7 +16,7 @@ const select = [
 function CriaWhereMes(mes: number) {
   return !mes || mes == 0
     ? 'TRUE'
-    : 'MONTH(despesas.vencimento)=' + String(mes);
+    : "date_part('month',despesas.vencimento)=" + String(mes);
 }
 
 function CriaWherePago(pago: boolean) {
@@ -24,7 +24,7 @@ function CriaWherePago(pago: boolean) {
 }
 
 function CriaWhereAno(ano: number) {
-  return !ano || ano == 0 ? 'TRUE' : 'YEAR(despesas.vencimento)=' + String(ano);
+  return !ano || ano == 0 ? 'TRUE' : "date_part('year',despesas.vencimento)=" + String(ano);
 }
 
 @Injectable()
@@ -50,6 +50,7 @@ export class DespesaService {
         .getMany();
       return despesas;
     } catch (error) {
+   
       throw new BadRequestException(error);
     }
   }
@@ -67,7 +68,7 @@ export class DespesaService {
         .where(CriaWhereAno(ano))
         .andWhere(CriaWhereMes(mes))
         .andWhere(CriaWherePago(pago))
-        .groupBy('despesas.categoria')
+        .groupBy('categoria.id')
         .orderBy('valor', 'DESC')
         .getRawMany();
 
@@ -107,8 +108,8 @@ export class DespesaService {
   async retornaTotalDespesas(ano?: number, mes?: number, pago?: boolean) {
     try {
       let { sum } = await this.despesaRepository
-        .createQueryBuilder('DESPESAS')
-        .select('SUM(DESPESAS.valor)', 'sum')
+        .createQueryBuilder('despesas')
+        .select('SUM(despesas.valor) valor')
         .where(CriaWhereAno(ano))
         .andWhere(CriaWhereMes(mes))
         .andWhere(CriaWherePago(pago))
@@ -122,12 +123,12 @@ export class DespesaService {
 
   async retornaDespesasAgrupadasPorMes(ano?: number, pago?: boolean) {
     try {
+
       let despesas = await this.despesaRepository
         .createQueryBuilder('despesas')
-        .select(['SUM(despesas.valor) valor', 'MONTH(despesas.vencimento) mes'])
+        .select(['SUM(despesas.valor) valor', "date_part('month',despesas.vencimento) mes"])
         .where(CriaWhereAno(ano))
-        .andWhere(CriaWherePago(pago))
-        .groupBy('MONTH(despesas.vencimento)')
+        .groupBy("date_part('month',despesas.vencimento)")
         .getRawMany();
 
       return despesas;

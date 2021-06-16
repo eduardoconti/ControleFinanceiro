@@ -15,7 +15,7 @@ const select = [
 function CriaWhereMes(mes: number) {
   return typeof mes === 'undefined' || mes == 0
     ? 'TRUE'
-    : 'MONTH(transferencias.dataTransferencia)=' + String(mes);
+    : "date_part('month',transferencias.dataTransferencia)=" + String(mes);
 }
 
 function CriaWherePago(pago: boolean) {
@@ -25,7 +25,7 @@ function CriaWherePago(pago: boolean) {
 function CriaWhereAno(ano: number) {
   return typeof ano == 'undefined' || ano == 0
     ? 'TRUE'
-    : 'YEAR(transferencias.dataTransferencia)=' + String(ano);
+    : "date_part('month',transferencias.dataTransferencia)=" + String(ano);
 }
 
 @Injectable()
