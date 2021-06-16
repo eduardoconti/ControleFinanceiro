@@ -64,13 +64,13 @@ export class ReceitaService {
         .select([
           'SUM(receitas.valor) valor',
           'carteira.descricao descricao',
-          'receitas.carteira id',
+          'carteira.id id',
         ])
         .innerJoin('receitas.carteira', 'carteira')
         .where(CriaWhereAno(ano))
         .andWhere(CriaWhereMes(mes))
         .andWhere(CriaWherePago(pago))
-        .groupBy('receitas.carteira')
+        .groupBy('carteira.id')
         .orderBy('valor', 'DESC')
         .getRawMany();
       return receitas;
