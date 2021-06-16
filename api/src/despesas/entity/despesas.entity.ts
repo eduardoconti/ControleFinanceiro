@@ -20,10 +20,10 @@ export class Despesas {
   @Column('float')
   valor: number;
 
-  @Column('timestamp without time zone')
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   vencimento: Date;
 
-  @Column('timestamp without time zone')
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   pagamento: Date;
 
   @Column('boolean')

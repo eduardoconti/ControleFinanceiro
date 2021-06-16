@@ -7,15 +7,15 @@ import {
   CreateDateColumn,
 } from 'typeorm';
 import { Carteiras } from '../carteiras/carteiras.entity';
-@Entity({schema:'public', name:'transferencias'})
+@Entity({ schema: 'public', name: 'transferencias' })
 export class Transferencias {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('timestamp without time zone')
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   dataTransferencia: Date;
 
-  @Column( 'boolean')
+  @Column('boolean')
   pago: boolean;
 
   @Column('float')

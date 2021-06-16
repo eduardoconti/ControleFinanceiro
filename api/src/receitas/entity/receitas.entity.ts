@@ -11,7 +11,7 @@ export class Receitas {
   @Column('float')
   valor: number;
 
-  @Column( 'timestamp without time zone')
+  @Column( { type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   pagamento: Date;
 
   @Column('boolean')
