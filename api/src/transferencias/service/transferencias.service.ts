@@ -1,7 +1,7 @@
 import { Injectable, Inject, BadRequestException } from '@nestjs/common';
-import { TransferenciasDTO } from './transferencias.dto';
-import { Transferencias } from './transferencias.entity';
 import { Repository } from 'typeorm';
+import { TransferenciasDTO } from '../dto/transferencias.dto';
+import { Transferencias } from '../entity/transferencias.entity';
 
 const select = [
   'transferencias.id',
@@ -61,7 +61,7 @@ export class TransferenciaService {
 
   async getOne(id: number): Promise<Transferencias> {
     try {
-      return this.transferenciaRepository.findOneOrFail(
+      return await this.transferenciaRepository.findOneOrFail(
         { id },
         { relations: ['carteiraOrigem', 'carteiraDestino'] },
       );
@@ -74,7 +74,7 @@ export class TransferenciaService {
     transferencia: TransferenciasDTO,
   ): Promise<Transferencias> {
     try {
-      const newTransferencias = this.transferenciaRepository.create(
+      const newTransferencias = await this.transferenciaRepository.create(
         transferencia,
       );
       await this.transferenciaRepository.save(newTransferencias);

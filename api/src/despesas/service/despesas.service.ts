@@ -12,7 +12,7 @@ const select = [
   'categoria',
   'carteira',
 ];
- 
+
 function CriaWhereMes(mes: number) {
   return !mes || mes == 0
     ? 'TRUE'
@@ -24,7 +24,9 @@ function CriaWherePago(pago: boolean) {
 }
 
 function CriaWhereAno(ano: number) {
-  return !ano || ano == 0 ? 'TRUE' : "date_part('year',despesas.vencimento)=" + String(ano);
+  return !ano || ano == 0
+    ? 'TRUE'
+    : "date_part('year',despesas.vencimento)=" + String(ano);
 }
 
 @Injectable()
@@ -32,7 +34,7 @@ export class DespesaService {
   constructor(
     @Inject('DESPESAS')
     private despesaRepository: Repository<Despesas>,
-  ) { }
+  ) {}
 
   async retornaTodasDespesas(ano?: number, mes?: number, pago?: boolean) {
     mes = mes ?? 0;
@@ -50,7 +52,6 @@ export class DespesaService {
         .getMany();
       return despesas;
     } catch (error) {
-   
       throw new BadRequestException(error);
     }
   }
@@ -123,10 +124,12 @@ export class DespesaService {
 
   async retornaDespesasAgrupadasPorMes(ano?: number, pago?: boolean) {
     try {
-
       let despesas = await this.despesaRepository
         .createQueryBuilder('despesas')
-        .select(['SUM(despesas.valor) valor', "date_part('month',despesas.vencimento) mes"])
+        .select([
+          'SUM(despesas.valor) valor',
+          "date_part('month',despesas.vencimento) mes",
+        ])
         .where(CriaWhereAno(ano))
         .groupBy("date_part('month',despesas.vencimento)")
         .getRawMany();
@@ -137,22 +140,18 @@ export class DespesaService {
     }
   }
   async testeFind(ano?: number, mes?: number, pago: boolean = false) {
-
     ano ?? new Date().getFullYear();
     mes ?? 0;
 
     try {
       let despesas = await this.despesaRepository.find({
-        relations: [
-          'categoria',
-          'carteira'
-        ],
-        where:{
-          vencimento: Between( new Date(ano, mes), new Date(2021,18)),
-          pago: pago          
-        }       
-      })
-      return despesas
+        relations: ['categoria', 'carteira'],
+        where: {
+          vencimento: Between(new Date(ano, mes), new Date(2021, 18)),
+          pago: pago,
+        },
+      });
+      return despesas;
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -160,7 +159,7 @@ export class DespesaService {
 
   async getOne(id: number): Promise<Despesas> {
     try {
-      return this.despesaRepository.findOneOrFail(
+      return await this.despesaRepository.findOneOrFail(
         { id },
         { relations: ['carteira', 'categoria'] },
       );
@@ -171,7 +170,7 @@ export class DespesaService {
 
   async insereDespesa(despesa: DespesasDTO): Promise<Despesas> {
     try {
-      const newDespesas = this.despesaRepository.create(despesa);
+      const newDespesas = await this.despesaRepository.create(despesa);
       await this.despesaRepository.save(newDespesas);
       return newDespesas;
     } catch (error) {

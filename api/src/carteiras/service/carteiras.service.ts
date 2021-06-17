@@ -1,7 +1,7 @@
 import { Injectable, Inject, BadRequestException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Carteiras } from './carteiras.entity';
-import { CarteirasDTO } from './carteiras.dto';
+import { CarteirasDTO } from '../dto/carteiras.dto';
+import { Carteiras } from '../entity/carteiras.entity';
 
 @Injectable()
 export class CarteirasService {
@@ -12,7 +12,7 @@ export class CarteirasService {
 
   async getOne(id: number): Promise<Carteiras> {
     try {
-      return this.carteiraRepository.findOneOrFail({ id });
+      return await this.carteiraRepository.findOneOrFail({ id });
     } catch (error) {
       throw new BadRequestException(error);
     }

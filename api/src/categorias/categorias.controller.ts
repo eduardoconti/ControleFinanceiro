@@ -8,11 +8,11 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { CategoriasService } from './categorias.service';
-import { Categorias } from './categorias.entity';
-import { CategoriasDTO } from './categorias.dto';
+import { Categorias } from './entity/categorias.entity';
+import { CategoriasDTO } from './dto/categorias.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { CategoriasService } from './service/categorias.service';
 @Controller('categorias')
 @ApiTags('categorias')
 @UseGuards(JwtAuthGuard)

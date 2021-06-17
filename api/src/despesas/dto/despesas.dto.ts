@@ -6,22 +6,29 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsUUID,
   Length,
 } from 'class-validator';
-import { CONSTRAINTS_MESSAGES } from 'src/shared/constants';
+import { CONSTRAINTS_LIMITS, CONSTRAINTS_MESSAGES } from 'src/shared/constants';
 
 export class DespesasDTO {
   id?: number;
-
-  userId: string;
+  @ApiProperty({
+    description: 'uuid do usuario',
+  })
+  @IsUUID('4')
+  @IsNotEmpty({ message: CONSTRAINTS_MESSAGES.IS_NOT_EMPTY })
+  user: string;
 
   @ApiProperty({
     description: 'Descrição da despesa',
-    minLength: 2,
-    maxLength: 50,
+    minLength: CONSTRAINTS_LIMITS.DESCRICAO.min,
+    maxLength: CONSTRAINTS_LIMITS.DESCRICAO.max,
   })
   @IsString({ message: CONSTRAINTS_MESSAGES.IS_STRING })
-  @Length(2, 50, { message: CONSTRAINTS_MESSAGES.IS_LENGTH })
+  @Length(CONSTRAINTS_LIMITS.DESCRICAO.min, CONSTRAINTS_LIMITS.DESCRICAO.max, {
+    message: CONSTRAINTS_MESSAGES.IS_LENGTH,
+  })
   @IsNotEmpty({ message: CONSTRAINTS_MESSAGES.IS_NOT_EMPTY })
   descricao: string;
 

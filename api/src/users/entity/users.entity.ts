@@ -1,23 +1,23 @@
 import { Exclude } from 'class-transformer';
 import { Despesas } from 'src/despesas/entity/despesas.entity';
 import { Receitas } from 'src/receitas/entity/receitas.entity';
-import { Transferencias } from 'src/transferencias/transferencias.entity';
+import { Transferencias } from 'src/transferencias/entity/transferencias.entity';
 import { Entity, Column, PrimaryColumn, OneToMany, JoinColumn } from 'typeorm';
 
-@Entity({schema:'public', name:'users'})
+@Entity({ schema: 'public', name: 'users' })
 export class Users {
   @PrimaryColumn('uuid')
   id: string;
 
   @Column('text')
   @Exclude()
-  password: string; 
+  password: string;
 
   @Column('text')
-  login: string;  
+  login: string;
 
   @Column('text')
-  nome: string; 
+  nome: string;
 
   @Column('integer')
   status: number;
@@ -25,14 +25,12 @@ export class Users {
   @Column('integer')
   perfil: number;
 
-  @OneToMany(() => Despesas, (despesas) => despesas.user )
+  @OneToMany(() => Despesas, (despesas) => despesas.user)
   userDespesa: Despesas[];
 
-  @OneToMany(() => Receitas, (receitas) => receitas.user )
+  @OneToMany(() => Receitas, (receitas) => receitas.user)
   userReceita: Receitas[];
 
-  @OneToMany(() => Transferencias, (transferencias) => transferencias.user )
+  @OneToMany(() => Transferencias, (transferencias) => transferencias.user)
   userTransferencia: Transferencias[];
-
-
 }

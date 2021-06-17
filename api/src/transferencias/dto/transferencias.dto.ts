@@ -5,12 +5,19 @@ import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
-  IsPositive,
+  IsUUID,
 } from 'class-validator';
 import { CONSTRAINTS_MESSAGES } from 'src/shared/constants';
 
 export class TransferenciasDTO {
   id?: number;
+
+  @ApiProperty({
+    description: 'uuid do usuario',
+  })
+  @IsUUID('4')
+  @IsNotEmpty({ message: CONSTRAINTS_MESSAGES.IS_NOT_EMPTY })
+  user: string;
 
   @ApiProperty()
   @IsNumber({}, { message: CONSTRAINTS_MESSAGES.IS_NUMBER })
@@ -22,12 +29,12 @@ export class TransferenciasDTO {
   @IsNumber({}, { message: CONSTRAINTS_MESSAGES.IS_NUMBER })
   carteiraDestino: number;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ default: new Date() })
   @IsOptional()
   @IsDateString({}, { message: CONSTRAINTS_MESSAGES.IS_DATE })
   dataTransferencia: Date;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ default: false })
   @IsOptional()
   @IsBoolean({ message: CONSTRAINTS_MESSAGES.IS_BOOLEAN })
   pago: boolean;

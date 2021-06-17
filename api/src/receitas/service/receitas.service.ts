@@ -23,7 +23,9 @@ function CriaWherePago(pago: boolean) {
 }
 
 function CriaWhereAno(ano: number) {
-  return !ano || ano == 0 ? 'TRUE' : "date_part('year',receitas.pagamento)=" + String(ano);
+  return !ano || ano == 0
+    ? 'TRUE'
+    : "date_part('year',receitas.pagamento)=" + String(ano);
 }
 
 @Injectable()
@@ -98,7 +100,10 @@ export class ReceitaService {
     try {
       let receitas = await this.receitaRepository
         .createQueryBuilder('receitas')
-        .select(['SUM(receitas.valor) valor', "date_part('month',receitas.pagamento) mes"])
+        .select([
+          'SUM(receitas.valor) valor',
+          "date_part('month',receitas.pagamento) mes",
+        ])
         .where(CriaWhereAno(ano))
         .andWhere(CriaWherePago(pago))
         .groupBy("date_part('month',receitas.pagamento)")
@@ -111,7 +116,7 @@ export class ReceitaService {
 
   async getOne(id: number): Promise<Receitas> {
     try {
-      return this.receitaRepository.findOneOrFail(
+      return await this.receitaRepository.findOneOrFail(
         { id },
         { relations: ['carteira'] },
       );
@@ -121,7 +126,7 @@ export class ReceitaService {
   }
 
   async insereReceita(receita: ReceitasDTO): Promise<Receitas> {
-    const newReceitas = this.receitaRepository.create(receita);
+    const newReceitas = await this.receitaRepository.create(receita);
     try {
       await this.receitaRepository.save(newReceitas);
     } catch (error) {

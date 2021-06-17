@@ -1,13 +1,7 @@
-import {
-  Injectable,
-  Inject,
-  HttpStatus,
-  HttpException,
-  BadRequestException,
-} from '@nestjs/common';
+import { Injectable, Inject, BadRequestException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Categorias } from './categorias.entity';
-import { CategoriasDTO } from './categorias.dto';
+import { CategoriasDTO } from '../dto/categorias.dto';
+import { Categorias } from '../entity/categorias.entity';
 
 @Injectable()
 export class CategoriasService {
@@ -18,7 +12,7 @@ export class CategoriasService {
 
   async getOne(id: number): Promise<Categorias> {
     try {
-      return this.categoriaRepository.findOneOrFail({ id });
+      return await this.categoriaRepository.findOneOrFail({ id });
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -34,7 +28,7 @@ export class CategoriasService {
 
   async insereCategoria(categoria: CategoriasDTO): Promise<Categorias> {
     try {
-      const newDespesas = this.categoriaRepository.create(categoria);
+      const newDespesas = await this.categoriaRepository.create(categoria);
       await this.categoriaRepository.save(newDespesas);
       return newDespesas;
     } catch (error) {

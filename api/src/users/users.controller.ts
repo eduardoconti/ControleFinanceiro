@@ -1,4 +1,15 @@
-import { Body, ClassSerializerInterceptor, Controller, Get, Param, Post, UseFilters, UseGuards, UseInterceptors, Request } from '@nestjs/common';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UseFilters,
+  UseGuards,
+  UseInterceptors,
+  Request,
+} from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UserDto } from './dto/users.dto';
 import { UsersService } from './service/users.service';
@@ -10,23 +21,21 @@ import { UserLoggedGuard } from './guard/user-logged-auth.guard';
 @UseInterceptors(ClassSerializerInterceptor)
 //@UseGuards(JwtAuthGuard)
 export class UsersController {
+  constructor(private readonly userService: UsersService) {}
+  @Get()
+  @UseGuards(UserLoggedGuard)
+  async returnAllUsers() {
+    return await this.userService.returnAllUsers();
+  }
 
-    constructor(private readonly userService: UsersService) { }
-    @Get()
-    @UseGuards(UserLoggedGuard)
-    async returnAllUsers() {
-        return await this.userService.returnAllUsers();
-    }
+  @Post()
+  @UseGuards(UserLoggedGuard)
+  async createUser(@Body() user: UserDto) {
+    return await this.userService.createUser(user);
+  }
 
-    @Post()
-    @UseGuards(UserLoggedGuard)
-    async createUser(@Body() user: UserDto) {
-        return await this.userService.createUser(user);
-    }
-
-    @Get('/login/:login')
-    async returnUserByEmail(@Param('login') login: string) {
-        return await this.userService.returnUserByLogin(login);
-    }
-
+  @Get('/login/:login')
+  async returnUserByEmail(@Param('login') login: string) {
+    return await this.userService.returnUserByLogin(login);
+  }
 }

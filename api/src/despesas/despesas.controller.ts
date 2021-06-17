@@ -9,25 +9,33 @@ import {
   Patch,
   Query,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 import { DespesaService } from './service/despesas.service';
 import { Despesas } from './entity/despesas.entity';
 import { DespesasDTO } from './dto/despesas.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { UserLoggedGuard } from 'src/users/guard/user-logged-auth.guard';
 
 @Controller('despesas')
 @ApiTags('despesas')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, UserLoggedGuard)
 export class DespesasController {
   constructor(private readonly despesaService: DespesaService) {}
 
   @Get()
+  @ApiQuery({ name: 'ano', required: false, example: new Date().getFullYear() })
+  @ApiQuery({ name: 'mes', required: false, example: new Date().getMonth() })
+  @ApiQuery({ name: 'pago', required: false, example: true })
   async retornaTodasDespesas(
+    @Request() req: any,
     @Query('ano') ano?: number,
     @Query('mes') mes?: number,
     @Query('pago') pago?: boolean,
   ) {
+    const userId = req.user.userid;
+    console.log(userId);
     return await this.despesaService.retornaTodasDespesas(ano, mes, pago);
   }
   @Get('/total')
@@ -87,8 +95,8 @@ export class DespesasController {
   }
 
   @Get('testefind')
-  async test(){
-      return this.despesaService.testeFind(2021,2,true);
+  async test() {
+    return this.despesaService.testeFind(2021, 2, true);
   }
   @Patch('flag/:id')
   async alteraFlagPago(
