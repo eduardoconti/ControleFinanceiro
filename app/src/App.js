@@ -11,7 +11,8 @@ import CardDespesas from "./components/CardDespesas";
 import CardReceitas from "./components/CardReceitas";
 import { emptyTotais, emptyChecked } from "./common/EmptyStates";
 import * as Constantes from "./common/Constantes";
-
+import { AuthProvider } from "./Context/AuthContext";
+import LoginModal from './components/LoginModal'
 function App() {
   const [stateTotais, setStateTotais] = useState(emptyTotais);
   const [stateCheckedDespesas, setStateChecked] = useState(emptyChecked);
@@ -19,7 +20,7 @@ function App() {
   const [stateCurrentBody, setStateCurrentBody] = useState(0);
   const [stateMesAtual, setStateMesAtual] = useState(new Date().getMonth() + 1);
   const [stateAnoAtual, setStateAnoAtual] = useState(new Date().getFullYear());
-
+  const [logged, setLogged ] = useState(false)
   useEffect(() => {
     async function setTotais() {
       setStateTotais(
@@ -37,118 +38,126 @@ function App() {
     stateCheckedReceitas,
     stateMesAtual,
     stateAnoAtual,
+    logged
   ]);
 
   return (
-    <Box className="Container">
-      <Grid container direction="row" spacing={1} justify="center">
-        <Grid item xs={12} sm={12} md={12} lg={1} xl={1}>
-          {/* LEFT */}
-          <LeftMenu
-            setStateCurrentBody={(currentBody) =>
-              setStateCurrentBody(currentBody)
-            }
-            stateAnoAtual={stateAnoAtual}
-            setStateAnoAtual={(stateAnoAtual) =>
-              setStateAnoAtual(stateAnoAtual)
-            }
-          />
-        </Grid>
+    <AuthProvider>
 
-        <Grid item xs={12} sm={12} md={12} lg={7} xl={6}>
-          {/* MID */}
-          <Grid container spacing={1}>
-            <Grid container item spacing={1}>
-              {/* BOTOES MESES */}
-              <Grid item xs={12}>
-                <BotaoMes
-                  setStateMesAtual={(stateMesAtual) =>
-                    setStateMesAtual(stateMesAtual)
-                  }
-                  stateMesAtual={stateMesAtual}
-                />
-              </Grid>
-            </Grid>
+      <Box className="Container">
+        <LoginModal logged={logged} 
+          setLogged={(logged)=>{
+          setLogged(logged)
+        }}/>
+        <Grid container direction="row" spacing={1} justify="center">
+          <Grid item xs={12} sm={12} md={12} lg={1} xl={1}>
+            {/* LEFT */}
+            <LeftMenu
+              setStateCurrentBody={(currentBody) =>
+                setStateCurrentBody(currentBody)
+              }
+              stateAnoAtual={stateAnoAtual}
+              setStateAnoAtual={(stateAnoAtual) =>
+                setStateAnoAtual(stateAnoAtual)
+              }
+            />
+          </Grid>
 
-            <Grid container item spacing={1}>
-              {/* CARDS */}
-              <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
-                <CardDespesas
-                  valor={stateTotais.totalDespesas}
-                  setStateChecked={(stateChecked) =>
-                    setStateChecked(stateChecked)
-                  }
-                  stateChecked={stateCheckedDespesas}
-                  setStateCurrentBody={(currentBody) =>
-                    setStateCurrentBody(currentBody)
-                  }
-                />
+          <Grid item xs={12} sm={12} md={12} lg={7} xl={6}>
+            {/* MID */}
+            <Grid container spacing={1}>
+              <Grid container item spacing={1}>
+                {/* BOTOES MESES */}
+                <Grid item xs={12}>
+                  <BotaoMes
+                    setStateMesAtual={(stateMesAtual) =>
+                      setStateMesAtual(stateMesAtual)
+                    }
+                    stateMesAtual={stateMesAtual}
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
-                <CardReceitas
-                  valor={stateTotais.totalReceitas}
-                  setStateChecked={(stateCheckedReceitas) =>
-                    setStateCheckedReceita(stateCheckedReceitas)
-                  }
-                  stateChecked={stateCheckedReceitas}
-                  setStateCurrentBody={(currentBody) =>
-                    setStateCurrentBody(currentBody)
-                  }
-                />
-              </Grid>
-              <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
-                <Card
-                  descricao="Saldo"
-                  cor="#3EA99F"
-                  valor={stateTotais.saldo}
-                  setStateCurrentBody={() =>
-                    setStateCurrentBody(Constantes.CORPO_SALDO)
-                  }
-                />
-              </Grid>
-              <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
-                <Card
-                  descricao="Balanço"
-                  cor="DarkSlateGrey"
-                  valor={stateTotais.balanco}
-                  setStateCurrentBody={() =>
-                    setStateCurrentBody(Constantes.CORPO_BALANCO)
-                  }
-                />
-              </Grid>
-            </Grid>
 
-            <Grid container item spacing={1}>
-              {/* BODY ( FORM, GRID...) */}
-              <Grid item xs={12}>
-                <Corpo
-                  stateCurrentBody={stateCurrentBody}
-                  stateCheckedDespesas={stateCheckedDespesas}
-                  setStateTotais={(stateTotais) => {
-                    setStateTotais(stateTotais);
-                  }}
-                  stateCheckedReceitas={stateCheckedReceitas}
-                  stateTotais={stateTotais}
-                  stateMesAtual={stateMesAtual}
-                  stateAnoAtual={stateAnoAtual}
-                />
+              <Grid container item spacing={1}>
+                {/* CARDS */}
+                <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
+                  <CardDespesas
+                    valor={stateTotais.totalDespesas}
+                    setStateChecked={(stateChecked) =>
+                      setStateChecked(stateChecked)
+                    }
+                    stateChecked={stateCheckedDespesas}
+                    setStateCurrentBody={(currentBody) =>
+                      setStateCurrentBody(currentBody)
+                    }
+                  />
+                </Grid>
+                <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
+                  <CardReceitas
+                    valor={stateTotais.totalReceitas}
+                    setStateChecked={(stateCheckedReceitas) =>
+                      setStateCheckedReceita(stateCheckedReceitas)
+                    }
+                    stateChecked={stateCheckedReceitas}
+                    setStateCurrentBody={(currentBody) =>
+                      setStateCurrentBody(currentBody)
+                    }
+                  />
+                </Grid>
+                <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
+                  <Card
+                    descricao="Saldo"
+                    cor="#3EA99F"
+                    valor={stateTotais.saldo}
+                    setStateCurrentBody={() =>
+                      setStateCurrentBody(Constantes.CORPO_SALDO)
+                    }
+                  />
+                </Grid>
+                <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
+                  <Card
+                    descricao="Balanço"
+                    cor="DarkSlateGrey"
+                    valor={stateTotais.balanco}
+                    setStateCurrentBody={() =>
+                      setStateCurrentBody(Constantes.CORPO_BALANCO)
+                    }
+                  />
+                </Grid>
+              </Grid>
+
+              <Grid container item spacing={1}>
+                {/* BODY ( FORM, GRID...) */}
+                <Grid item xs={12}>
+                  <Corpo
+                    stateCurrentBody={stateCurrentBody}
+                    stateCheckedDespesas={stateCheckedDespesas}
+                    setStateTotais={(stateTotais) => {
+                      setStateTotais(stateTotais);
+                    }}
+                    stateCheckedReceitas={stateCheckedReceitas}
+                    stateTotais={stateTotais}
+                    stateMesAtual={stateMesAtual}
+                    stateAnoAtual={stateAnoAtual}
+                  />
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
 
-        <Grid item container xs={12} sm={12} md={12} lg={4} xl={5}>
-          {/* RIGHT */}
-          <GraficosContainer
-            stateCheckedDespesas={stateCheckedDespesas}
-            stateTotais={stateTotais}
-            stateCheckedReceitas={stateCheckedReceitas}
-            stateMesAtual={stateMesAtual}
-            stateAnoAtual={stateAnoAtual}
-          />
+          <Grid item container xs={12} sm={12} md={12} lg={4} xl={5}>
+            {/* RIGHT */}
+            <GraficosContainer
+              stateCheckedDespesas={stateCheckedDespesas}
+              stateTotais={stateTotais}
+              stateCheckedReceitas={stateCheckedReceitas}
+              stateMesAtual={stateMesAtual}
+              stateAnoAtual={stateAnoAtual}
+            />
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </AuthProvider>
   );
 }
 

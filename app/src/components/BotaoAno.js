@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -11,6 +11,7 @@ import Menu from "./MenuItemForm";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import CardActionArea from "@material-ui/core/CardActionArea";
+import {Context} from '../Context/AuthContext';
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
@@ -40,7 +41,7 @@ export default function DialogSelect({ stateAnoAtual, setStateAnoAtual }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [ano, setAno] = React.useState(stateAnoAtual);
-
+  const ctx = useContext(Context)
   const handleChange = (event) => {
     setAno(Number(event.target.value) || "");
   };
