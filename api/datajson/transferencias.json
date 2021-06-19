@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "dataTransferencia": "2021-06-11T00:00:00.000Z",
+    "pago": true,
+    "valor": 4,
+    "carteiraOrigem": {
+      "id": 6,
+      "descricao": "Caixa"
+    },
+    "carteiraDestino": {
+      "id": 1,
+      "descricao": "Next"
+    }
+  },
+  {
+    "id": 3,
+    "dataTransferencia": "2021-06-15T00:00:00.000Z",
+    "pago": true,
+    "valor": 129.67,
+    "carteiraOrigem": {
+      "id": 3,
+      "descricao": "Nubank Edu"
+    },
+    "carteiraDestino": {
+      "id": 6,
+      "descricao": "Caixa"
+    }
+  },
+  {
+    "id": 2,
+    "dataTransferencia": "2021-06-15T00:00:00.000Z",
+    "pago": true,
+    "valor": 320,
+    "carteiraOrigem": {
+      "id": 4,
+      "descricao": "Nubank Lau"
+    },
+    "carteiraDestino": {
+      "id": 3,
+      "descricao": "Nubank Edu"
+    }
+  }
+]

@@ -1,0 +1,134 @@
+[
+  {
+    "id": 1,
+    "descricao": "Salario Eduardo",
+    "valor": 2591.91,
+    "pagamento": "2021-06-10T00:00:00.000Z",
+    "pago": true,
+    "carteira": {
+      "id": 1,
+      "descricao": "Next"
+    }
+  },
+  {
+    "id": 5,
+    "descricao": "Salario Eduardo",
+    "valor": 2591.91,
+    "pagamento": "2021-07-10T00:00:00.000Z",
+    "pago": false,
+    "carteira": {
+      "id": 1,
+      "descricao": "Next"
+    }
+  },
+  {
+    "id": 8,
+    "descricao": "Salario Eduardo",
+    "valor": 2591.91,
+    "pagamento": "2021-08-10T00:00:00.000Z",
+    "pago": false,
+    "carteira": {
+      "id": 1,
+      "descricao": "Next"
+    }
+  },
+  {
+    "id": 6,
+    "descricao": "Salario Lau",
+    "valor": 1300,
+    "pagamento": "2021-07-10T00:00:00.000Z",
+    "pago": false,
+    "carteira": {
+      "id": 4,
+      "descricao": "Nubank Lau"
+    }
+  },
+  {
+    "id": 9,
+    "descricao": "Salario Lau",
+    "valor": 1000,
+    "pagamento": "2021-08-10T00:00:00.000Z",
+    "pago": false,
+    "carteira": {
+      "id": 4,
+      "descricao": "Nubank Lau"
+    }
+  },
+  {
+    "id": 3,
+    "descricao": "Salario Lau",
+    "valor": 500,
+    "pagamento": "2021-06-15T00:00:00.000Z",
+    "pago": true,
+    "carteira": {
+      "id": 5,
+      "descricao": "Dinheiro"
+    }
+  },
+  {
+    "id": 11,
+    "descricao": "Salario Lau",
+    "valor": 500,
+    "pagamento": "2021-06-14T00:00:00.000Z",
+    "pago": true,
+    "carteira": {
+      "id": 4,
+      "descricao": "Nubank Lau"
+    }
+  },
+  {
+    "id": 4,
+    "descricao": "Comissao",
+    "valor": 409,
+    "pagamento": "2021-06-20T00:00:00.000Z",
+    "pago": false,
+    "carteira": {
+      "id": 5,
+      "descricao": "Dinheiro"
+    }
+  },
+  {
+    "id": 2,
+    "descricao": "Ticket",
+    "valor": 348,
+    "pagamento": "2021-06-02T00:00:00.000Z",
+    "pago": true,
+    "carteira": {
+      "id": 2,
+      "descricao": "Ticket"
+    }
+  },
+  {
+    "id": 7,
+    "descricao": "Ticket",
+    "valor": 348,
+    "pagamento": "2021-07-10T00:00:00.000Z",
+    "pago": false,
+    "carteira": {
+      "id": 2,
+      "descricao": "Ticket"
+    }
+  },
+  {
+    "id": 10,
+    "descricao": "Ticket",
+    "valor": 348,
+    "pagamento": "2021-08-10T00:00:00.000Z",
+    "pago": false,
+    "carteira": {
+      "id": 2,
+      "descricao": "Ticket"
+    }
+  },
+  {
+    "id": 12,
+    "descricao": "Bazzanela",
+    "valor": 250,
+    "pagamento": "2021-07-10T00:00:00.000Z",
+    "pago": false,
+    "carteira": {
+      "id": 5,
+      "descricao": "Dinheiro"
+    }
+  }
+]

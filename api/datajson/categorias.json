@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "descricao": "Casa"
+  },
+  {
+    "id": 2,
+    "descricao": "Alimentação"
+  },
+  {
+    "id": 3,
+    "descricao": "Roupas"
+  },
+  {
+    "id": 4,
+    "descricao": "Outros"
+  },
+  {
+    "id": 5,
+    "descricao": "Saude"
+  },
+  {
+    "id": 6,
+    "descricao": "Lazer"
+  },
+  {
+    "id": 7,
+    "descricao": "Transporte"
+  }
+]

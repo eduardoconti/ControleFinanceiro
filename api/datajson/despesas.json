@@ -1,0 +1,677 @@
+[
+  {
+    "id": 19,
+    "descricao": "1/360 casa",
+    "valor": 700,
+    "vencimento": "2021-07-10T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 1,
+      "descricao": "Next"
+    }
+  },
+  {
+    "id": 44,
+    "descricao": "1/360 casa",
+    "valor": 700,
+    "vencimento": "2021-08-10T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 1,
+      "descricao": "Next"
+    }
+  },
+  {
+    "id": 12,
+    "descricao": "10/10 Celular",
+    "valor": 50,
+    "vencimento": "2021-06-10T00:00:00.000Z",
+    "pago": true,
+    "categoria": {
+      "id": 4,
+      "descricao": "Outros"
+    },
+    "carteira": {
+      "id": 4,
+      "descricao": "Nubank Lau"
+    }
+  },
+  {
+    "id": 2,
+    "descricao": "7/7 Documentacao",
+    "valor": 900,
+    "vencimento": "2021-06-10T00:00:00.000Z",
+    "pago": true,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 1,
+      "descricao": "Next"
+    }
+  },
+  {
+    "id": 14,
+    "descricao": "Agua",
+    "valor": 34.24,
+    "vencimento": "2021-06-10T00:00:00.000Z",
+    "pago": true,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 3,
+      "descricao": "Nubank Edu"
+    }
+  },
+  {
+    "id": 29,
+    "descricao": "Agua",
+    "valor": 34.24,
+    "vencimento": "2021-07-10T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 4,
+      "descricao": "Nubank Lau"
+    }
+  },
+  {
+    "id": 43,
+    "descricao": "Agua",
+    "valor": 34.24,
+    "vencimento": "2021-08-10T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 4,
+      "descricao": "Nubank Lau"
+    }
+  },
+  {
+    "id": 34,
+    "descricao": "Caixa",
+    "valor": 74.45,
+    "vencimento": "2021-06-13T00:00:00.000Z",
+    "pago": true,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 1,
+      "descricao": "Next"
+    }
+  },
+  {
+    "id": 3,
+    "descricao": "Cartao Pai",
+    "valor": 400,
+    "vencimento": "2021-06-10T00:00:00.000Z",
+    "pago": true,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 1,
+      "descricao": "Next"
+    }
+  },
+  {
+    "id": 21,
+    "descricao": "Cartao Pai",
+    "valor": 450,
+    "vencimento": "2021-07-10T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 1,
+      "descricao": "Next"
+    }
+  },
+  {
+    "id": 42,
+    "descricao": "Cartao Pai",
+    "valor": 250,
+    "vencimento": "2021-08-10T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 1,
+      "descricao": "Next"
+    }
+  },
+  {
+    "id": 13,
+    "descricao": "Dyoni",
+    "valor": 40,
+    "vencimento": "2021-06-10T00:00:00.000Z",
+    "pago": true,
+    "categoria": {
+      "id": 3,
+      "descricao": "Roupas"
+    },
+    "carteira": {
+      "id": 3,
+      "descricao": "Nubank Edu"
+    }
+  },
+  {
+    "id": 5,
+    "descricao": "Energia",
+    "valor": 177.73,
+    "vencimento": "2021-06-16T00:00:00.000Z",
+    "pago": true,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 5,
+      "descricao": "Dinheiro"
+    }
+  },
+  {
+    "id": 41,
+    "descricao": "Energia",
+    "valor": 177.73,
+    "vencimento": "2021-08-10T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 4,
+      "descricao": "Nubank Lau"
+    }
+  },
+  {
+    "id": 24,
+    "descricao": "Energia",
+    "valor": 177.73,
+    "vencimento": "2021-07-10T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 4,
+      "descricao": "Nubank Lau"
+    }
+  },
+  {
+    "id": 11,
+    "descricao": "Exposição",
+    "valor": 55,
+    "vencimento": "2021-06-15T00:00:00.000Z",
+    "pago": true,
+    "categoria": {
+      "id": 3,
+      "descricao": "Roupas"
+    },
+    "carteira": {
+      "id": 5,
+      "descricao": "Dinheiro"
+    }
+  },
+  {
+    "id": 31,
+    "descricao": "Exposição",
+    "valor": 55,
+    "vencimento": "2021-07-10T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 3,
+      "descricao": "Roupas"
+    },
+    "carteira": {
+      "id": 5,
+      "descricao": "Dinheiro"
+    }
+  },
+  {
+    "id": 30,
+    "descricao": "Fabi",
+    "valor": 90,
+    "vencimento": "2021-07-10T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 3,
+      "descricao": "Roupas"
+    },
+    "carteira": {
+      "id": 5,
+      "descricao": "Dinheiro"
+    }
+  },
+  {
+    "id": 8,
+    "descricao": "Fabi",
+    "valor": 130,
+    "vencimento": "2021-06-15T00:00:00.000Z",
+    "pago": true,
+    "categoria": {
+      "id": 3,
+      "descricao": "Roupas"
+    },
+    "carteira": {
+      "id": 4,
+      "descricao": "Nubank Lau"
+    }
+  },
+  {
+    "id": 22,
+    "descricao": "Fatura Caixa",
+    "valor": 200,
+    "vencimento": "2021-07-10T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 4,
+      "descricao": "Nubank Lau"
+    }
+  },
+  {
+    "id": 6,
+    "descricao": "Fatura Caixa",
+    "valor": 470.72,
+    "vencimento": "2021-06-12T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 4,
+      "descricao": "Nubank Lau"
+    }
+  },
+  {
+    "id": 47,
+    "descricao": "Fatura Caixa",
+    "valor": 200,
+    "vencimento": "2021-08-10T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 4,
+      "descricao": "Nubank Lau"
+    }
+  },
+  {
+    "id": 9,
+    "descricao": "Internet",
+    "valor": 94.57,
+    "vencimento": "2021-06-10T00:00:00.000Z",
+    "pago": true,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 1,
+      "descricao": "Next"
+    }
+  },
+  {
+    "id": 26,
+    "descricao": "Internet",
+    "valor": 94.57,
+    "vencimento": "2021-07-10T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 1,
+      "descricao": "Next"
+    }
+  },
+  {
+    "id": 16,
+    "descricao": "IPTU",
+    "valor": 85.75,
+    "vencimento": "2021-06-10T00:00:00.000Z",
+    "pago": true,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 6,
+      "descricao": "Caixa"
+    }
+  },
+  {
+    "id": 27,
+    "descricao": "IPTU",
+    "valor": 85.75,
+    "vencimento": "2021-07-10T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 6,
+      "descricao": "Caixa"
+    }
+  },
+  {
+    "id": 49,
+    "descricao": "IPTU",
+    "valor": 85.75,
+    "vencimento": "2021-08-10T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 6,
+      "descricao": "Caixa"
+    }
+  },
+  {
+    "id": 10,
+    "descricao": "Mariana 2/3",
+    "valor": 115,
+    "vencimento": "2021-06-15T00:00:00.000Z",
+    "pago": true,
+    "categoria": {
+      "id": 3,
+      "descricao": "Roupas"
+    },
+    "carteira": {
+      "id": 5,
+      "descricao": "Dinheiro"
+    }
+  },
+  {
+    "id": 25,
+    "descricao": "Mariana 3/3",
+    "valor": 100,
+    "vencimento": "2021-07-10T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 3,
+      "descricao": "Roupas"
+    },
+    "carteira": {
+      "id": 4,
+      "descricao": "Nubank Lau"
+    }
+  },
+  {
+    "id": 4,
+    "descricao": "Mercado",
+    "valor": 348,
+    "vencimento": "2021-06-10T00:00:00.000Z",
+    "pago": true,
+    "categoria": {
+      "id": 2,
+      "descricao": "Alimentação"
+    },
+    "carteira": {
+      "id": 2,
+      "descricao": "Ticket"
+    }
+  },
+  {
+    "id": 23,
+    "descricao": "Mercado",
+    "valor": 348,
+    "vencimento": "2021-07-10T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 2,
+      "descricao": "Alimentação"
+    },
+    "carteira": {
+      "id": 2,
+      "descricao": "Ticket"
+    }
+  },
+  {
+    "id": 46,
+    "descricao": "Mercado",
+    "valor": 348,
+    "vencimento": "2021-08-10T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 2,
+      "descricao": "Alimentação"
+    },
+    "carteira": {
+      "id": 2,
+      "descricao": "Ticket"
+    }
+  },
+  {
+    "id": 51,
+    "descricao": "Mimos",
+    "valor": 61,
+    "vencimento": "2021-06-14T00:00:00.000Z",
+    "pago": true,
+    "categoria": {
+      "id": 3,
+      "descricao": "Roupas"
+    },
+    "carteira": {
+      "id": 5,
+      "descricao": "Dinheiro"
+    }
+  },
+  {
+    "id": 1,
+    "descricao": "Nubank",
+    "valor": 1056.89,
+    "vencimento": "2021-06-10T00:00:00.000Z",
+    "pago": true,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 1,
+      "descricao": "Next"
+    }
+  },
+  {
+    "id": 20,
+    "descricao": "Nubank",
+    "valor": 1300,
+    "vencimento": "2021-07-10T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 1,
+      "descricao": "Next"
+    }
+  },
+  {
+    "id": 45,
+    "descricao": "Nubank",
+    "valor": 500,
+    "vencimento": "2021-08-10T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 1,
+      "descricao": "Next"
+    }
+  },
+  {
+    "id": 15,
+    "descricao": "Nubank",
+    "valor": 50.33,
+    "vencimento": "2021-06-15T00:00:00.000Z",
+    "pago": true,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 3,
+      "descricao": "Nubank Edu"
+    }
+  },
+  {
+    "id": 28,
+    "descricao": "nubank lau",
+    "valor": 47,
+    "vencimento": "2021-07-10T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 4,
+      "descricao": "Outros"
+    },
+    "carteira": {
+      "id": 4,
+      "descricao": "Nubank Lau"
+    }
+  },
+  {
+    "id": 17,
+    "descricao": "nubank lau",
+    "valor": 47,
+    "vencimento": "2021-06-16T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 4,
+      "descricao": "Outros"
+    },
+    "carteira": {
+      "id": 4,
+      "descricao": "Nubank Lau"
+    }
+  },
+  {
+    "id": 53,
+    "descricao": "Passe",
+    "valor": 30,
+    "vencimento": "2021-06-15T00:00:00.000Z",
+    "pago": true,
+    "categoria": {
+      "id": 7,
+      "descricao": "Transporte"
+    },
+    "carteira": {
+      "id": 5,
+      "descricao": "Dinheiro"
+    }
+  },
+  {
+    "id": 7,
+    "descricao": "Tarifas Caixa",
+    "valor": 39.92,
+    "vencimento": "2021-06-10T00:00:00.000Z",
+    "pago": true,
+    "categoria": {
+      "id": 1,
+      "descricao": "Casa"
+    },
+    "carteira": {
+      "id": 6,
+      "descricao": "Caixa"
+    }
+  },
+  {
+    "id": 52,
+    "descricao": "Uva",
+    "valor": 8,
+    "vencimento": "2021-06-15T00:00:00.000Z",
+    "pago": true,
+    "categoria": {
+      "id": 2,
+      "descricao": "Alimentação"
+    },
+    "carteira": {
+      "id": 5,
+      "descricao": "Dinheiro"
+    }
+  },
+  {
+    "id": 48,
+    "descricao": "verde",
+    "valor": 125,
+    "vencimento": "2021-08-10T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 4,
+      "descricao": "Outros"
+    },
+    "carteira": {
+      "id": 1,
+      "descricao": "Next"
+    }
+  },
+  {
+    "id": 40,
+    "descricao": "verde",
+    "valor": 125,
+    "vencimento": "2021-07-10T00:00:00.000Z",
+    "pago": false,
+    "categoria": {
+      "id": 4,
+      "descricao": "Outros"
+    },
+    "carteira": {
+      "id": 1,
+      "descricao": "Next"
+    }
+  },
+  {
+    "id": 32,
+    "descricao": "verde",
+    "valor": 70,
+    "vencimento": "2021-06-09T00:00:00.000Z",
+    "pago": true,
+    "categoria": {
+      "id": 4,
+      "descricao": "Outros"
+    },
+    "carteira": {
+      "id": 1,
+      "descricao": "Next"
+    }
+  }
+]
