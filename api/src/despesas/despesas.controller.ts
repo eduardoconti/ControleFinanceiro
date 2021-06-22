@@ -10,13 +10,15 @@ import {
   Query,
   UseGuards,
   Request,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { DespesaService } from './service/despesas.service';
 import { Despesas } from './entity/despesas.entity';
 import { DespesasDTO } from './dto/despesas.dto';
-import { ApiOkResponse, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UserLoggedGuard } from 'src/users/guard/user-logged-auth.guard';
+import { DespesasResponseDTO } from './dto/despesas-response.dto';
 
 @Controller('despesas')
 @ApiTags('despesas')
@@ -28,10 +30,11 @@ export class DespesasController {
   @ApiQuery({ name: 'ano', required: false, example: new Date().getFullYear() })
   @ApiQuery({ name: 'mes', required: false, example: new Date().getMonth() })
   @ApiQuery({ name: 'pago', required: false, example: true })
+
   async retornaTodasDespesas(
     @Request() req: any,
-    @Query('ano') ano?: number,
-    @Query('mes') mes?: number,
+    @Query('ano', ParseIntPipe) ano?: number,
+    @Query('mes', ParseIntPipe) mes?: number,
     @Query('pago') pago?: boolean,
   ) {
     const userId = req.user.userid;
@@ -44,7 +47,7 @@ export class DespesasController {
   }
   @Get('/:ano/mes')
   async retornaDespesasAgrupadasPorMes(
-    @Param('ano') ano: number,
+    @Param('ano', ParseIntPipe) ano: number,
     @Query('pago') pago: boolean,
   ) {
     return await this.despesaService.retornaDespesasAgrupadasPorMes(ano, pago);
@@ -90,7 +93,7 @@ export class DespesasController {
     return this.despesaService.retornaTotalDespesas(ano, mes, pago);
   }
   @Get('/id/:id')
-  async getById(@Param('id') id: number): Promise<Despesas> {
+  async getById(@Param('id') id: number): Promise<DespesasResponseDTO> {
     return this.despesaService.getOne(id);
   }
 
@@ -101,23 +104,25 @@ export class DespesasController {
   @Patch('flag/:id')
   async alteraFlagPago(
     @Param('id') id: number,
-    @Body() despesa: { id: number; pago: boolean },
-  ): Promise<{ id: number; pago: boolean }> {
-    return this.despesaService.alteraFlagPago(despesa);
+    @Body() despesa: DespesasDTO,
+  ): Promise<DespesasResponseDTO> {
+    return this.despesaService.alteraFlagPago(id,despesa);
   }
   @Put('/:id')
   async alteraDespesa(
     @Param('id') id: number,
     @Body() despesa: DespesasDTO,
-  ): Promise<Despesas> {
-    return this.despesaService.alteraDespesa(despesa);
+  ): Promise<DespesasResponseDTO> {
+    return this.despesaService.alteraDespesa(id,despesa);
   }
   @Delete('/:id')
-  async deletaDespesa(@Param('id') id: number): Promise<{ deleted: boolean }> {
-    return this.despesaService.deletaDespesa(id);
+  async deletaDespesa( @Request() req: any, @Param('id') id: number): Promise<{ deleted: boolean }> {
+    const userId = req.user.userid;
+    return this.despesaService.deletaDespesa(id,userId);
   }
   @Post()
-  async insereDespesa(@Body() despesa: DespesasDTO): Promise<Despesas> {
+  async insereDespesa(@Body() despesa: DespesasDTO ): Promise<Despesas> {
+
     return this.despesaService.insereDespesa(despesa);
   }
 }

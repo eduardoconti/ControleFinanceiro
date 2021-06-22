@@ -19,8 +19,8 @@ export class Receitas {
   pago: boolean;
 
   @ManyToOne(() => Carteiras, (carteiras) => carteiras.id, { nullable: false })
-  carteira: number;
+  carteira: Carteiras;
 
   @ManyToOne(() => Users, (users) => users.id, { nullable: false })
-  user: string;
+  user: Users;
 }

@@ -15,6 +15,7 @@ import { Receitas } from './entity/receitas.entity';
 import { ReceitasDTO } from './dto/receitas.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { ReceitasResponseDTO } from './dto/receitas-response.dto';
 
 @Controller('receitas')
 @ApiTags('receitas')
@@ -70,7 +71,7 @@ export class ReceitasController {
     return this.receitaService.retornaTotalReceitas(ano, mes, pago);
   }
   @Get('/id/:id')
-  async getById(@Param('id') id: number): Promise<Receitas> {
+  async getById(@Param('id') id: number): Promise<ReceitasResponseDTO> {
     return this.receitaService.getOne(id);
   }
   @Patch('flag/:id')
@@ -84,7 +85,7 @@ export class ReceitasController {
   async alteraReceita(
     @Param('id') id: number,
     @Body() receita: ReceitasDTO,
-  ): Promise<Receitas> {
+  ): Promise<ReceitasResponseDTO> {
     return this.receitaService.alteraReceita(receita);
   }
   @Delete('/:id')

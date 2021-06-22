@@ -9,16 +9,19 @@ import {
   IsUUID,
   Length,
 } from 'class-validator';
+import { Carteiras } from 'src/carteiras/entity/carteiras.entity';
+import { Categorias } from 'src/categorias/entity/categorias.entity';
 import { CONSTRAINTS_LIMITS, CONSTRAINTS_MESSAGES } from 'src/shared/constants';
+import { Users } from 'src/users/entity/users.entity';
 
 export class DespesasDTO {
-  id?: number;
+
   @ApiProperty({
     description: 'uuid do usuario',
   })
   @IsUUID('4')
   @IsNotEmpty({ message: CONSTRAINTS_MESSAGES.IS_NOT_EMPTY })
-  user: string;
+  user: Users;
 
   @ApiProperty({
     description: 'Descrição da despesa',
@@ -35,12 +38,12 @@ export class DespesasDTO {
   @ApiProperty({ description: 'Id da categoria' })
   @IsNotEmpty({ message: CONSTRAINTS_MESSAGES.IS_NOT_EMPTY })
   //@IsNumber({}, { message: CONSTRAINTS_MESSAGES.IS_NUMBER })
-  categoria: number;
+  categoria: Categorias;
 
   @ApiProperty({ description: 'Id da carteira' })
   @IsNotEmpty({ message: CONSTRAINTS_MESSAGES.IS_NOT_EMPTY })
   //@IsNumber({}, { message: CONSTRAINTS_MESSAGES.IS_NUMBER })
-  carteira: number;
+  carteira: Carteiras;
 
   @ApiProperty({ description: 'Valor da despesa', default: 0 })
   @IsNumber({}, { message: CONSTRAINTS_MESSAGES.IS_NUMBER })

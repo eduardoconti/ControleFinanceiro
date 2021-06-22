@@ -2,6 +2,7 @@ import { Injectable, Inject, BadRequestException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Receitas } from '../entity/receitas.entity';
 import { ReceitasDTO } from '../dto/receitas.dto';
+import { ReceitasResponseDTO } from '../dto/receitas-response.dto';
 
 const select = [
   'receitas.id',
@@ -10,6 +11,7 @@ const select = [
   'receitas.pago',
   'receitas.pagamento',
   'carteira',
+  'user'
 ];
 
 function CriaWhereMes(mes: number) {
@@ -33,9 +35,23 @@ export class ReceitaService {
   constructor(
     @Inject('RECEITAS')
     private receitaRepository: Repository<Receitas>,
-  ) {}
+  ) { }
 
-  async retornaTodasReceitas(ano?: number, mes?: number, pago?: boolean) {
+  receitasResponse(receitas: Receitas[]): ReceitasResponseDTO[] {
+    return receitas.map((receita) => {
+      return this.receitaResponse(receita)
+    })
+  }
+
+  receitaResponse(receita: Receitas): ReceitasResponseDTO {
+    return {
+      ...receita,
+      carteira: receita.carteira.id,
+      user: receita.user.id
+    }
+  }
+
+  async retornaTodasReceitas(ano?: number, mes?: number, pago?: boolean): Promise<ReceitasResponseDTO[]> {
     mes = mes ?? 0;
     ano = ano ?? 0;
 
@@ -44,12 +60,13 @@ export class ReceitaService {
         .createQueryBuilder('receitas')
         .select(select)
         .innerJoin('receitas.carteira', 'carteira')
+        .innerJoin('receitas.user', 'user')
         .where(CriaWhereAno(ano))
         .andWhere(CriaWhereMes(mes))
         .andWhere(CriaWherePago(pago))
         .orderBy('receitas.valor', 'DESC')
         .getMany();
-      return receitas;
+      return this.receitasResponse(receitas);
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -114,12 +131,14 @@ export class ReceitaService {
     }
   }
 
-  async getOne(id: number): Promise<Receitas> {
+  async getOne(id: number): Promise<ReceitasResponseDTO> {
     try {
-      return await this.receitaRepository.findOneOrFail(
+      const receita = await this.receitaRepository.findOneOrFail(
         { id },
-        { relations: ['carteira'] },
+        { relations: ['carteira', 'user'] },
       );
+
+      return this.receitaResponse(receita);
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -136,7 +155,7 @@ export class ReceitaService {
     return newReceitas;
   }
 
-  async alteraReceita(receita: ReceitasDTO): Promise<Receitas> {
+  async alteraReceita(receita: ReceitasDTO): Promise<ReceitasResponseDTO> {
     const { id } = receita;
     try {
       await this.receitaRepository.update({ id }, receita);

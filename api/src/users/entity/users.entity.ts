@@ -9,20 +9,20 @@ export class Users {
   @PrimaryColumn('uuid')
   id: string;
 
-  @Column('text')
+  @Column('text', {nullable:false})
   @Exclude()
   password: string;
 
-  @Column('text')
+  @Column('text', {nullable:false, unique:true})
   login: string;
 
-  @Column('text')
+  @Column('text', {nullable:false})
   nome: string;
 
-  @Column('integer')
+  @Column('integer', {default:1})
   status: number;
 
-  @Column('integer')
+  @Column('integer', {default:1})
   perfil: number;
 
   @OneToMany(() => Despesas, (despesas) => despesas.user)

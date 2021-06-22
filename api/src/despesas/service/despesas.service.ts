@@ -1,7 +1,9 @@
-import { Injectable, Inject, BadRequestException } from '@nestjs/common';
+import { Injectable, Inject, BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { Between, Repository } from 'typeorm';
 import { Despesas } from '../entity/despesas.entity';
 import { DespesasDTO } from '../dto/despesas.dto';
+import { ERROR_MESSAGES } from 'src/shared/constants';
+import { DespesasResponseDTO } from '../dto/despesas-response.dto';
 
 const select = [
   'despesas.id',
@@ -11,6 +13,7 @@ const select = [
   'despesas.vencimento',
   'categoria',
   'carteira',
+  'user.id'
 ];
 
 function CriaWhereMes(mes: number) {
@@ -45,6 +48,7 @@ export class DespesaService {
         .select(select)
         .innerJoin('despesas.categoria', 'categoria')
         .innerJoin('despesas.carteira', 'carteira')
+        .innerJoin('despesas.user', 'user')
         .orderBy('despesas.descricao', 'ASC')
         .where(CriaWhereAno(ano))
         .andWhere(CriaWhereMes(mes))
@@ -157,12 +161,13 @@ export class DespesaService {
     }
   }
 
-  async getOne(id: number): Promise<Despesas> {
+  async getOne(id: number): Promise<DespesasResponseDTO> {
     try {
-      return await this.despesaRepository.findOneOrFail(
+      let despesa =  await this.despesaRepository.findOneOrFail(
         { id },
-        { relations: ['carteira', 'categoria'] },
+        { relations: ['carteira', 'categoria', 'user'] },
       );
+      return despesa.EntityToResponse(despesa)
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -178,9 +183,8 @@ export class DespesaService {
     }
   }
 
-  async alteraDespesa(despesa: DespesasDTO): Promise<Despesas> {
+  async alteraDespesa(id: number, despesa: DespesasDTO): Promise<DespesasResponseDTO> {
     try {
-      const { id } = despesa;
       await this.despesaRepository.update({ id }, despesa);
       return this.getOne(id);
     } catch (error) {
@@ -188,9 +192,8 @@ export class DespesaService {
     }
   }
 
-  async alteraFlagPago(despesa) {
+  async alteraFlagPago(id: number, despesa: DespesasDTO) {
     try {
-      const { id } = despesa;
       await this.despesaRepository.update({ id }, despesa);
       return this.getOne(id);
     } catch (error) {
@@ -200,9 +203,13 @@ export class DespesaService {
 
   async deletaDespesa(
     id: number,
+    userId: string
   ): Promise<{ deleted: boolean; message?: string }> {
     try {
-      await this.getOne(id);
+      const despesa = await this.getOne(id);
+      if (despesa.user!== userId){
+        throw new UnauthorizedException(ERROR_MESSAGES.USER_TOKEN_NOT_EQUALS_TO_PARAM_URL)
+      } 
       await this.despesaRepository.delete({ id });
       return { deleted: true };
     } catch (error) {
