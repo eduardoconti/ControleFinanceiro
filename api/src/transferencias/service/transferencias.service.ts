@@ -10,6 +10,7 @@ const select = [
   'transferencias.dataTransferencia',
   'carteiraOrigem',
   'carteiraDestino',
+  'user'
 ];
 
 function CriaWhereMes(mes: number) {
@@ -63,7 +64,7 @@ export class TransferenciaService {
     try {
       return await this.transferenciaRepository.findOneOrFail(
         { id },
-        { relations: ['carteiraOrigem', 'carteiraDestino'] },
+        { relations: ['carteiraOrigem', 'carteiraDestino', 'user'] },
       );
     } catch (error) {
       throw new BadRequestException(error);
@@ -86,9 +87,10 @@ export class TransferenciaService {
 
   async alteraTransferencia(
     transferencia: TransferenciasDTO,
+    id: number
   ): Promise<Transferencias> {
     try {
-      const { id } = transferencia;
+      
       await this.transferenciaRepository.update({ id }, transferencia);
       return this.getOne(id);
     } catch (error) {

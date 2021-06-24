@@ -7,27 +7,28 @@ import {
   IsOptional,
   IsUUID,
 } from 'class-validator';
+import { Carteiras } from 'src/carteiras/entity/carteiras.entity';
 import { CONSTRAINTS_MESSAGES } from 'src/shared/constants';
+import { Users } from 'src/users/entity/users.entity';
 
 export class TransferenciasDTO {
-  id?: number;
 
   @ApiProperty({
     description: 'uuid do usuario',
   })
   @IsUUID('4')
   @IsNotEmpty({ message: CONSTRAINTS_MESSAGES.IS_NOT_EMPTY })
-  user: string;
+  user: Users;
 
   @ApiProperty()
   @IsNumber({}, { message: CONSTRAINTS_MESSAGES.IS_NUMBER })
   @IsNotEmpty({ message: CONSTRAINTS_MESSAGES.IS_NOT_EMPTY })
-  carteiraOrigem: number;
+  carteiraOrigem: Carteiras;
 
   @ApiProperty()
   @IsNotEmpty({ message: CONSTRAINTS_MESSAGES.IS_NOT_EMPTY })
   @IsNumber({}, { message: CONSTRAINTS_MESSAGES.IS_NUMBER })
-  carteiraDestino: number;
+  carteiraDestino: Carteiras;
 
   @ApiPropertyOptional({ default: new Date() })
   @IsOptional()

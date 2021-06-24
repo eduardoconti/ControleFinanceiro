@@ -18,15 +18,15 @@ export class Transferencias {
   @ManyToOne(() => Carteiras, (carteiras) => carteiras.transferenciaOrigem, {
     nullable: false,
   })
-  carteiraOrigem: number;
+  carteiraOrigem: Carteiras;
 
   @ManyToOne(() => Carteiras, (carteiras) => carteiras.transferenciaDestino, {
     nullable: false,
   })
-  carteiraDestino: number;
+  carteiraDestino: Carteiras;
 
   @ManyToOne(() => Users, (users) => users.userTransferencia, {
     nullable: false,
   })
-  user: string;
+  user: Users;
 }

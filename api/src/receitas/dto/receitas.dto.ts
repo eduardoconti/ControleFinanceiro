@@ -3,7 +3,6 @@ import {
   IsBoolean,
   IsDateString,
   IsNotEmpty,
-  IsNumber,
   IsOptional,
   IsString,
   IsUUID,
@@ -55,4 +54,5 @@ export class ReceitasDTO {
   @IsNotEmpty({ message: CONSTRAINTS_MESSAGES.IS_NOT_EMPTY })
  // @IsNumber({}, { message: CONSTRAINTS_MESSAGES.IS_NUMBER })
   carteira: Carteiras;
+
 }

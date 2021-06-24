@@ -77,16 +77,16 @@ export class ReceitasController {
   @Patch('flag/:id')
   async alteraFlagPago(
     @Param('id') id: number,
-    @Body() receita: { id: number; pago: boolean },
+    @Body() receita: ReceitasDTO,
   ): Promise<{ id: number; pago: boolean }> {
-    return this.receitaService.alteraFlagPago(receita);
+    return this.receitaService.alteraFlagPago(receita, id);
   }
   @Put('/:id')
   async alteraReceita(
     @Param('id') id: number,
     @Body() receita: ReceitasDTO,
   ): Promise<ReceitasResponseDTO> {
-    return this.receitaService.alteraReceita(receita);
+    return this.receitaService.alteraReceita(receita, id);
   }
   @Delete('/:id')
   async deletaReceita(@Param('id') id: number): Promise<{ deleted: boolean }> {

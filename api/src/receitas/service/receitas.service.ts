@@ -37,19 +37,6 @@ export class ReceitaService {
     private receitaRepository: Repository<Receitas>,
   ) { }
 
-  receitasResponse(receitas: Receitas[]): ReceitasResponseDTO[] {
-    return receitas.map((receita) => {
-      return this.receitaResponse(receita)
-    })
-  }
-
-  receitaResponse(receita: Receitas): ReceitasResponseDTO {
-    return {
-      ...receita,
-      carteira: receita.carteira.id,
-      user: receita.user.id
-    }
-  }
 
   async retornaTodasReceitas(ano?: number, mes?: number, pago?: boolean): Promise<ReceitasResponseDTO[]> {
     mes = mes ?? 0;
@@ -66,7 +53,10 @@ export class ReceitaService {
         .andWhere(CriaWherePago(pago))
         .orderBy('receitas.valor', 'DESC')
         .getMany();
-      return this.receitasResponse(receitas);
+
+        return receitas.map((receita)=>{
+          return new ReceitasResponseDTO(receita)
+        })
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -130,7 +120,11 @@ export class ReceitaService {
       throw new BadRequestException(error);
     }
   }
-
+  /**
+   * 
+   * @param id 
+   * @returns ReceitasResponseDTO
+   */
   async getOne(id: number): Promise<ReceitasResponseDTO> {
     try {
       const receita = await this.receitaRepository.findOneOrFail(
@@ -138,7 +132,7 @@ export class ReceitaService {
         { relations: ['carteira', 'user'] },
       );
 
-      return this.receitaResponse(receita);
+      return new ReceitasResponseDTO(receita);
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -155,8 +149,8 @@ export class ReceitaService {
     return newReceitas;
   }
 
-  async alteraReceita(receita: ReceitasDTO): Promise<ReceitasResponseDTO> {
-    const { id } = receita;
+  async alteraReceita(receita: ReceitasDTO, id:number): Promise<ReceitasResponseDTO> {
+
     try {
       await this.receitaRepository.update({ id }, receita);
       return this.getOne(id);
@@ -165,8 +159,8 @@ export class ReceitaService {
     }
   }
 
-  async alteraFlagPago(receita) {
-    const { id } = receita;
+  async alteraFlagPago(receita: ReceitasDTO, id:number): Promise<ReceitasResponseDTO>  {
+
     try {
       await this.receitaRepository.update({ id }, receita);
       return this.getOne(id);

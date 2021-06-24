@@ -43,18 +43,4 @@ export class Despesas {
   @ManyToOne(() => Users, (users) => users.id, { nullable: false })
   user: Users;
 
-  EntityToResponse( despesas : Despesas ) {
-    let response = new DespesasResponseDTO();
-    response.id = despesas.id;
-    response.descricao = despesas.descricao;
-    response.valor = despesas.valor;
-    response.vencimento = despesas.vencimento;
-    response.pagamento = despesas.pagamento;
-    response.pago = despesas.pago;
-    response.carteira = despesas.carteira.id;
-    response.categoria = despesas.categoria.id
-    response.user = despesas.user.id
-
-    return response
-  }
 }

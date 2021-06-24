@@ -2,11 +2,10 @@ import {
   Injectable,
   CanActivate,
   ExecutionContext,
-  BadRequestException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { ERROR_MESSAGES } from 'src/shared/constants';
+import { ERROR_MESSAGES } from '../constants/messages.constants';
 
 @Injectable()
 export class UserLoggedGuard implements CanActivate {
@@ -18,7 +17,7 @@ export class UserLoggedGuard implements CanActivate {
   }
 
   async validateRequest(request) {
-    if (request.body.user && request.user.userid !== request.body.user) {
+    if (request.body.user && request.user.userId !== request.body.user) {
       throw new UnauthorizedException(
         ERROR_MESSAGES.USER_TOKEN_NOT_EQUALS_TO_PARAM_URL,
       );

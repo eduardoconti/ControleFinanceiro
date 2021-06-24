@@ -3,7 +3,6 @@ import {
   Controller,
   Get,
   Post,
-  Request,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -12,6 +11,9 @@ import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 import { AppService } from './app.service';
 import { Home } from './dto/home.dto';
 import { v4 as uuidv4 } from 'uuid';
+import { User } from 'src/shared/decorator/user.decorator';
+import { SignDto } from 'src/auth/dto/sign-in.dto';
+import { UserPayloadInterface } from 'src/auth/interfaces/user-payload.interface';
 
 @Controller()
 export class AppController {
@@ -34,8 +36,8 @@ export class AppController {
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   @UseInterceptors(ClassSerializerInterceptor)
-  async login(@Request() req) {
-    return this.authService.login(req.user);
+  async login(@User() user:UserPayloadInterface): Promise<SignDto> {
+    return this.authService.login(user);
   }
 
   @Get('uuid')

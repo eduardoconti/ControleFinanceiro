@@ -78,7 +78,7 @@ export class TransferenciasController {
     @Param('id') id: number,
     @Body() transferencia: TransferenciasDTO,
   ): Promise<Transferencias> {
-    return this.transferenciaService.alteraTransferencia(transferencia);
+    return this.transferenciaService.alteraTransferencia(transferencia, id);
   }
   @Delete('/:id')
   async deletaTransferencia(

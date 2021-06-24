@@ -1,5 +1,6 @@
 export const ERROR_MESSAGES = {
   AUTHENTICATION_FAILED: 'Falha de autenticação',
+  TOKEN_DECODE_ERROR: 'Erro ao decodificar o token',
 };
 
 export const SUCCESS_MESSAGES = {

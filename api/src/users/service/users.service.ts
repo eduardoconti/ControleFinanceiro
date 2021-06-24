@@ -9,7 +9,7 @@ import { Users } from '../entity/users.entity';
 import { UserDto } from '../dto/users.dto';
 import { v4 as uuidv4 } from 'uuid';
 import { PasswordManagerService } from './password-mannager.service';
-import { ERROR_MESSAGES } from 'src/shared/constants';
+import { ERROR_MESSAGES } from '../constants/messages.constants';
 
 @Injectable()
 export class UsersService {
