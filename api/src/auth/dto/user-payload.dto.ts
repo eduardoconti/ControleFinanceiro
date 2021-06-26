@@ -5,7 +5,7 @@ import { UserPayloadInterface } from "../interfaces/user-payload.interface";
 export class UserPayloadDto implements UserPayloadInterface{
   userId: string;
   userName: string;
-  userProfile: number;
+  userProfile: number; 
 
   constructor( users : Users ) {
     this.userId = users.id;

@@ -6,14 +6,15 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { AuthService } from 'src/auth/auth.service';
-import { LocalAuthGuard } from 'src/auth/local-auth.guard';
+
 import { AppService } from './app.service';
 import { Home } from './dto/home.dto';
 import { v4 as uuidv4 } from 'uuid';
 import { User } from 'src/shared/decorator/user.decorator';
 import { SignDto } from 'src/auth/dto/sign-in.dto';
 import { UserPayloadInterface } from 'src/auth/interfaces/user-payload.interface';
+import { LocalAuthGuard } from 'src/auth/guard/local-auth.guard';
+import { AuthService } from 'src/auth/service/auth.service';
 
 @Controller()
 export class AppController {

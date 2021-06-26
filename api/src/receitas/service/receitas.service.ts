@@ -2,7 +2,6 @@ import { Injectable, Inject, BadRequestException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Receitas } from '../entity/receitas.entity';
 import { ReceitasDTO } from '../dto/receitas.dto';
-import { ReceitasResponseDTO } from '../dto/receitas-response.dto';
 
 const select = [
   'receitas.id',
@@ -38,7 +37,7 @@ export class ReceitaService {
   ) { }
 
 
-  async retornaTodasReceitas(ano?: number, mes?: number, pago?: boolean): Promise<ReceitasResponseDTO[]> {
+  async retornaTodasReceitas(ano?: number, mes?: number, pago?: boolean): Promise<Receitas[]> {
     mes = mes ?? 0;
     ano = ano ?? 0;
 
@@ -54,9 +53,7 @@ export class ReceitaService {
         .orderBy('receitas.valor', 'DESC')
         .getMany();
 
-        return receitas.map((receita)=>{
-          return new ReceitasResponseDTO(receita)
-        })
+      return receitas
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -123,16 +120,15 @@ export class ReceitaService {
   /**
    * 
    * @param id 
-   * @returns ReceitasResponseDTO
+   * @returns Receitas
    */
-  async getOne(id: number): Promise<ReceitasResponseDTO> {
+  async getOne(id: number): Promise<Receitas> {
     try {
-      const receita = await this.receitaRepository.findOneOrFail(
+      return await this.receitaRepository.findOneOrFail(
         { id },
         { relations: ['carteira', 'user'] },
       );
 
-      return new ReceitasResponseDTO(receita);
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -149,7 +145,7 @@ export class ReceitaService {
     return newReceitas;
   }
 
-  async alteraReceita(receita: ReceitasDTO, id:number): Promise<ReceitasResponseDTO> {
+  async alteraReceita(receita: ReceitasDTO, id: number): Promise<Receitas> {
 
     try {
       await this.receitaRepository.update({ id }, receita);
@@ -159,7 +155,7 @@ export class ReceitaService {
     }
   }
 
-  async alteraFlagPago(receita: ReceitasDTO, id:number): Promise<ReceitasResponseDTO>  {
+  async alteraFlagPago(receita: ReceitasDTO, id: number): Promise<Receitas> {
 
     try {
       await this.receitaRepository.update({ id }, receita);

@@ -11,8 +11,8 @@ import {
 import { Carteiras } from './entity/carteiras.entity';
 import { CarteirasDTO } from './dto/carteiras.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CarteirasService } from './service/carteiras.service';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 @Controller('carteiras')
 @ApiTags('carteiras')
 @UseGuards(JwtAuthGuard)

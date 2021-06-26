@@ -21,6 +21,7 @@ import {
 
 import Menu from "./MenuItemForm";
 import { retornaCarteiras } from "../common/CarteiraFuncoes";
+import { getToken } from "../common/Auth";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -164,6 +165,8 @@ export default function FormTransferencias({
           onClick={async () => {
             let response = 0;
             let transferencias;
+            const parse = JSON.parse(atob(getToken().split('.')[1]));
+            formulario.user = parse.userId;
 
             if (formulario.id === 0)
               response = await insereTransferencia(formulario);

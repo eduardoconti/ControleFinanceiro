@@ -10,18 +10,16 @@ import {
   Query,
   UseGuards,
   Request,
-  ParseIntPipe,
-  ParseBoolPipe,
+  ParseIntPipe
 } from '@nestjs/common';
 import { DespesaService } from './service/despesas.service';
 import { Despesas } from './entity/despesas.entity';
 import { DespesasDTO } from './dto/despesas.dto';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UserLoggedGuard } from 'src/users/guard/user-logged-auth.guard';
-import { DespesasResponseDTO } from './dto/despesas-response.dto';
 import { User } from 'src/shared/decorator/user.decorator';
 import { UserPayloadInterface } from 'src/auth/interfaces/user-payload.interface';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 
 @Controller('despesas')
 @ApiTags('despesas')
@@ -40,14 +38,14 @@ export class DespesasController {
     @Query('ano', ParseIntPipe) ano?: number,
     @Query('mes', ParseIntPipe) mes?: number,
     @Query('pago') pago?: boolean,
-  ) {
+  ):Promise<Despesas[]> {
     return await this.despesaService.retornaTodasDespesas(ano, mes, pago, user.userId);
   }
 
   @Get('/total')
   async retornaTotalDespesas(
     @User() user: UserPayloadInterface,
-    @Query('pago') pago?: boolean) {
+    @Query('pago') pago?: boolean) : Promise<number> {
 
     return await this.despesaService.retornaTotalDespesas(0, 0, pago, user.userId);
   }
@@ -56,7 +54,7 @@ export class DespesasController {
   async retornaDespesasAgrupadasPorMes(
     @User() user: UserPayloadInterface,
     @Param('ano', ParseIntPipe) ano: number,
-    @Query('pago', ParseBoolPipe) pago?: boolean,
+    @Query('pago') pago?: boolean,
   ) {
     return await this.despesaService.retornaDespesasAgrupadasPorMes(ano, pago,user.userId);
   }
@@ -68,12 +66,12 @@ export class DespesasController {
     @Param('mes') mes: number,
     @Query('pago') pago: boolean,
   ) {
-
     return await this.despesaService.retornaTodasDespesas(ano, mes, pago,user.userId);
   }
 
   @Get('/:ano/mes/:mes/categoria/valor')
   async retornaValorDespesasAgrupadosPorCategoria(
+    @User() user: UserPayloadInterface,
     @Param('ano') ano: number,
     @Param('mes') mes: number,
     @Query('pago') pago: boolean,
@@ -82,11 +80,13 @@ export class DespesasController {
       ano,
       mes,
       pago,
+      user.userId
     );
   }
 
   @Get('/:ano/mes/:mes/carteira/valor')
   async retornaValorDespesasAgrupadosPorCarteira(
+    @User() user: UserPayloadInterface,
     @Param('ano') ano: number,
     @Param('mes') mes: number,
     @Query('pago') pago: boolean,
@@ -95,36 +95,41 @@ export class DespesasController {
       ano,
       mes,
       pago,
+      user.userId
     );
   }
 
   @Get('/:ano/mes/:mes/total')
   async getTotalDespesas(
+    @User() user: UserPayloadInterface,
     @Param('ano') ano: number,
     @Param('mes') mes: number,
     @Query('pago') pago: boolean,
   ) {
-    return this.despesaService.retornaTotalDespesas(ano, mes, pago);
+    return this.despesaService.retornaTotalDespesas(ano, mes, pago, user.userId);
   }
 
   @Get('/id/:id')
-  async getById(@Param('id') id: number): Promise<DespesasResponseDTO> {
-    return this.despesaService.getOne(id);
+  async getById(
+    @User() user: UserPayloadInterface,
+    @Param('id') id: number): Promise<Despesas> {
+    return this.despesaService.getOne(id, user.userId);
   }
 
   @Patch('flag/:id')
   async alteraFlagPago(
+    @User() user: UserPayloadInterface,
     @Param('id') id: number,
-    @Body() despesa: DespesasDTO,
-  ): Promise<DespesasResponseDTO> {
-    return this.despesaService.alteraFlagPago(id, despesa);
+    @Body() despesa,
+  ): Promise<Despesas> {
+    return this.despesaService.alteraFlagPago(id, despesa, user.userId);
   }
 
   @Put('/:id')
   async alteraDespesa(
     @Param('id') id: number,
     @Body() despesa: DespesasDTO,
-  ): Promise<DespesasResponseDTO> {
+  ): Promise<Despesas> {
     return this.despesaService.alteraDespesa(id, despesa);
   }
 

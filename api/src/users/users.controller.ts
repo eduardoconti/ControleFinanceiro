@@ -10,7 +10,6 @@ import {
   UseInterceptors,
   Request,
 } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UserDto } from './dto/users.dto';
 import { UsersService } from './service/users.service';
 import { ApiTags } from '@nestjs/swagger';

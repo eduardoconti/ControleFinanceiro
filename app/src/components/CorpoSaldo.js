@@ -55,7 +55,7 @@ async function retornaDadosParaCard() {
     );
     let valor = receita - despesa + (transferenciaEntrada - transferenciaSaida);
 
-    if (valor.toFixed(2) !== 0) {
+    if (valor.toFixed(2) > 0 ) {
       dadosCard.push({
         descricao: carteira.descricao,
         valor: valor,

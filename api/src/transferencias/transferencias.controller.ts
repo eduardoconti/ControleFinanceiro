@@ -14,8 +14,8 @@ import {
 import { TransferenciasDTO } from './dto/transferencias.dto';
 import { Transferencias } from './entity/transferencias.entity';
 import { ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { TransferenciaService } from './service/transferencias.service';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 @Controller('transferencias')
 @ApiTags('transferencias')
 @UseGuards(JwtAuthGuard)

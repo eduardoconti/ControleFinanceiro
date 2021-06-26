@@ -3,10 +3,10 @@ import { JwtService } from '@nestjs/jwt';
 import { Users } from 'src/users/entity/users.entity';
 import { PasswordManagerService } from 'src/users/service/password-mannager.service';
 import { UsersService } from 'src/users/service/users.service';
-import { ERROR_MESSAGES } from './constants';
-import { SignDto } from './dto/sign-in.dto';
-import { UserPayloadDto } from './dto/user-payload.dto';
-import { UserPayloadInterface } from './interfaces/user-payload.interface';
+import { ERROR_MESSAGES } from '../constants/messages.constants';
+import { SignDto } from '../dto/sign-in.dto';
+import { UserPayloadDto } from '../dto/user-payload.dto';
+import { UserPayloadInterface } from '../interfaces/user-payload.interface';
 
 @Injectable()
 export class AuthService {

@@ -2,7 +2,6 @@ import { Injectable, Inject, BadRequestException, UnauthorizedException } from '
 import { Repository } from 'typeorm';
 import { Despesas } from '../entity/despesas.entity';
 import { DespesasDTO } from '../dto/despesas.dto';
-import { DespesasResponseDTO } from '../dto/despesas-response.dto';
 import { ERROR_MESSAGES } from '../constants';
 
 @Injectable()
@@ -52,9 +51,7 @@ export class DespesaService {
         .andWhere(this.CriaWherePago(pago))
         .getMany();
 
-      return despesas.map((despesa => {
-        return new DespesasResponseDTO(despesa)
-      }));
+      return despesas
 
     } catch (error) {
       throw new BadRequestException(error);
@@ -117,7 +114,7 @@ export class DespesaService {
     }
   }
 
-  async retornaTotalDespesas(ano?: number, mes?: number, pago?: boolean, userId?: string) {
+  async retornaTotalDespesas(ano?: number, mes?: number, pago?: boolean, userId?: string):Promise<number> {
     try {
       let { sum } = await this.despesaRepository
         .createQueryBuilder('despesas')
@@ -158,16 +155,24 @@ export class DespesaService {
 
   /**
    * 
-   * @param id 
-   * @returns DespesasResponseDTO
+   * @param id:ring
+   * @returns Despesas
+   * @param userId
+   * @throw UnauthorizedException
+   * @throw BadRequestException
    */
-  async getOne(id: number): Promise<DespesasResponseDTO> {
+  async getOne(id: number, userId?:string): Promise<Despesas> {
     try {
       let despesa = await this.despesaRepository.findOneOrFail(
         { id },
         { relations: ['carteira', 'categoria', 'user'] },
       );
-      return new DespesasResponseDTO(despesa);
+
+      if (userId && despesa.user.id !== userId){
+        throw new UnauthorizedException(ERROR_MESSAGES.USER_TOKEN_NOT_EQUALS_TO_PARAM_URL)
+      }
+
+      return despesa;
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -183,7 +188,7 @@ export class DespesaService {
     }
   }
 
-  async alteraDespesa(id: number, despesa: DespesasDTO): Promise<DespesasResponseDTO> {
+  async alteraDespesa(id: number, despesa: DespesasDTO): Promise<Despesas> {
     try {
       await this.despesaRepository.update({ id }, despesa);
       return this.getOne(id);
@@ -191,11 +196,18 @@ export class DespesaService {
       throw new BadRequestException(error);
     }
   }
-
-  async alteraFlagPago(id: number, despesa: DespesasDTO) {
+  /**
+   * 
+   * @param id 
+   * @param despesa 
+   * @param userId 
+   * @returns Despesas
+   */
+  async alteraFlagPago(id: number, despesa: DespesasDTO, userId: string): Promise<Despesas> {
     try {
+      await this.getOne(id, userId);
       await this.despesaRepository.update({ id }, despesa);
-      return this.getOne(id);
+      return await this.getOne(id);
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -206,7 +218,7 @@ export class DespesaService {
     userId: string
   ): Promise<{ deleted: boolean; message?: string }> {
     try {
-      this.validateUser(id, userId);
+      await this.getOne(id, userId);
       await this.despesaRepository.delete({ id });
       return { deleted: true };
     } catch (error) {
@@ -214,10 +226,4 @@ export class DespesaService {
     }
   }
 
-  private async validateUser(id: number, userId: string) {
-    const despesa = await this.getOne(id);
-    if (despesa.user !== userId) {
-      throw new UnauthorizedException(ERROR_MESSAGES.USER_TOKEN_NOT_EQUALS_TO_PARAM_URL)
-    }
-  }
 }

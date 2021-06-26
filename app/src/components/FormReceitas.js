@@ -13,6 +13,7 @@ import {
   AlertWarning,
 } from "../common/AlertFuncoes";
 import Menu from "./MenuItemForm";
+import { getToken } from "../common/Auth";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -144,6 +145,8 @@ export default function FormReceitas({
           className={classes.botao}
           onClick={async () => {
             let response = 0;
+            const parse = JSON.parse(atob(getToken().split('.')[1]));
+            formulario.user = parse.userId;
             if (formulario.id === 0) response = await insereReceita(formulario);
             else {
               response = await alteraReceita(formulario);

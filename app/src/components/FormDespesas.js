@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -14,6 +14,7 @@ import {
   AlertWarning,
 } from "../common/AlertFuncoes";
 import Menu from "./MenuItemForm";
+import { Context } from "../Context/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,6 +47,7 @@ export default function FormDespesas({
   const [alert, setAlert] = useState(emptyAlertState);
   const classes = useStyles();
   const descricaoBotao = formulario.id === 0 ? "CADASTRAR" : "ALTERAR";
+  const ctx = useContext(Context);
 
   useEffect(() => {
     retornaCategorias().then((categorias) => {
@@ -175,7 +177,8 @@ export default function FormDespesas({
           size="small"
           className={classes.botao}
           onClick={async () => {
-            let response;
+            let response
+            formulario.user = ctx.userId;
             if (formulario.id === 0) {
               response = await insereDespesa(formulario);
             } else {

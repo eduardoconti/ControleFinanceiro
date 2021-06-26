@@ -28,7 +28,7 @@ export default function Grafico({ data, chaveX, chaveY, stroke, cor }) {
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey={chaveX} />
         <Legend formatter={renderColorfulLegendText} />
-        <YAxis type="number" domain={[0, 4000]} />
+        <YAxis type="number" domain={[0, 6000]} />
         <Tooltip />
         <Bar dataKey={chaveY} fill={cor} maxBarSize={30} stroke={stroke} />
       </BarChart>

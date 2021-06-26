@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, TextField, Button } from "@material-ui/core";
 import { ObtemToken } from "../common/Login";
@@ -8,6 +8,7 @@ import {
   emptyFormularioCarteira,
   emptyAlertState,
 } from "../common/EmptyStates";
+import {Context} from '../Context/AuthContext';
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -31,7 +32,7 @@ export default function FormLogin( {setOpen, setLogged}) {
       );  
   const classes = useStyles();
   const [alert, setAlert] = useState(emptyAlertState);
-
+  const ctx = useContext(Context);
   return (
     <Box className="Formularios">
       <Alert alert={alert} setAlert={(alert) => setAlert(alert)} />
@@ -73,10 +74,10 @@ export default function FormLogin( {setOpen, setLogged}) {
             if(token){
                 login(token);
                 setOpen(false);
-                setLogged(true);
+                setLogged(true);              
+                ctx.setToken(token);
             }
-            setFormulario(emptyFormularioCarteira);
-           
+            setFormulario(emptyFormularioCarteira);          
           }}
         >
           LOGIN
