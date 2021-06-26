@@ -213,8 +213,8 @@ export async function retornaTotalDespesasAbertas(
 
 export async function retornaDespesaPorId(id) {
   try {
-    const total = await API.get(ENDPOINT + "id/" + id, headers);
-    return total.data;
+    const despesa = await API.get(ENDPOINT + "id/" + id, headers);
+    return despesa.data;
   } catch (error) {
     return error.response.status;
   }

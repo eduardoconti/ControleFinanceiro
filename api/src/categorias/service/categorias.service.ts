@@ -18,9 +18,9 @@ export class CategoriasService {
     }
   }
 
-  async retornaTodasCategorias(): Promise<Categorias[]> {
+  async retornaTodasCategorias( userId: string): Promise<Categorias[]> {
     try {
-      return await this.categoriaRepository.find({ order: { id: 'ASC' } });
+      return await this.categoriaRepository.find({ order: { id: 'ASC' }, relations:['user'], where:{user: userId} });
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -47,9 +47,8 @@ export class CategoriasService {
     }
   }
 
-  async alteraCategoria(categoria: CategoriasDTO): Promise<Categorias> {
+  async alteraCategoria(id: number, categoria: CategoriasDTO): Promise<Categorias> {
     try {
-      const { id } = categoria;
       await this.categoriaRepository.update({ id }, categoria);
       return this.getOne(id);
     } catch (error) {

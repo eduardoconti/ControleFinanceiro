@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -8,10 +8,13 @@ import {
   MuiThemeProvider,
   Typography,
 } from "@material-ui/core";
+import { ContextTotais } from "../Context/TotaisContext";
 let theme = createMuiTheme();
 theme = responsiveFontSizes(theme);
 
-export default function Cards({ descricao, cor, valor, setStateCurrentBody }) {
+export default function CardBalanco({ descricao, cor, setStateCurrentBody }) {
+  const ctxTotais = useContext(ContextTotais);
+  const valor = ctxTotais.stateTotais.balanco;
   function onClik() {
     setStateCurrentBody();
   }

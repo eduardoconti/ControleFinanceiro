@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import DataGrid from "./DataGrid";
 import IconButton from "@material-ui/core/IconButton";
 import CreateTwoToneIcon from "@material-ui/icons/CreateTwoTone";
@@ -24,6 +24,9 @@ import {
   retornaStateAlertCadastro,
 } from "../common/AlertFuncoes";
 import ImportExportTwoToneIcon from "@material-ui/icons/ImportExportTwoTone";
+import { ContextTotais } from "../Context/TotaisContext";
+import { ContextChecked } from "../Context/CheckedContext";
+import { ContextAnoMes } from "../Context/AnoMesContext";
 
 const useStyles = makeStyles({
   operacoes: {
@@ -32,18 +35,22 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DataGridDespesas({
-  stateCheckedDespesas,
-  setStateTotais,
-  stateCheckedReceitas,
-  stateTotais,
-  setFormulario,
-  stateMesAtual,
-  stateAnoAtual,
-}) {
+export default function DataGridDespesas({setFormulario}) {
+
+  const classes = useStyles();
+  const ctxTotais = useContext(ContextTotais);
+  const ctxChecked = useContext(ContextChecked);
+  const ctxAnoMes = useContext(ContextAnoMes)
+
+  const setStateTotais = ctxTotais.setStateTotais; 
+  const stateTotais = ctxTotais.stateTotais;
+  const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
+  const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
+  const stateMesAtual = ctxAnoMes.stateMesAtual
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual
+
   const [rows, setRows] = useState([]);
   const [alert, setAlert] = useState(emptyAlertState);
-  const classes = useStyles();
 
   const columns = [
     { field: "descricao", headerName: "Descricao", width: 170 },
@@ -118,7 +125,6 @@ export default function DataGridDespesas({
               className={classes.operacoes}
               onClick={async () => {
                 const despesa = await retornaDespesaPorId(field.row.id);
-                console.log(stateAnoAtual, stateMesAtual);
                 despesa.vencimento = new Date(
                   stateAnoAtual,
                   stateMesAtual,
@@ -131,6 +137,7 @@ export default function DataGridDespesas({
                   stateMesAtual,
                   10
                 ).toISOString();
+                despesa.user = despesa.user.id
                 const response = await insereDespesa(
                   formataDadosParaFormulario(despesa)
                 );

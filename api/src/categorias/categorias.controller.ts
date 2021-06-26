@@ -13,6 +13,9 @@ import { CategoriasDTO } from './dto/categorias.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { CategoriasService } from './service/categorias.service';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
+import { UserLoggedGuard } from 'src/users/guard/user-logged-auth.guard';
+import { UserPayloadInterface } from 'src/auth/interfaces/user-payload.interface';
+import { User } from 'src/shared/decorator/user.decorator';
 @Controller('categorias')
 @ApiTags('categorias')
 @UseGuards(JwtAuthGuard)
@@ -20,11 +23,12 @@ export class CategoriasController {
   constructor(private readonly categoriaService: CategoriasService) {}
 
   @Get()
-  async getAll(): Promise<Categorias[]> {
-    return await this.categoriaService.retornaTodasCategorias();
+  async getAll(@User() user: UserPayloadInterface ): Promise<Categorias[]> {
+    return await this.categoriaService.retornaTodasCategorias( user.userId);
   }
 
   @Post()
+  @UseGuards(UserLoggedGuard)
   async insereCategoria(@Body() despesa: CategoriasDTO): Promise<Categorias> {
     return this.categoriaService.insereCategoria(despesa);
   }
@@ -41,6 +45,6 @@ export class CategoriasController {
     @Param('id') id: number,
     @Body() despesa: CategoriasDTO,
   ): Promise<Categorias> {
-    return this.categoriaService.alteraCategoria(despesa);
+    return this.categoriaService.alteraCategoria(id,despesa);
   }
 }

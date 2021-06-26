@@ -9,6 +9,10 @@ import {
   emptyAlertState,
 } from "../common/EmptyStates";
 import {Context} from '../Context/AuthContext';
+import { ContextTotais } from "../Context/TotaisContext";
+import { ContextChecked } from "../Context/CheckedContext";
+import { calculaTotais } from "../common/Funcoes";
+import { ContextAnoMes } from "../Context/AnoMesContext";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -27,12 +31,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FormLogin( {setOpen, setLogged}) {
+export default function FormLogin( {setOpen}) {
     const [formulario, setFormulario] = useState({ username:'', password:''}
       );  
   const classes = useStyles();
   const [alert, setAlert] = useState(emptyAlertState);
   const ctx = useContext(Context);
+  const ctxTotais = useContext(ContextTotais);
+  const ctxChecked = useContext(ContextChecked);
+  const ctxAnoMes = useContext(ContextAnoMes)
+  const stateMesAtual = ctxAnoMes.stateMesAtual
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual
+  const setStateTotais = ctxTotais.setStateTotais; 
+  const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
+  const stateCheckedReceitas = ctxChecked.setStateCheckedReceitas;
+  
   return (
     <Box className="Formularios">
       <Alert alert={alert} setAlert={(alert) => setAlert(alert)} />
@@ -73,9 +86,16 @@ export default function FormLogin( {setOpen, setLogged}) {
 
             if(token){
                 login(token);
-                setOpen(false);
-                setLogged(true);              
+                setOpen(false);         
                 ctx.setToken(token);
+                setStateTotais(
+                  await calculaTotais(
+                    stateCheckedDespesas,
+                    stateCheckedReceitas,
+                    stateAnoAtual,
+                    stateMesAtual
+                  )
+                );
             }
             setFormulario(emptyFormularioCarteira);          
           }}
@@ -89,8 +109,9 @@ export default function FormLogin( {setOpen, setLogged}) {
           className={classes.botao}
           onClick={async () => {
             logout();
-            setLogged(false);
             setOpen(false);
+            ctx.setToken('');
+            ctx.setUserId('');
           }}
         >
           logout

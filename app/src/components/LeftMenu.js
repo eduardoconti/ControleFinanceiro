@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import Ano from "./BotaoAno";
 import * as Constants from "../common/Constantes";
-import API from "../common/Api";
 import {
   createMuiTheme,
   responsiveFontSizes,
@@ -25,11 +24,7 @@ const useStyles = makeStyles({
 let theme = createMuiTheme();
 theme = responsiveFontSizes(theme);
 
-export default function LeftMenu({
-  setStateCurrentBody,
-  stateAnoAtual,
-  setStateAnoAtual,
-}) {
+export default function LeftMenu({ setStateCurrentBody }) {
   const classes = useStyles();
   function onClick(currentBody) {
     setStateCurrentBody(currentBody);
@@ -38,10 +33,7 @@ export default function LeftMenu({
     <MuiThemeProvider theme={theme}>
       <Grid container direction="row" spacing={1}>
         <Grid item xs={4} lg={12}>
-          <Ano
-            stateAnoAtual={stateAnoAtual}
-            setStateAnoAtual={setStateAnoAtual}
-          ></Ano>
+          <Ano />
         </Grid>
 
         <Grid item xs={4} lg={12}>
@@ -72,16 +64,6 @@ export default function LeftMenu({
             }}
           >
             Transf.
-          </Button>
-        </Grid>
-        <Grid item xs={4} lg={12}>
-          <Button
-            className={classes.botao}
-            onClick={async () => {
-              await API.get("/calc");
-            }}
-          >
-            Calc.
           </Button>
         </Grid>
       </Grid>

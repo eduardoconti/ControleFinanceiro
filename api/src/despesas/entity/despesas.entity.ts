@@ -3,14 +3,10 @@ import {
   Column,
   PrimaryGeneratedColumn,
   ManyToOne,
-  ManyToMany,
-  JoinTable,
 } from 'typeorm';
 import { Categorias } from '../../categorias/entity/categorias.entity';
 import { Carteiras } from '../../carteiras/entity/carteiras.entity';
 import { Users } from 'src/users/entity/users.entity';
-import { DespesasResponseDTO } from '../dto/despesas-response.dto';
-import { ReceitasProviders } from 'src/receitas/receitas.providers';
 
 @Entity({ schema: 'public', name: 'despesas' })
 export class Despesas {

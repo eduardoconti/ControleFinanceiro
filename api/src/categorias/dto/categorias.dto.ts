@@ -1,10 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, Length } from 'class-validator';
+import { IsNotEmpty, IsString, IsUUID, Length } from 'class-validator';
 import { CONSTRAINTS_LIMITS, CONSTRAINTS_MESSAGES } from 'src/shared/constants';
+import { Users } from 'src/users/entity/users.entity';
 
 export class CategoriasDTO {
-  id?: number;
-
+  @ApiProperty({
+    description: 'uuid do usuario',
+  })
+  @IsUUID('4')
+  @IsNotEmpty({ message: CONSTRAINTS_MESSAGES.IS_NOT_EMPTY })
+  user: Users;
+  
   @ApiProperty({
     description: 'Descrição da categoria',
     minLength: CONSTRAINTS_LIMITS.DESCRICAO.min,

@@ -11,8 +11,7 @@ import Menu from "./MenuItemForm";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import {Context} from '../Context/AuthContext';
-import { getToken } from "../common/Auth";
+import { ContextAnoMes } from "../Context/AnoMesContext";
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
@@ -38,12 +37,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DialogSelect({ stateAnoAtual, setStateAnoAtual }) {
+export default function BotaoAno() {
+
+  const ctxAnoMes = useContext(ContextAnoMes)
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual
+  const setStateAnoAtual = ctxAnoMes.setStateAnoAtual
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [ano, setAno] = React.useState(stateAnoAtual);
-  const ctx = useContext(Context)
-  console.log(ctx);
 
   const handleChange = (event) => {
     setAno(Number(event.target.value) || "");

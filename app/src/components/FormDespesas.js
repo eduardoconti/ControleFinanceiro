@@ -15,6 +15,9 @@ import {
 } from "../common/AlertFuncoes";
 import Menu from "./MenuItemForm";
 import { Context } from "../Context/AuthContext";
+import { ContextTotais } from "../Context/TotaisContext";
+import { ContextChecked } from "../Context/CheckedContext";
+import { ContextAnoMes } from "../Context/AnoMesContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,20 +37,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function FormDespesas({
-  stateCheckedDespesas,
-  stateCheckedReceitas,
-  setStateTotais,
   setFormulario,
-  formulario,
-  stateMesAtual,
-  stateAnoAtual,
+  formulario
 }) {
+  const ctx = useContext(Context);
+  const ctxTotais = useContext(ContextTotais);
+  const ctxChecked = useContext(ContextChecked);
+  const ctxAnoMes = useContext(ContextAnoMes)
+
   const [categorias, setCategorias] = useState([]);
   const [carteiras, setCarteiras] = useState([]);
   const [alert, setAlert] = useState(emptyAlertState);
   const classes = useStyles();
+
+  const setStateTotais = ctxTotais.setStateTotais; 
+  const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
+  const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
+  const stateMesAtual = ctxAnoMes.stateMesAtual
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual
+  
   const descricaoBotao = formulario.id === 0 ? "CADASTRAR" : "ALTERAR";
-  const ctx = useContext(Context);
 
   useEffect(() => {
     retornaCategorias().then((categorias) => {

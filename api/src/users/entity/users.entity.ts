@@ -1,4 +1,6 @@
 import { Exclude } from 'class-transformer';
+import { Carteiras } from 'src/carteiras/entity/carteiras.entity';
+import { Categorias } from 'src/categorias/entity/categorias.entity';
 import { Despesas } from 'src/despesas/entity/despesas.entity';
 import { Receitas } from 'src/receitas/entity/receitas.entity';
 import { Transferencias } from 'src/transferencias/entity/transferencias.entity';
@@ -33,4 +35,10 @@ export class Users {
 
   @OneToMany(() => Transferencias, (transferencias) => transferencias.user)
   userTransferencia: Transferencias[];
+
+  @OneToMany(() => Carteiras, (carteiras) => carteiras.user)
+  userCarteiras: Carteiras[];
+
+  @OneToMany(() => Categorias, (categorias) => categorias.user)
+  userCategorias: Categorias[];
 }

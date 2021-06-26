@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import DataGrid from "./DataGrid";
 import IconButton from "@material-ui/core/IconButton";
 import CreateTwoToneIcon from "@material-ui/icons/CreateTwoTone";
@@ -20,6 +20,7 @@ import {
   retornaStateAlertAlteracaoFlagPago,
   retornaStateAlertExclusao,
 } from "../common/AlertFuncoes";
+import { ContextAnoMes } from "../Context/AnoMesContext";
 
 const useStyles = makeStyles({
   operacoes: {
@@ -30,11 +31,14 @@ const useStyles = makeStyles({
 
 export default function DataGridComponent({
   setFormulario,
-  stateMesAtual,
-  stateAnoAtual,
   rows,
-  setRows,
+  setRows
 }) {
+
+  const ctxAnoMes = useContext(ContextAnoMes)
+  const stateMesAtual = ctxAnoMes.stateMesAtual
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual
+
   const classes = useStyles();
   const [alert, setAlert] = useState(emptyAlertState);
   const columns = [

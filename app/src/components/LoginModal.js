@@ -18,9 +18,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TransitionsModal({ logged, setLogged }) {
+export default function TransitionsModal() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(logged);
+  const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -52,7 +52,6 @@ export default function TransitionsModal({ logged, setLogged }) {
             setOpen={(open) => {
               setOpen(open);
             }}
-            setLogged={setLogged}
           />
         </Fade>
       </Modal>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   ComposedChart,
   Bar,
@@ -16,6 +16,8 @@ import { rertornaReceitasAgrupadasPorMes } from "../common/ReceitaFuncoes";
 
 import { rertornaDespesasAgrupadasPorMes } from "../common/DepesaFuncoes";
 import { Box } from "@material-ui/core";
+import { ContextTotais } from "../Context/TotaisContext";
+import { ContextAnoMes } from "../Context/AnoMesContext";
 
 function retornaMes(mes) {
   if (mes === 1) return "Jan";
@@ -56,14 +58,14 @@ function adicionaNoArrayDeDados(dados, receitas, despesas) {
   }
 }
 
-export default function GraficoReceitas({
-  stateCheckedDespesas,
-  stateCheckedReceitas,
-  stateAnoAtual,
-  stateTotais,
-}) {
-  //const [stateGrafico, setStateGrafico] = useState("1");
-  //const [descricao, setDescricao] = useState("");
+export default function GraficoReceitas() {
+
+  const ctxTotais = useContext(ContextTotais);
+  const ctxAnoMes = useContext(ContextAnoMes)
+
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual
+  const stateTotais = ctxTotais.stateTotais;
+
   const [dados, setDados] = useState([]);
 
   useEffect(() => {

@@ -155,7 +155,7 @@ export class ReceitaService {
     }
   }
 
-  async alteraFlagPago(receita: ReceitasDTO, id: number): Promise<Receitas> {
+  async alteraFlagPago(receita, id: number): Promise<Receitas> {
 
     try {
       await this.receitaRepository.update({ id }, receita);

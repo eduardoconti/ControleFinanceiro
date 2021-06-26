@@ -76,7 +76,7 @@ export class ReceitasController {
   @Patch('flag/:id')
   async alteraFlagPago(
     @Param('id') id: number,
-    @Body() receita: ReceitasDTO,
+    @Body() receita,
   ): Promise<{ id: number; pago: boolean }> {
     return this.receitaService.alteraFlagPago(receita, id);
   }

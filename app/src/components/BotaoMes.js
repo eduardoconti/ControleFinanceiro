@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import CardActionArea from "@material-ui/core/CardActionArea";
+import { ContextAnoMes } from "../Context/AnoMesContext";
 
-export default function BotaoMes({ setStateMesAtual, stateMesAtual }) {
+export default function BotaoMes() {
+  const ctxAnoMes = useContext(ContextAnoMes)
+  const stateMesAtual = ctxAnoMes.stateMesAtual
+  const setStateMesAtual = ctxAnoMes.setStateMesAtual
+
   const useStyles = makeStyles({
     botao: {
       background: "linear-gradient(45deg, #C2DFFF 10%, #48CCCD 90%)",

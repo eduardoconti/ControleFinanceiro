@@ -1,23 +1,23 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 import { emptyChecked } from "../common/EmptyStates";
 
 const ContextChecked = createContext();
 
 function CheckedProvider({ children }) {
     const [stateCheckedDespesas, setStateCheckedDespesas] = useState(emptyChecked);
-    const [stateCheckedReceitas, setStateCheckedReceita] = useState(emptyChecked);
+    const [stateCheckedReceitas, setStateCheckedReceitas] = useState(emptyChecked);
 
   return (
-    <Context.Provider
+    <ContextChecked.Provider
       value={{
         stateCheckedDespesas,
         setStateCheckedDespesas,
         stateCheckedReceitas,
-        setStateCheckedReceita
+        setStateCheckedReceitas
       }}
     >
       {children}
-    </Context.Provider>
+    </ContextChecked.Provider>
   );
 }
 

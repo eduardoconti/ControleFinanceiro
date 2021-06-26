@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Radio from "./HeaderGraficos";
 import {
   getValorDespesasPorCategoria,
@@ -6,13 +6,21 @@ import {
 } from "../common/DepesaFuncoes";
 import { Box } from "@material-ui/core";
 import Grafico from "./Grafico";
+import { ContextTotais } from "../Context/TotaisContext";
+import { ContextChecked } from "../Context/CheckedContext";
+import { ContextAnoMes } from "../Context/AnoMesContext";
 
-export default function GraficoTest({
-  stateCheckedDespesas,
-  stateTotais,
-  stateAnoAtual,
-  stateMesAtual,
-}) {
+export default function GraficoDespesas() {
+
+  const ctxTotais = useContext(ContextTotais);
+  const ctxChecked = useContext(ContextChecked);
+  const ctxAnoMes = useContext(ContextAnoMes)
+
+  const stateMesAtual = ctxAnoMes.stateMesAtual
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual
+  const stateTotais = ctxTotais.stateTotais;
+  const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
+
   const [despesas, setDespesas] = useState([]);
   const [stateGrafico, setStateGrafico] = useState("1");
   const [descricao, setDescricao] = useState("");

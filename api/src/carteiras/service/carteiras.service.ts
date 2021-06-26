@@ -1,4 +1,5 @@
 import { Injectable, Inject, BadRequestException } from '@nestjs/common';
+import { User } from 'src/shared/decorator/user.decorator';
 import { Repository } from 'typeorm';
 import { CarteirasDTO } from '../dto/carteiras.dto';
 import { Carteiras } from '../entity/carteiras.entity';
@@ -18,9 +19,9 @@ export class CarteirasService {
     }
   }
 
-  async retornaTodasCarteiras(): Promise<Carteiras[]> {
+  async retornaTodasCarteiras( userId: string): Promise<Carteiras[]> {
     try {
-      return await this.carteiraRepository.find({ order: { id: 'ASC' } });
+      return await this.carteiraRepository.find({ order: { id: 'ASC' }, relations:['user'], where:{user: userId}});
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -47,9 +48,8 @@ export class CarteirasService {
     }
   }
 
-  async alteraCarteira(carteira: CarteirasDTO): Promise<Carteiras> {
+  async alteraCarteira(id: number, carteira: CarteirasDTO): Promise<Carteiras> {
     try {
-      const { id } = carteira;
       await this.carteiraRepository.update({ id }, carteira);
       return this.getOne(id);
     } catch (error) {
