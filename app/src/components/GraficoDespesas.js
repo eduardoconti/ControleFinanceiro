@@ -11,13 +11,12 @@ import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 
 export default function GraficoDespesas() {
-
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
-  const ctxAnoMes = useContext(ContextAnoMes)
+  const ctxAnoMes = useContext(ContextAnoMes);
 
-  const stateMesAtual = ctxAnoMes.stateMesAtual
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual
+  const stateMesAtual = ctxAnoMes.stateMesAtual;
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
   const stateTotais = ctxTotais.stateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
 

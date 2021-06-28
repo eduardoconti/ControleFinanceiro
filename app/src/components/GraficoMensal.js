@@ -59,11 +59,10 @@ function adicionaNoArrayDeDados(dados, receitas, despesas) {
 }
 
 export default function GraficoReceitas() {
-
   const ctxTotais = useContext(ContextTotais);
-  const ctxAnoMes = useContext(ContextAnoMes)
+  const ctxAnoMes = useContext(ContextAnoMes);
 
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
   const stateTotais = ctxTotais.stateTotais;
 
   const [dados, setDados] = useState([]);

@@ -23,8 +23,8 @@ export class CategoriasController {
   constructor(private readonly categoriaService: CategoriasService) {}
 
   @Get()
-  async getAll(@User() user: UserPayloadInterface ): Promise<Categorias[]> {
-    return await this.categoriaService.retornaTodasCategorias( user.userId);
+  async getAll(@User() user: UserPayloadInterface): Promise<Categorias[]> {
+    return await this.categoriaService.retornaTodasCategorias(user.userId);
   }
 
   @Post()
@@ -45,6 +45,6 @@ export class CategoriasController {
     @Param('id') id: number,
     @Body() despesa: CategoriasDTO,
   ): Promise<Categorias> {
-    return this.categoriaService.alteraCategoria(id,despesa);
+    return this.categoriaService.alteraCategoria(id, despesa);
   }
 }

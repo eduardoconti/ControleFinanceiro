@@ -1,4 +1,9 @@
-import { Injectable, Inject, BadRequestException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  Inject,
+  BadRequestException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Despesas } from '../entity/despesas.entity';
 import { DespesasDTO } from '../dto/despesas.dto';
@@ -9,7 +14,7 @@ export class DespesaService {
   constructor(
     @Inject('DESPESAS')
     private despesaRepository: Repository<Despesas>,
-  ) { }
+  ) {}
 
   private CriaWhereMes(mes: number) {
     return !mes || mes == 0
@@ -26,18 +31,25 @@ export class DespesaService {
       ? 'TRUE'
       : "date_part('year',despesas.vencimento)=" + String(ano);
   }
-  async retornaTodasDespesas(ano?: number, mes?: number, pago?: boolean, userId?: string) {
+  async retornaTodasDespesas(
+    ano?: number,
+    mes?: number,
+    pago?: boolean,
+    userId?: string,
+  ) {
     mes = mes ?? 0;
     ano = ano ?? 0;
     try {
-      const select = ['despesas.id',
+      const select = [
+        'despesas.id',
         'despesas.descricao',
         'despesas.valor',
         'despesas.pago',
         'despesas.vencimento',
         'categoria',
         'carteira',
-        'user']
+        'user',
+      ];
       let despesas = await this.despesaRepository
         .createQueryBuilder('despesas')
         .select(select)
@@ -51,8 +63,7 @@ export class DespesaService {
         .andWhere(this.CriaWherePago(pago))
         .getMany();
 
-      return despesas
-
+      return despesas;
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -62,7 +73,7 @@ export class DespesaService {
     ano?: number,
     mes?: number,
     pago?: boolean,
-    userId?: string
+    userId?: string,
   ) {
     try {
       let despesas = await this.despesaRepository
@@ -88,7 +99,7 @@ export class DespesaService {
     ano?: number,
     mes?: number,
     pago?: boolean,
-    userId?: string
+    userId?: string,
   ) {
     try {
       let despesas = await this.despesaRepository
@@ -114,7 +125,12 @@ export class DespesaService {
     }
   }
 
-  async retornaTotalDespesas(ano?: number, mes?: number, pago?: boolean, userId?: string):Promise<number> {
+  async retornaTotalDespesas(
+    ano?: number,
+    mes?: number,
+    pago?: boolean,
+    userId?: string,
+  ): Promise<number> {
     try {
       let { sum } = await this.despesaRepository
         .createQueryBuilder('despesas')
@@ -132,7 +148,11 @@ export class DespesaService {
     }
   }
 
-  async retornaDespesasAgrupadasPorMes(ano?: number, pago?: boolean, userId?: string) {
+  async retornaDespesasAgrupadasPorMes(
+    ano?: number,
+    pago?: boolean,
+    userId?: string,
+  ) {
     try {
       let despesas = await this.despesaRepository
         .createQueryBuilder('despesas')
@@ -154,22 +174,24 @@ export class DespesaService {
   }
 
   /**
-   * 
+   *
    * @param id:ring
    * @returns Despesas
    * @param userId
    * @throw UnauthorizedException
    * @throw BadRequestException
    */
-  async getOne(id: number, userId?:string): Promise<Despesas> {
+  async getOne(id: number, userId?: string): Promise<Despesas> {
     try {
       let despesa = await this.despesaRepository.findOneOrFail(
         { id },
         { relations: ['carteira', 'categoria', 'user'] },
       );
 
-      if (userId && despesa.user.id !== userId){
-        throw new UnauthorizedException(ERROR_MESSAGES.USER_TOKEN_NOT_EQUALS_TO_PARAM_URL)
+      if (userId && despesa.user.id !== userId) {
+        throw new UnauthorizedException(
+          ERROR_MESSAGES.USER_TOKEN_NOT_EQUALS_TO_PARAM_URL,
+        );
       }
 
       return despesa;
@@ -197,13 +219,17 @@ export class DespesaService {
     }
   }
   /**
-   * 
-   * @param id 
-   * @param despesa 
-   * @param userId 
+   *
+   * @param id
+   * @param despesa
+   * @param userId
    * @returns Despesas
    */
-  async alteraFlagPago(id: number, despesa: DespesasDTO, userId: string): Promise<Despesas> {
+  async alteraFlagPago(
+    id: number,
+    despesa: DespesasDTO,
+    userId: string,
+  ): Promise<Despesas> {
     try {
       await this.getOne(id, userId);
       await this.despesaRepository.update({ id }, despesa);
@@ -215,7 +241,7 @@ export class DespesaService {
 
   async deletaDespesa(
     id: number,
-    userId: string
+    userId: string,
   ): Promise<{ deleted: boolean; message?: string }> {
     try {
       await this.getOne(id, userId);
@@ -225,5 +251,4 @@ export class DespesaService {
       throw new BadRequestException(error);
     }
   }
-
 }

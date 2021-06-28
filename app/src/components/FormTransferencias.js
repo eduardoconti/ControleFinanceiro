@@ -44,12 +44,10 @@ export default function FormTransferencias({
   setFormulario,
   formulario,
   setRows,
-  
 }) {
-  
-  const ctxAnoMes = useContext(ContextAnoMes)
-  const stateMesAtual = ctxAnoMes.stateMesAtual
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual
+  const ctxAnoMes = useContext(ContextAnoMes);
+  const stateMesAtual = ctxAnoMes.stateMesAtual;
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
 
   const [carteiras, setCarteiras] = useState([]);
   const classes = useStyles();
@@ -157,7 +155,10 @@ export default function FormTransferencias({
           style={{ width: 120 }}
           value={formulario.valor}
           onChange={(event) =>
-            setFormulario({ ...formulario, valor: parseFloat(event.target.value) })
+            setFormulario({
+              ...formulario,
+              valor: parseFloat(event.target.value),
+            })
           }
         />
 
@@ -170,7 +171,7 @@ export default function FormTransferencias({
           onClick={async () => {
             let response = 0;
             let transferencias;
-            const parse = JSON.parse(atob(getToken().split('.')[1]));
+            const parse = JSON.parse(atob(getToken().split(".")[1]));
             formulario.user = parse.userId;
 
             if (formulario.id === 0)

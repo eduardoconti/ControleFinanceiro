@@ -15,7 +15,6 @@ import { CONSTRAINTS_LIMITS, CONSTRAINTS_MESSAGES } from 'src/shared/constants';
 import { Users } from 'src/users/entity/users.entity';
 
 export class DespesasDTO {
-
   @ApiProperty({
     description: 'uuid do usuario',
   })

@@ -6,9 +6,9 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 
 export default function BotaoMes() {
-  const ctxAnoMes = useContext(ContextAnoMes)
-  const stateMesAtual = ctxAnoMes.stateMesAtual
-  const setStateMesAtual = ctxAnoMes.setStateMesAtual
+  const ctxAnoMes = useContext(ContextAnoMes);
+  const stateMesAtual = ctxAnoMes.stateMesAtual;
+  const setStateMesAtual = ctxAnoMes.setStateMesAtual;
 
   const useStyles = makeStyles({
     botao: {

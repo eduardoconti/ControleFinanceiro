@@ -26,23 +26,25 @@ export class AuthService {
   }
 
   async login(user: UserPayloadDto): Promise<SignDto> {
-    const payload = { userName: user.userName, userId: user.userId, userProfile: user.userProfile } as UserPayloadInterface;
+    const payload = {
+      userName: user.userName,
+      userId: user.userId,
+      userProfile: user.userProfile,
+    } as UserPayloadInterface;
     return {
       accessToken: this.jwtService.sign(payload),
     };
   }
 
-  decodeToken(token: string){
+  decodeToken(token: string) {
     try {
-        const decodedToken = this.jwtService.decode(token) ;
-        if (!decodedToken) {
-            throw new UnauthorizedException(ERROR_MESSAGES.TOKEN_DECODE_ERROR);
-        }
-        return decodedToken;
-    } catch (error) {
+      const decodedToken = this.jwtService.decode(token);
+      if (!decodedToken) {
         throw new UnauthorizedException(ERROR_MESSAGES.TOKEN_DECODE_ERROR);
+      }
+      return decodedToken;
+    } catch (error) {
+      throw new UnauthorizedException(ERROR_MESSAGES.TOKEN_DECODE_ERROR);
     }
-}
-
-
+  }
 }

@@ -16,9 +16,7 @@ import { ContextChecked } from "../Context/CheckedContext";
 let theme = createMuiTheme();
 theme = responsiveFontSizes(theme);
 
-export default function CardReceitas({
-  setStateCurrentBody,
-}) {
+export default function CardReceitas({ setStateCurrentBody }) {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
 

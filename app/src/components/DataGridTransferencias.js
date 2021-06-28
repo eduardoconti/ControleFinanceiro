@@ -29,15 +29,10 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DataGridComponent({
-  setFormulario,
-  rows,
-  setRows
-}) {
-
-  const ctxAnoMes = useContext(ContextAnoMes)
-  const stateMesAtual = ctxAnoMes.stateMesAtual
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual
+export default function DataGridComponent({ setFormulario, rows, setRows }) {
+  const ctxAnoMes = useContext(ContextAnoMes);
+  const stateMesAtual = ctxAnoMes.stateMesAtual;
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
 
   const classes = useStyles();
   const [alert, setAlert] = useState(emptyAlertState);
@@ -136,7 +131,7 @@ export default function DataGridComponent({
   useEffect(() => {
     getTransferencias(stateAnoAtual, stateMesAtual).then((transferencias) => {
       setRows(formataDadosParaLinhasDataGrid(transferencias));
-    });// eslint-disable-next-line
+    }); // eslint-disable-next-line
   }, [stateAnoAtual, stateMesAtual]);
 
   return (

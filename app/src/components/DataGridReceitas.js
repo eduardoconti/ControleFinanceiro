@@ -35,21 +35,20 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DataGridComponent({setFormulario}) {
-
+export default function DataGridComponent({ setFormulario }) {
   const [rows, setRows] = useState([]);
   const classes = useStyles();
   const [alert, setAlert] = useState(emptyAlertState);
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
-  const ctxAnoMes = useContext(ContextAnoMes)
+  const ctxAnoMes = useContext(ContextAnoMes);
 
-  const setStateTotais = ctxTotais.setStateTotais; 
+  const setStateTotais = ctxTotais.setStateTotais;
   const stateTotais = ctxTotais.stateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
   const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
-  const stateMesAtual = ctxAnoMes.stateMesAtual
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual
+  const stateMesAtual = ctxAnoMes.stateMesAtual;
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
 
   const columns = [
     { field: "descricao", headerName: "Descricao", width: 150 },

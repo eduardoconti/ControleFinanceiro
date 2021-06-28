@@ -3,13 +3,12 @@ import API from "./Api";
 const ENDPOINT = "carteiras/";
 
 export async function retornaCarteiras() {
-
   try {
     const res = await API.get(ENDPOINT);
     return res.data;
   } catch (error) {
-    console.log(error)
-    return  [{ id: 0, descricao: "" }];
+    console.log(error);
+    return [{ id: 0, descricao: "" }];
   }
 }
 

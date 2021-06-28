@@ -7,13 +7,13 @@ export default function GraficosContainer() {
   return (
     <Grid container spacing={1}>
       <Grid item xs={12} sm={4} md={4} lg={12}>
-        <GraficoMensal/>
+        <GraficoMensal />
       </Grid>
       <Grid item xs={12} sm={4} md={4} lg={12}>
-        <GraficoDespesas/>
+        <GraficoDespesas />
       </Grid>
       <Grid item xs={12} sm={4} md={4} lg={12}>
-        <GraficoReceitas/>
+        <GraficoReceitas />
       </Grid>
     </Grid>
   );

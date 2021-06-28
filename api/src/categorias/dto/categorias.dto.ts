@@ -10,7 +10,7 @@ export class CategoriasDTO {
   @IsUUID('4')
   @IsNotEmpty({ message: CONSTRAINTS_MESSAGES.IS_NOT_EMPTY })
   user: Users;
-  
+
   @ApiProperty({
     description: 'Descrição da categoria',
     minLength: CONSTRAINTS_LIMITS.DESCRICAO.min,

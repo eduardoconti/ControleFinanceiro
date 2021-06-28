@@ -13,7 +13,6 @@ import { CONSTRAINTS_LIMITS, CONSTRAINTS_MESSAGES } from 'src/shared/constants';
 import { Users } from 'src/users/entity/users.entity';
 
 export class ReceitasDTO {
-
   @ApiProperty({
     description: 'uuid do usuario',
   })
@@ -52,7 +51,6 @@ export class ReceitasDTO {
 
   @ApiProperty()
   @IsNotEmpty({ message: CONSTRAINTS_MESSAGES.IS_NOT_EMPTY })
- // @IsNumber({}, { message: CONSTRAINTS_MESSAGES.IS_NUMBER })
+  // @IsNumber({}, { message: CONSTRAINTS_MESSAGES.IS_NUMBER })
   carteira: Carteiras;
-
 }

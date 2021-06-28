@@ -65,7 +65,7 @@ export default function DataGridCarteiras({ rows, setRows, setFormulario }) {
   useEffect(() => {
     retornaCarteiras().then((carteiras) => {
       setRows(carteiras);
-    });// eslint-disable-next-line
+    }); // eslint-disable-next-line
   }, []);
 
   return (

@@ -10,7 +10,7 @@ const select = [
   'receitas.pago',
   'receitas.pagamento',
   'carteira',
-  'user'
+  'user',
 ];
 
 function CriaWhereMes(mes: number) {
@@ -34,10 +34,13 @@ export class ReceitaService {
   constructor(
     @Inject('RECEITAS')
     private receitaRepository: Repository<Receitas>,
-  ) { }
+  ) {}
 
-
-  async retornaTodasReceitas(ano?: number, mes?: number, pago?: boolean): Promise<Receitas[]> {
+  async retornaTodasReceitas(
+    ano?: number,
+    mes?: number,
+    pago?: boolean,
+  ): Promise<Receitas[]> {
     mes = mes ?? 0;
     ano = ano ?? 0;
 
@@ -53,7 +56,7 @@ export class ReceitaService {
         .orderBy('receitas.valor', 'DESC')
         .getMany();
 
-      return receitas
+      return receitas;
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -118,8 +121,8 @@ export class ReceitaService {
     }
   }
   /**
-   * 
-   * @param id 
+   *
+   * @param id
    * @returns Receitas
    */
   async getOne(id: number): Promise<Receitas> {
@@ -128,7 +131,6 @@ export class ReceitaService {
         { id },
         { relations: ['carteira', 'user'] },
       );
-
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -146,7 +148,6 @@ export class ReceitaService {
   }
 
   async alteraReceita(receita: ReceitasDTO, id: number): Promise<Receitas> {
-
     try {
       await this.receitaRepository.update({ id }, receita);
       return this.getOne(id);
@@ -156,7 +157,6 @@ export class ReceitaService {
   }
 
   async alteraFlagPago(receita, id: number): Promise<Receitas> {
-
     try {
       await this.receitaRepository.update({ id }, receita);
       return this.getOne(id);

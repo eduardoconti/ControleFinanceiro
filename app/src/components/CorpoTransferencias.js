@@ -5,10 +5,7 @@ import { Grid } from "@material-ui/core";
 import { emptyFormularioTransferencia } from "../common/EmptyStates";
 
 export default function Transferencias() {
-
-  const [formulario, setFormulario] = useState(
-    emptyFormularioTransferencia()
-  );
+  const [formulario, setFormulario] = useState(emptyFormularioTransferencia());
   const [rows, setRows] = useState([]);
 
   return (

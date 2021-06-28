@@ -3,7 +3,6 @@ import { Card, Typography } from "@material-ui/core";
 import CardContent from "@material-ui/core/CardContent";
 import { ContextTotais } from "../Context/TotaisContext";
 export default function CardSaldo({ cor, descricao }) {
-
   const ctxTotais = useContext(ContextTotais);
   const valor = ctxTotais.stateTotais.saldo;
   let corValor = valor < 0 ? "red" : valor === 0 ? "black" : "#85f07b";

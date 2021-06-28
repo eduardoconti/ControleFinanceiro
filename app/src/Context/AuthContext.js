@@ -7,14 +7,13 @@ function AuthProvider({ children }) {
   const [token, setToken] = useState("");
 
   const setUserIdFromToken = (token) => {
-    if(token){
-      const parse = JSON.parse(atob(token.split('.')[1]));
-      setUserId(parse.userId)
+    if (token) {
+      const parse = JSON.parse(atob(token.split(".")[1]));
+      setUserId(parse.userId);
     }
-   
-  }
+  };
   useEffect(() => {
-    setUserIdFromToken(token)
+    setUserIdFromToken(token);
   }, [token]);
   return (
     <Context.Provider
@@ -22,7 +21,7 @@ function AuthProvider({ children }) {
         userId,
         setUserId,
         token,
-        setToken
+        setToken,
       }}
     >
       {children}

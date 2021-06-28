@@ -11,20 +11,19 @@ import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 
 export default function GraficoReceitas() {
-
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
-  const ctxAnoMes = useContext(ContextAnoMes)
+  const ctxAnoMes = useContext(ContextAnoMes);
 
-  const stateMesAtual = ctxAnoMes.stateMesAtual
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual
+  const stateMesAtual = ctxAnoMes.stateMesAtual;
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
   const stateTotais = ctxTotais.stateTotais;
   const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
 
   const [receitas, setReceitas] = useState([]);
   const [stateGrafico, setStateGrafico] = useState("1");
   const [descricao, setDescricao] = useState("");
-  
+
   useEffect(() => {
     async function pegaReceitas() {
       let receitas;

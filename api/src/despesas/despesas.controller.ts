@@ -10,7 +10,7 @@ import {
   Query,
   UseGuards,
   Request,
-  ParseIntPipe
+  ParseIntPipe,
 } from '@nestjs/common';
 import { DespesaService } from './service/despesas.service';
 import { Despesas } from './entity/despesas.entity';
@@ -25,9 +25,7 @@ import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 @ApiTags('despesas')
 @UseGuards(JwtAuthGuard)
 export class DespesasController {
-  constructor(private readonly despesaService: DespesaService) {
-    
-  }
+  constructor(private readonly despesaService: DespesaService) {}
 
   @Get()
   @ApiQuery({ name: 'ano', required: false, example: new Date().getFullYear() })
@@ -38,16 +36,26 @@ export class DespesasController {
     @Query('ano', ParseIntPipe) ano?: number,
     @Query('mes', ParseIntPipe) mes?: number,
     @Query('pago') pago?: boolean,
-  ):Promise<Despesas[]> {
-    return await this.despesaService.retornaTodasDespesas(ano, mes, pago, user.userId);
+  ): Promise<Despesas[]> {
+    return await this.despesaService.retornaTodasDespesas(
+      ano,
+      mes,
+      pago,
+      user.userId,
+    );
   }
 
   @Get('/total')
   async retornaTotalDespesas(
     @User() user: UserPayloadInterface,
-    @Query('pago') pago?: boolean) : Promise<number> {
-
-    return await this.despesaService.retornaTotalDespesas(0, 0, pago, user.userId);
+    @Query('pago') pago?: boolean,
+  ): Promise<number> {
+    return await this.despesaService.retornaTotalDespesas(
+      0,
+      0,
+      pago,
+      user.userId,
+    );
   }
 
   @Get('/:ano/mes')
@@ -56,7 +64,11 @@ export class DespesasController {
     @Param('ano', ParseIntPipe) ano: number,
     @Query('pago') pago?: boolean,
   ) {
-    return await this.despesaService.retornaDespesasAgrupadasPorMes(ano, pago,user.userId);
+    return await this.despesaService.retornaDespesasAgrupadasPorMes(
+      ano,
+      pago,
+      user.userId,
+    );
   }
 
   @Get('/:ano/mes/:mes')
@@ -66,7 +78,12 @@ export class DespesasController {
     @Param('mes') mes: number,
     @Query('pago') pago: boolean,
   ) {
-    return await this.despesaService.retornaTodasDespesas(ano, mes, pago,user.userId);
+    return await this.despesaService.retornaTodasDespesas(
+      ano,
+      mes,
+      pago,
+      user.userId,
+    );
   }
 
   @Get('/:ano/mes/:mes/categoria/valor')
@@ -80,7 +97,7 @@ export class DespesasController {
       ano,
       mes,
       pago,
-      user.userId
+      user.userId,
     );
   }
 
@@ -95,7 +112,7 @@ export class DespesasController {
       ano,
       mes,
       pago,
-      user.userId
+      user.userId,
     );
   }
 
@@ -106,13 +123,19 @@ export class DespesasController {
     @Param('mes') mes: number,
     @Query('pago') pago: boolean,
   ) {
-    return this.despesaService.retornaTotalDespesas(ano, mes, pago, user.userId);
+    return this.despesaService.retornaTotalDespesas(
+      ano,
+      mes,
+      pago,
+      user.userId,
+    );
   }
 
   @Get('/id/:id')
   async getById(
     @User() user: UserPayloadInterface,
-    @Param('id') id: number): Promise<Despesas> {
+    @Param('id') id: number,
+  ): Promise<Despesas> {
     return this.despesaService.getOne(id, user.userId);
   }
 
@@ -134,7 +157,10 @@ export class DespesasController {
   }
 
   @Delete('/:id')
-  async deletaDespesa(@Request() req: any, @Param('id') id: number): Promise<{ deleted: boolean }> {
+  async deletaDespesa(
+    @Request() req: any,
+    @Param('id') id: number,
+  ): Promise<{ deleted: boolean }> {
     const userId = req.user.userid;
     return this.despesaService.deletaDespesa(id, userId);
   }

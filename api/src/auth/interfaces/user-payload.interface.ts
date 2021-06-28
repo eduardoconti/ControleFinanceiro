@@ -1,5 +1,5 @@
 export interface UserPayloadInterface {
-    userName: string;
-    userId: string,
-    userProfile: number,
+  userName: string;
+  userId: string;
+  userProfile: number;
 }

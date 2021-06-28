@@ -36,31 +36,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FormDespesas({
-  setFormulario,
-  formulario
-}) {
+export default function FormDespesas({ setFormulario, formulario }) {
   const ctx = useContext(Context);
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
-  const ctxAnoMes = useContext(ContextAnoMes)
+  const ctxAnoMes = useContext(ContextAnoMes);
 
   const [categorias, setCategorias] = useState([]);
   const [carteiras, setCarteiras] = useState([]);
   const [alert, setAlert] = useState(emptyAlertState);
   const classes = useStyles();
 
-  const setStateTotais = ctxTotais.setStateTotais; 
+  const setStateTotais = ctxTotais.setStateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
   const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
-  const stateMesAtual = ctxAnoMes.stateMesAtual
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual
-  
+  const stateMesAtual = ctxAnoMes.stateMesAtual;
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
+
   const descricaoBotao = formulario.id === 0 ? "CADASTRAR" : "ALTERAR";
 
   useEffect(() => {
     retornaCategorias().then((categorias) => {
-      if ( categorias && categorias.length === 0) {
+      if (categorias && categorias.length === 0) {
         setAlert(AlertWarning("Necessário cadastrar categoria"));
       } else {
         setCategorias(categorias);
@@ -186,7 +183,7 @@ export default function FormDespesas({
           size="small"
           className={classes.botao}
           onClick={async () => {
-            let response
+            let response;
             formulario.user = ctx.userId;
             if (formulario.id === 0) {
               response = await insereDespesa(formulario);

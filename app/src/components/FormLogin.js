@@ -4,15 +4,13 @@ import { Box, TextField, Button } from "@material-ui/core";
 import { ObtemToken } from "../common/Login";
 import Alert from "./Alert";
 import { login, logout } from "../common/Auth";
-import {
-  emptyFormularioCarteira,
-  emptyAlertState,
-} from "../common/EmptyStates";
-import {Context} from '../Context/AuthContext';
+import { emptyAlertState } from "../common/EmptyStates";
+import { Context } from "../Context/AuthContext";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { calculaTotais } from "../common/Funcoes";
 import { ContextAnoMes } from "../Context/AnoMesContext";
+import { retornaStateAlertCadastro } from "../common/AlertFuncoes";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -31,21 +29,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FormLogin( {setOpen}) {
-    const [formulario, setFormulario] = useState({ username:'', password:''}
-      );  
+export default function FormLogin({ setOpen }) {
+  const [formulario, setFormulario] = useState({ username: "", password: "" });
   const classes = useStyles();
   const [alert, setAlert] = useState(emptyAlertState);
   const ctx = useContext(Context);
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
-  const ctxAnoMes = useContext(ContextAnoMes)
-  const stateMesAtual = ctxAnoMes.stateMesAtual
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual
-  const setStateTotais = ctxTotais.setStateTotais; 
+  const ctxAnoMes = useContext(ContextAnoMes);
+  const stateMesAtual = ctxAnoMes.stateMesAtual;
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
+  const setStateTotais = ctxTotais.setStateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
   const stateCheckedReceitas = ctxChecked.setStateCheckedReceitas;
-  
+
   return (
     <Box className="Formularios">
       <Alert alert={alert} setAlert={(alert) => setAlert(alert)} />
@@ -62,7 +59,7 @@ export default function FormLogin( {setOpen}) {
             setFormulario({ ...formulario, username: event.target.value })
           }
         />
-         <TextField
+        <TextField
           id="password"
           label="password"
           variant="outlined"
@@ -80,24 +77,26 @@ export default function FormLogin( {setOpen}) {
           size="small"
           className={classes.botao}
           onClick={async () => {
+            let { data, ...rest } = await ObtemToken(formulario);
 
-            console.log(formulario)
-            let token = await ObtemToken(formulario);
-
-            if(token){
-                login(token);
-                setOpen(false);         
-                ctx.setToken(token);
-                setStateTotais(
-                  await calculaTotais(
-                    stateCheckedDespesas,
-                    stateCheckedReceitas,
-                    stateAnoAtual,
-                    stateMesAtual
-                  )
-                );
+            if (data.hasOwnProperty("accessToken")) {
+              login(data.accessToken);
+              setOpen(false);
+              ctx.setToken(data.accessToken);
+              setStateTotais(
+                await calculaTotais(
+                  stateCheckedDespesas,
+                  stateCheckedReceitas,
+                  stateAnoAtual,
+                  stateMesAtual
+                )
+              );
+              setFormulario({ username: "", password: "" });
             }
-            setFormulario(emptyFormularioCarteira);          
+
+            setAlert(
+              retornaStateAlertCadastro(rest.status, "Login", rest.statusText)
+            );
           }}
         >
           LOGIN
@@ -110,8 +109,8 @@ export default function FormLogin( {setOpen}) {
           onClick={async () => {
             logout();
             setOpen(false);
-            ctx.setToken('');
-            ctx.setUserId('');
+            ctx.setToken("");
+            ctx.setUserId("");
           }}
         >
           logout

@@ -4,8 +4,12 @@ import { emptyChecked } from "../common/EmptyStates";
 const ContextChecked = createContext();
 
 function CheckedProvider({ children }) {
-    const [stateCheckedDespesas, setStateCheckedDespesas] = useState(emptyChecked);
-    const [stateCheckedReceitas, setStateCheckedReceitas] = useState(emptyChecked);
+  const [stateCheckedDespesas, setStateCheckedDespesas] = useState(
+    emptyChecked
+  );
+  const [stateCheckedReceitas, setStateCheckedReceitas] = useState(
+    emptyChecked
+  );
 
   return (
     <ContextChecked.Provider
@@ -13,7 +17,7 @@ function CheckedProvider({ children }) {
         stateCheckedDespesas,
         setStateCheckedDespesas,
         stateCheckedReceitas,
-        setStateCheckedReceitas
+        setStateCheckedReceitas,
       }}
     >
       {children}

@@ -19,9 +19,13 @@ export class CarteirasService {
     }
   }
 
-  async retornaTodasCarteiras( userId: string): Promise<Carteiras[]> {
+  async retornaTodasCarteiras(userId: string): Promise<Carteiras[]> {
     try {
-      return await this.carteiraRepository.find({ order: { id: 'ASC' }, relations:['user'], where:{user: userId}});
+      return await this.carteiraRepository.find({
+        order: { id: 'ASC' },
+        relations: ['user'],
+        where: { user: userId },
+      });
     } catch (error) {
       throw new BadRequestException(error);
     }

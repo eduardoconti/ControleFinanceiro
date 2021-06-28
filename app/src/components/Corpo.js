@@ -9,30 +9,19 @@ import CorpoTransferencias from "./CorpoTransferencias";
 import * as Constants from "../common/Constantes";
 
 import Alert from "./Alert";
-export default function CurrentBody({
-  stateCurrentBody
-}) {
-
+export default function CurrentBody({ stateCurrentBody }) {
   if (stateCurrentBody === Constants.CORPO_DESPESAS) {
-    return (
-      <CorpoDespesas/>
-    );
+    return <CorpoDespesas />;
   } else if (stateCurrentBody === Constants.CORPO_RECEITAS) {
-    return (
-      <CorpoReceitas/>
-    );
+    return <CorpoReceitas />;
   } else if (stateCurrentBody === Constants.CORPO_CATEGORIAS) {
     return <CorpoCategorias />;
   } else if (stateCurrentBody === Constants.CORPO_CARTEIRAS) {
     return <CorpoCarteiras />;
   } else if (stateCurrentBody === Constants.CORPO_SALDO) {
-    return (
-      <CorpoSaldo />
-    );
+    return <CorpoSaldo />;
   } else if (stateCurrentBody === Constants.CORPO_TRANSFERENCIAS) {
-    return (
-      <CorpoTransferencias/>
-    );
+    return <CorpoTransferencias />;
   } else if (stateCurrentBody === Constants.CORPO_BALANCO) {
     return (
       <Alert

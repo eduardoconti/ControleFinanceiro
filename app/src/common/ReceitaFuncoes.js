@@ -227,7 +227,7 @@ export function formataDadosParaLinhasDataGrid(receita) {
       ...receita,
       carteira: receita.carteira.descricao,
       pagamento: new Date(receita.pagamento).toUTCString().slice(5, 12),
-      valor: receita.valor.toFixed(2) 
+      valor: receita.valor.toFixed(2),
     };
   });
 }
@@ -238,7 +238,6 @@ export function formataDadosParaFormulario(receita) {
     carteira: receita.carteira.id,
     pagamento: new Date(receita.pagamento).toISOString().slice(0, 10),
   };
-
 }
 
 function errorResponse(error) {

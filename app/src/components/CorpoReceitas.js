@@ -6,9 +6,7 @@ import { Grid } from "@material-ui/core";
 import { emptyFormularioReceita } from "../common/EmptyStates";
 
 export default function CorpoReceitas() {
-  const [formulario, setFormulario] = useState(
-    emptyFormularioReceita()
-  );
+  const [formulario, setFormulario] = useState(emptyFormularioReceita());
 
   return (
     <Grid container spacing={1}>

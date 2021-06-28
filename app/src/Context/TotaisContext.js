@@ -4,12 +4,12 @@ import { emptyTotais } from "../common/EmptyStates";
 const ContextTotais = createContext();
 
 function TotaisProvider({ children }) {
-const [stateTotais, setStateTotais] = useState(emptyTotais);
+  const [stateTotais, setStateTotais] = useState(emptyTotais);
   return (
     <ContextTotais.Provider
       value={{
         stateTotais,
-        setStateTotais
+        setStateTotais,
       }}
     >
       {children}

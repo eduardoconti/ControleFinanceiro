@@ -7,10 +7,9 @@ import { emptyFormularioDespesa } from "../common/EmptyStates";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 
 export default function CorpoDespesas() {
-
-  const ctxAnoMes = useContext(ContextAnoMes)
-  const stateMesAtual = ctxAnoMes.stateMesAtual
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual
+  const ctxAnoMes = useContext(ContextAnoMes);
+  const stateMesAtual = ctxAnoMes.stateMesAtual;
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
   const [formulario, setFormulario] = useState(
     emptyFormularioDespesa(stateAnoAtual, stateMesAtual)
   );

@@ -9,6 +9,10 @@ import {
   responsiveFontSizes,
   MuiThemeProvider,
 } from "@material-ui/core";
+
+import LoginModal from "./LoginModal";
+import { isAuthenticated } from "../common/Auth";
+
 const useStyles = makeStyles({
   botao: {
     backgroundColor: "#F9FEFB",
@@ -26,12 +30,35 @@ theme = responsiveFontSizes(theme);
 
 export default function LeftMenu({ setStateCurrentBody }) {
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   function onClick(currentBody) {
     setStateCurrentBody(currentBody);
   }
+  const nome = isAuthenticated() ? "logout" : " login";
   return (
     <MuiThemeProvider theme={theme}>
       <Grid container direction="row" spacing={1}>
+        <Grid item xt={4} lg={12}>
+          <Button className={classes.botao} onClick={handleOpen}>
+            {nome}
+          </Button>
+          <LoginModal
+            open={open}
+            setOpen={(open) => {
+              setOpen(open);
+            }}
+            handleClose={() => {
+              handleClose();
+            }}
+          />
+        </Grid>
         <Grid item xs={4} lg={12}>
           <Ano />
         </Grid>

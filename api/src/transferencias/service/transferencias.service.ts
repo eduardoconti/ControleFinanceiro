@@ -10,7 +10,7 @@ const select = [
   'transferencias.dataTransferencia',
   'carteiraOrigem',
   'carteiraDestino',
-  'user'
+  'user',
 ];
 
 function CriaWhereMes(mes: number) {
@@ -87,10 +87,9 @@ export class TransferenciaService {
 
   async alteraTransferencia(
     transferencia: TransferenciasDTO,
-    id: number
+    id: number,
   ): Promise<Transferencias> {
     try {
-      
       await this.transferenciaRepository.update({ id }, transferencia);
       return this.getOne(id);
     } catch (error) {

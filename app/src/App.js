@@ -21,8 +21,6 @@ function App() {
         <TotaisProvider>
           <Box className="Container">
             <AnoMesProvider>
-              <LoginModal />
-
               <Grid container direction="row" spacing={1} justify="center">
                 <Grid item xs={12} sm={12} md={12} lg={1} xl={1}>
                   {/* LEFT */}

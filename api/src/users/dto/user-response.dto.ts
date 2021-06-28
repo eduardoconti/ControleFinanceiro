@@ -1,4 +1,4 @@
-import { Users } from "../entity/users.entity";
+import { Users } from '../entity/users.entity';
 
 export class UserResponseDto {
   id: string;
@@ -7,7 +7,7 @@ export class UserResponseDto {
   status: number;
   perfil: number;
 
-  constructor( users : Users ) {
+  constructor(users: Users) {
     this.id = users.id;
     this.login = users.login;
     this.nome = users.nome;

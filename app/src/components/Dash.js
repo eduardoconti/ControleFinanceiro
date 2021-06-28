@@ -10,14 +10,14 @@ import { ContextChecked } from "../Context/CheckedContext";
 import { calculaTotais } from "../common/Funcoes";
 import { ContextAnoMes } from "../Context/AnoMesContext";
 
-export default function Dash({setStateCurrentBody}) {
+export default function Dash({ setStateCurrentBody }) {
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
-  const ctxAnoMes = useContext(ContextAnoMes)
-  const stateMesAtual = ctxAnoMes.stateMesAtual
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual
+  const ctxAnoMes = useContext(ContextAnoMes);
+  const stateMesAtual = ctxAnoMes.stateMesAtual;
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
 
-  const setStateTotais = ctxTotais.setStateTotais; 
+  const setStateTotais = ctxTotais.setStateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
   const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
 
@@ -40,33 +40,41 @@ export default function Dash({setStateCurrentBody}) {
     stateMesAtual,
     setStateTotais,
   ]);
-  return <Grid container item spacing={1}>
-    {/* CARDS */}
-    <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
-      <CardDespesas
-        setStateCurrentBody={(currentBody) => setStateCurrentBody(currentBody)}
-      />
+  return (
+    <Grid container item spacing={1}>
+      {/* CARDS */}
+      <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
+        <CardDespesas
+          setStateCurrentBody={(currentBody) =>
+            setStateCurrentBody(currentBody)
+          }
+        />
+      </Grid>
+      <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
+        <CardReceitas
+          setStateCurrentBody={(currentBody) =>
+            setStateCurrentBody(currentBody)
+          }
+        />
+      </Grid>
+      <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
+        <CardSaldo
+          descricao="Saldo"
+          cor="#3EA99F"
+          setStateCurrentBody={() =>
+            setStateCurrentBody(Constantes.CORPO_SALDO)
+          }
+        />
+      </Grid>
+      <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
+        <CardBalanco
+          descricao="Balanço"
+          cor="DarkSlateGrey"
+          setStateCurrentBody={() =>
+            setStateCurrentBody(Constantes.CORPO_BALANCO)
+          }
+        />
+      </Grid>
     </Grid>
-    <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
-      <CardReceitas
-        setStateCurrentBody={(currentBody) => setStateCurrentBody(currentBody)}
-      />
-    </Grid>
-    <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
-      <CardSaldo
-        descricao="Saldo"
-        cor="#3EA99F"
-        setStateCurrentBody={() => setStateCurrentBody(Constantes.CORPO_SALDO)}
-      />
-    </Grid>
-    <Grid item xs={6} sm={6} md={6} lg={3} xl={3}>
-      <CardBalanco
-        descricao="Balanço"
-        cor="DarkSlateGrey"
-        setStateCurrentBody={() =>
-          setStateCurrentBody(Constantes.CORPO_BALANCO)
-        }
-      />
-    </Grid>
-  </Grid>;
+  );
 }

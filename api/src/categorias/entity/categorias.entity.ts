@@ -1,5 +1,11 @@
 import { Users } from 'src/users/entity/users.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToOne,
+} from 'typeorm';
 import { Despesas } from '../../despesas/entity/despesas.entity';
 
 @Entity({ schema: 'public', name: 'categorias' })

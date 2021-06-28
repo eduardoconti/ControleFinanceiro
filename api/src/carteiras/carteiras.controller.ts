@@ -23,9 +23,8 @@ export class CarteirasController {
   constructor(private readonly carteiraService: CarteirasService) {}
 
   @Get()
-  async getAll(@User() user: UserPayloadInterface,
-  ): Promise<Carteiras[]> {
-    return await this.carteiraService.retornaTodasCarteiras( user.userId);
+  async getAll(@User() user: UserPayloadInterface): Promise<Carteiras[]> {
+    return await this.carteiraService.retornaTodasCarteiras(user.userId);
   }
 
   @Post()
@@ -44,6 +43,6 @@ export class CarteirasController {
     @Param('id') id: number,
     @Body() despesa: CarteirasDTO,
   ): Promise<Carteiras> {
-    return this.carteiraService.alteraCarteira(id,despesa);
+    return this.carteiraService.alteraCarteira(id, despesa);
   }
 }

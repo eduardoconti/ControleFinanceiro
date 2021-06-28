@@ -18,9 +18,13 @@ export class CategoriasService {
     }
   }
 
-  async retornaTodasCategorias( userId: string): Promise<Categorias[]> {
+  async retornaTodasCategorias(userId: string): Promise<Categorias[]> {
     try {
-      return await this.categoriaRepository.find({ order: { id: 'ASC' }, relations:['user'], where:{user: userId} });
+      return await this.categoriaRepository.find({
+        order: { id: 'ASC' },
+        relations: ['user'],
+        where: { user: userId },
+      });
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -47,7 +51,10 @@ export class CategoriasService {
     }
   }
 
-  async alteraCategoria(id: number, categoria: CategoriasDTO): Promise<Categorias> {
+  async alteraCategoria(
+    id: number,
+    categoria: CategoriasDTO,
+  ): Promise<Categorias> {
     try {
       await this.categoriaRepository.update({ id }, categoria);
       return this.getOne(id);

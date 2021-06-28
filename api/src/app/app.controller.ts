@@ -37,7 +37,7 @@ export class AppController {
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   @UseInterceptors(ClassSerializerInterceptor)
-  async login(@User() user:UserPayloadInterface): Promise<SignDto> {
+  async login(@User() user: UserPayloadInterface): Promise<SignDto> {
     return this.authService.login(user);
   }
 

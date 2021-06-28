@@ -12,7 +12,6 @@ import { CONSTRAINTS_MESSAGES } from 'src/shared/constants';
 import { Users } from 'src/users/entity/users.entity';
 
 export class TransferenciasDTO {
-
   @ApiProperty({
     description: 'uuid do usuario',
   })

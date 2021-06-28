@@ -27,6 +27,7 @@ import ImportExportTwoToneIcon from "@material-ui/icons/ImportExportTwoTone";
 import { ContextTotais } from "../Context/TotaisContext";
 import { ContextChecked } from "../Context/CheckedContext";
 import { ContextAnoMes } from "../Context/AnoMesContext";
+import { Context } from "../Context/AuthContext";
 
 const useStyles = makeStyles({
   operacoes: {
@@ -35,19 +36,18 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DataGridDespesas({setFormulario}) {
-
+export default function DataGridDespesas({ setFormulario }) {
   const classes = useStyles();
   const ctxTotais = useContext(ContextTotais);
   const ctxChecked = useContext(ContextChecked);
-  const ctxAnoMes = useContext(ContextAnoMes)
-
-  const setStateTotais = ctxTotais.setStateTotais; 
+  const ctxAnoMes = useContext(ContextAnoMes);
+  const ctx = useContext(Context);
+  const setStateTotais = ctxTotais.setStateTotais;
   const stateTotais = ctxTotais.stateTotais;
   const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
   const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
-  const stateMesAtual = ctxAnoMes.stateMesAtual
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual
+  const stateMesAtual = ctxAnoMes.stateMesAtual;
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
 
   const [rows, setRows] = useState([]);
   const [alert, setAlert] = useState(emptyAlertState);
@@ -137,7 +137,7 @@ export default function DataGridDespesas({setFormulario}) {
                   stateMesAtual,
                   10
                 ).toISOString();
-                despesa.user = despesa.user.id
+                despesa.user = despesa.user.id;
                 const response = await insereDespesa(
                   formataDadosParaFormulario(despesa)
                 );
@@ -213,10 +213,18 @@ export default function DataGridDespesas({setFormulario}) {
   useEffect(() => {
     getDespesas(stateCheckedDespesas, stateAnoAtual, stateMesAtual).then(
       (despesas) => {
+        console.log(despesas);
         setRows(formataDadosParaLinhasDataGrid(despesas));
       }
     );
-  }, [stateCheckedDespesas, stateTotais, stateAnoAtual, stateMesAtual]);
+    console.log(ctx.userId);
+  }, [
+    stateCheckedDespesas,
+    stateTotais,
+    stateAnoAtual,
+    stateMesAtual,
+    ctx.userId,
+  ]);
 
   return (
     <Box>

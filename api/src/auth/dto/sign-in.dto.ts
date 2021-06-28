@@ -1,3 +1,3 @@
 export interface SignDto {
-    accessToken: string
+  accessToken: string;
 }

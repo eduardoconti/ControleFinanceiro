@@ -38,10 +38,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function BotaoAno() {
-
-  const ctxAnoMes = useContext(ContextAnoMes)
-  const stateAnoAtual = ctxAnoMes.stateAnoAtual
-  const setStateAnoAtual = ctxAnoMes.setStateAnoAtual
+  const ctxAnoMes = useContext(ContextAnoMes);
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
+  const setStateAnoAtual = ctxAnoMes.setStateAnoAtual;
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
