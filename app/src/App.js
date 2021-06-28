@@ -11,7 +11,7 @@ import { AuthProvider } from "./Context/AuthContext";
 import { CheckedProvider } from "./Context/CheckedContext";
 import { TotaisProvider } from "./Context/TotaisContext";
 import { AnoMesProvider } from "./Context/AnoMesContext";
-import LoginModal from "./components/LoginModal";
+
 function App() {
   const [stateCurrentBody, setStateCurrentBody] = useState(0);
 
