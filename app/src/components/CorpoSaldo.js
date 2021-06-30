@@ -8,8 +8,8 @@ import {
   retornaValoresTransferenciasOrigem,
   retornaValoresTransferenciasDestino,
 } from "../common/TransferenciaFuncoes";
-import { ContextAnoMes } from "../Context/AnoMesContext";
-async function RetornaCards(stateAnoAtual, stateMesAtual) {
+
+async function RetornaCards() {
   let object = await retornaDadosParaCard();
 
   return object.map((obj, i) => {
