@@ -77,7 +77,6 @@ async function retornaDadosParaCard() {
 
 export default function CorpoSaldo() {
   const [cards, setCards] = useState([]);
-  const ctxAnoMes = useContext(ContextAnoMes);
 
   useEffect(() => {
     RetornaCards().then((cards) => {
