@@ -119,6 +119,7 @@ export default function DataGridComponent({ setFormulario }) {
                 receita.pagamento = new Date(stateAnoAtual, stateMesAtual, 10);
                 receita.id = 0;
                 receita.pago = false;
+                receita.user = receita.user.id;
                 const response = await insereReceita(
                   formataDadosParaFormulario(receita)
                 );

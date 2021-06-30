@@ -110,7 +110,7 @@ export default function GraficoReceitas() {
           }}
         >
           <XAxis dataKey="name" />
-          <YAxis />
+          <YAxis domain={[0, 6000]}/>
           <Tooltip />
           <Legend formatter={renderColorfulLegendText} />
           <CartesianGrid stroke="#f5f5f5" />

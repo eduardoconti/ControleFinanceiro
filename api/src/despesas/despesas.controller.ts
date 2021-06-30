@@ -158,11 +158,10 @@ export class DespesasController {
 
   @Delete('/:id')
   async deletaDespesa(
-    @Request() req: any,
+    @User() user: UserPayloadInterface,
     @Param('id') id: number,
   ): Promise<{ deleted: boolean }> {
-    const userId = req.user.userid;
-    return this.despesaService.deletaDespesa(id, userId);
+    return this.despesaService.deletaDespesa(id, user.userId);
   }
 
   @Post()

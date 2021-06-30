@@ -44,8 +44,8 @@ export default function LeftMenu({ setStateCurrentBody }) {
   const nome = isAuthenticated() ? "logout" : " login";
   return (
     <MuiThemeProvider theme={theme}>
-      <Grid container direction="row" spacing={1}>
-        <Grid item xt={4} lg={12}>
+      <Grid container item spacing={1}>
+        <Grid item xs={4} lg={12}>
           <Button className={classes.botao} onClick={handleOpen}>
             {nome}
           </Button>
