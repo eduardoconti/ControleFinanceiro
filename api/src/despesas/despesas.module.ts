@@ -12,8 +12,6 @@ import { DespesasMiddleware } from './middleware/despesas.middleware';
 })
 export class DespesasModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(DespesasMiddleware)
-      .forRoutes(DespesasController);
+    consumer.apply(DespesasMiddleware).forRoutes(DespesasController);
   }
 }

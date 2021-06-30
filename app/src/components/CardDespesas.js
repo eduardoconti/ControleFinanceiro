@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CheckboxLabels from "./CheckBox";
@@ -10,16 +10,19 @@ import {
   Typography,
 } from "@material-ui/core";
 import * as Constants from "../common/Constantes";
+import { ContextTotais } from "../Context/TotaisContext";
+import { ContextChecked } from "../Context/CheckedContext";
 
 let theme = createMuiTheme();
 theme = responsiveFontSizes(theme);
 
-export default function Cards({
-  valor,
-  setStateChecked,
-  stateChecked,
-  setStateCurrentBody,
-}) {
+export default function CardDespesas({ setStateCurrentBody }) {
+  const ctxTotais = useContext(ContextTotais);
+  const ctxChecked = useContext(ContextChecked);
+
+  const valor = ctxTotais.stateTotais.totalDespesas;
+  const stateChecked = ctxChecked.stateCheckedDespesas;
+  const setStateChecked = ctxChecked.setStateCheckedDespesas;
   function onClik() {
     setStateCurrentBody(Constants.CORPO_DESPESAS);
   }

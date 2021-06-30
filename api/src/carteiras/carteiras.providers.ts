@@ -1,5 +1,5 @@
 import { Connection } from 'typeorm';
-import { Carteiras } from './carteiras.entity';
+import { Carteiras } from './entity/carteiras.entity';
 
 export const categoriasProviders = [
   {

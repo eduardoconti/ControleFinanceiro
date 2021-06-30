@@ -11,29 +11,31 @@ export async function getDespesas(
   stateAnoAtual,
   stateMesAtual
 ) {
-  var res = new Array(0);
-
-  if (
-    (stateCheckedDespesas.checkedPago && stateCheckedDespesas.checkedAberto) ||
-    (!stateCheckedDespesas.checkedPago && !stateCheckedDespesas.checkedAberto)
-  ) {
-    res = await API.get(
-      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual,
-      headers
-    );
-  } else if (stateCheckedDespesas.checkedPago) {
-    res = await API.get(
-      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/?pago=true",
-      headers
-    );
-  } else if (stateCheckedDespesas.checkedAberto) {
-    res = await API.get(
-      ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/?pago=false",
-      headers
-    );
+  let res;
+  try {
+    if (
+      (stateCheckedDespesas.checkedPago &&
+        stateCheckedDespesas.checkedAberto)
+    ) {
+      res = await API.get(
+        ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual,
+        headers
+      );
+    } else if (stateCheckedDespesas.checkedPago) {
+      res = await API.get(
+        ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/?pago=true",
+        headers
+      );
+    } else if (stateCheckedDespesas.checkedAberto) {
+      res = await API.get(
+        ENDPOINT + stateAnoAtual + "/mes/" + stateMesAtual + "/?pago=false",
+        headers
+      );
+    }
+    return res.data;
+  } catch (error) {
+    return error.response;
   }
-
-  return res.data;
 }
 
 export async function getValorDespesasPorCategoria(
@@ -140,7 +142,7 @@ export async function alteraDespesa(despesa) {
     const res = await API.put(ENDPOINT + despesa.id, despesa, headers);
     return resposta(res, "Alterado Despesa");
   } catch (error) {
-    return errorResponse(error.response.data);;
+    return errorResponse(error.response.data);
   }
 }
 
@@ -213,8 +215,8 @@ export async function retornaTotalDespesasAbertas(
 
 export async function retornaDespesaPorId(id) {
   try {
-    const total = await API.get(ENDPOINT + "id/" + id, headers);
-    return total.data;
+    const despesa = await API.get(ENDPOINT + "id/" + id, headers);
+    return despesa.data;
   } catch (error) {
     return error.response.status;
   }
@@ -226,7 +228,7 @@ export function formataDadosParaLinhasDataGrid(despesas) {
       categoria: despesa.categoria.descricao,
       carteira: despesa.carteira.descricao,
       vencimento: new Date(despesa.vencimento).toUTCString().slice(5, 12),
-      valor:despesa.valor.toFixed(2)
+      valor: despesa.valor.toFixed(2),
     };
   });
 }
@@ -254,7 +256,6 @@ function resposta(res, message) {
     data: res.data,
     message: message,
   };
-
 }
 
 function errorResponse(error) {

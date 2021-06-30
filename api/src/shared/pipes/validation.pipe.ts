@@ -38,7 +38,7 @@ export class ValidationPipe implements PipeTransform<any> {
           continue;
         }
 
-        errorsString += `${error.constraints[constraint]+'.'}\n`;
+        errorsString += `${error.constraints[constraint] + '.'}\n`;
       }
 
       errorsArray.push(errorsString);

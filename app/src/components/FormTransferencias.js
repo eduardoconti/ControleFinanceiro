@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -21,6 +21,8 @@ import {
 
 import Menu from "./MenuItemForm";
 import { retornaCarteiras } from "../common/CarteiraFuncoes";
+import { getToken } from "../common/Auth";
+import { ContextAnoMes } from "../Context/AnoMesContext";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -42,9 +44,11 @@ export default function FormTransferencias({
   setFormulario,
   formulario,
   setRows,
-  stateAnoAtual,
-  stateMesAtual,
 }) {
+  const ctxAnoMes = useContext(ContextAnoMes);
+  const stateMesAtual = ctxAnoMes.stateMesAtual;
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
+
   const [carteiras, setCarteiras] = useState([]);
   const classes = useStyles();
   const descricaoBotao = formulario.id === 0 ? "CADASTRAR" : "ALTERAR";
@@ -151,7 +155,10 @@ export default function FormTransferencias({
           style={{ width: 120 }}
           value={formulario.valor}
           onChange={(event) =>
-            setFormulario({ ...formulario, valor: parseFloat(event.target.value) })
+            setFormulario({
+              ...formulario,
+              valor: parseFloat(event.target.value),
+            })
           }
         />
 
@@ -164,6 +171,8 @@ export default function FormTransferencias({
           onClick={async () => {
             let response = 0;
             let transferencias;
+            const parse = JSON.parse(atob(getToken().split(".")[1]));
+            formulario.user = parse.userId;
 
             if (formulario.id === 0)
               response = await insereTransferencia(formulario);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -14,6 +14,10 @@ import {
   AlertWarning,
 } from "../common/AlertFuncoes";
 import Menu from "./MenuItemForm";
+import { Context } from "../Context/AuthContext";
+import { ContextTotais } from "../Context/TotaisContext";
+import { ContextChecked } from "../Context/CheckedContext";
+import { ContextAnoMes } from "../Context/AnoMesContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,24 +36,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FormDespesas({
-  stateCheckedDespesas,
-  stateCheckedReceitas,
-  setStateTotais,
-  setFormulario,
-  formulario,
-  stateMesAtual,
-  stateAnoAtual,
-}) {
+export default function FormDespesas({ setFormulario, formulario }) {
+  const ctx = useContext(Context);
+  const ctxTotais = useContext(ContextTotais);
+  const ctxChecked = useContext(ContextChecked);
+  const ctxAnoMes = useContext(ContextAnoMes);
+
   const [categorias, setCategorias] = useState([]);
   const [carteiras, setCarteiras] = useState([]);
   const [alert, setAlert] = useState(emptyAlertState);
   const classes = useStyles();
+
+  const setStateTotais = ctxTotais.setStateTotais;
+  const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
+  const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
+  const stateMesAtual = ctxAnoMes.stateMesAtual;
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
+
   const descricaoBotao = formulario.id === 0 ? "CADASTRAR" : "ALTERAR";
 
   useEffect(() => {
     retornaCategorias().then((categorias) => {
-      if ( categorias && categorias.length === 0) {
+      if (categorias && categorias.length === 0) {
         setAlert(AlertWarning("Necessário cadastrar categoria"));
       } else {
         setCategorias(categorias);
@@ -176,6 +184,8 @@ export default function FormDespesas({
           className={classes.botao}
           onClick={async () => {
             let response;
+            console.log(ctx)
+            formulario.user = ctx.userId;
             if (formulario.id === 0) {
               response = await insereDespesa(formulario);
             } else {

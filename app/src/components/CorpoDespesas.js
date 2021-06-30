@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import GridDespesas from "./DataGridDespesas";
 import FormularioDespesas from "./FormDespesas";
 import { Grid } from "@material-ui/core";
 import { emptyFormularioDespesa } from "../common/EmptyStates";
-export default function CorpoDespesas({
-  stateCheckedDespesas,
-  setStateTotais,
-  stateCheckedReceitas,
-  stateTotais,
-  stateMesAtual,
-  stateAnoAtual,
-}) {
+import { ContextAnoMes } from "../Context/AnoMesContext";
+
+export default function CorpoDespesas() {
+  const ctxAnoMes = useContext(ContextAnoMes);
+  const stateMesAtual = ctxAnoMes.stateMesAtual;
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
   const [formulario, setFormulario] = useState(
     emptyFormularioDespesa(stateAnoAtual, stateMesAtual)
   );
@@ -23,12 +21,6 @@ export default function CorpoDespesas({
     <Grid container spacing={1}>
       <Grid item xs={12}>
         <GridDespesas
-          stateCheckedDespesas={stateCheckedDespesas}
-          setStateTotais={(stateTotais) => {
-            setStateTotais(stateTotais);
-          }}
-          stateCheckedReceitas={stateCheckedReceitas}
-          stateTotais={stateTotais}
           setFormulario={(formulario) => setFormulario(formulario)}
           stateMesAtual={stateMesAtual}
           stateAnoAtual={stateAnoAtual}
@@ -37,11 +29,6 @@ export default function CorpoDespesas({
 
       <Grid item xs={12}>
         <FormularioDespesas
-          setStateTotais={(stateTotais) => {
-            setStateTotais(stateTotais);
-          }}
-          stateCheckedDespesas={stateCheckedDespesas}
-          stateCheckedReceitas={stateCheckedReceitas}
           formulario={formulario}
           setFormulario={(formulario) => setFormulario(formulario)}
           stateMesAtual={stateMesAtual}

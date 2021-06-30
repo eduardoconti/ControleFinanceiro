@@ -1,23 +1,17 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  ManyToMany,
-  JoinTable,
-} from 'typeorm';
-import { Categorias } from '../../categorias/categorias.entity';
-import { Carteiras } from '../../carteiras/carteiras.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Categorias } from '../../categorias/entity/categorias.entity';
+import { Carteiras } from '../../carteiras/entity/carteiras.entity';
+import { Users } from 'src/users/entity/users.entity';
 
-@Entity({schema:'public', name:'despesas'})
+@Entity({ schema: 'public', name: 'despesas' })
 export class Despesas {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column('text', { nullable: false })
   descricao: string;
 
-  @Column('float')
+  @Column('float', { default: 0 })
   valor: number;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
@@ -26,12 +20,17 @@ export class Despesas {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   pagamento: Date;
 
-  @Column('boolean')
+  @Column('boolean', { default: false })
   pago: boolean;
 
-  @ManyToOne(() => Carteiras, (carteiras) => carteiras.id)
-  carteira: number;
+  @ManyToOne(() => Carteiras, (carteiras) => carteiras.id, { nullable: false })
+  carteira: Carteiras;
 
-  @ManyToOne(() => Categorias, (categorias) => categorias.id)
-  categoria: number;
+  @ManyToOne(() => Categorias, (categorias) => categorias.id, {
+    nullable: false,
+  })
+  categoria: Categorias;
+
+  @ManyToOne(() => Users, (users) => users.id, { nullable: false })
+  user: Users;
 }

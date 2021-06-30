@@ -1,12 +1,12 @@
-export function emptyFormularioDespesa(ano, mes) {
+export function emptyFormularioDespesa() {
   return {
     descricao: "",
     categoria: "",
     carteira: "",
     valor: 0,
     pago: false,
-    pagamento: retornaDia10(ano, mes).toISOString().slice(0, 10),
-    vencimento: retornaDia10(ano, mes).toISOString().slice(0, 10),
+    pagamento: new Date().toISOString().slice(0, 10),
+    vencimento: new Date().toISOString().slice(0, 10),
     id: 0,
   };
 }
@@ -32,13 +32,13 @@ export const emptyChecked = {
   checkedAberto: true,
 };
 
-export function emptyFormularioReceita(ano, mes) {
+export function emptyFormularioReceita() {
   return {
     descricao: "",
     carteira: "",
     valor: 0,
     pago: false,
-    pagamento: retornaDia10(ano, mes).toISOString().slice(0, 10),
+    pagamento: new Date().toISOString().slice(0, 10),
     id: 0,
   };
 }
@@ -50,23 +50,13 @@ export const emptyAlertState = {
   title: "",
 };
 
-export function emptyFormularioTransferencia(ano, mes) {
+export function emptyFormularioTransferencia() {
   return {
     id: 0,
     carteiraOrigem: "",
     carteiraDestino: "",
     valor: 0,
     pago: false,
-    dataTransferencia: retornaDia10(ano, mes).toISOString().slice(0, 10),
+    dataTransferencia: new Date().toISOString().slice(0, 10),
   };
-}
-
-function retornaDia10(ano, mes) {
-  let dia 
-
-  new Date().getDate() > 10 && new Date().getMonth() + 1 === mes
-    ? (dia = new Date().getDate())
-    : (dia = 10);
-
-  return new Date(ano + "-" + mes + "-" + dia);
 }

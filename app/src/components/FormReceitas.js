@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -13,6 +13,10 @@ import {
   AlertWarning,
 } from "../common/AlertFuncoes";
 import Menu from "./MenuItemForm";
+import { getToken } from "../common/Auth";
+import { ContextTotais } from "../Context/TotaisContext";
+import { ContextChecked } from "../Context/CheckedContext";
+import { ContextAnoMes } from "../Context/AnoMesContext";
 const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -30,19 +34,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FormReceitas({
-  stateCheckedDespesas,
-  stateCheckedReceitas,
-  setStateTotais,
-  setFormulario,
-  formulario,
-  stateMesAtual,
-  stateAnoAtual,
-}) {
+export default function FormReceitas({ setFormulario, formulario }) {
   const [carteiras, setCarteiras] = useState([]);
   const classes = useStyles();
   const descricaoBotao = formulario.id === 0 ? "CADASTRAR" : "ALTERAR";
   const [alert, setAlert] = useState(emptyAlertState);
+
+  const ctxTotais = useContext(ContextTotais);
+  const ctxChecked = useContext(ContextChecked);
+  const ctxAnoMes = useContext(ContextAnoMes);
+  const setStateTotais = ctxTotais.setStateTotais;
+  const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
+  const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
+  const stateMesAtual = ctxAnoMes.stateMesAtual;
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
 
   useEffect(() => {
     retornaCarteiras().then((carteiras) => {
@@ -144,6 +149,8 @@ export default function FormReceitas({
           className={classes.botao}
           onClick={async () => {
             let response = 0;
+            const parse = JSON.parse(atob(getToken().split(".")[1]));
+            formulario.user = parse.userId;
             if (formulario.id === 0) response = await insereReceita(formulario);
             else {
               response = await alteraReceita(formulario);

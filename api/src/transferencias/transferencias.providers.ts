@@ -1,5 +1,5 @@
 import { Connection, Repository } from 'typeorm';
-import { Transferencias } from './transferencias.entity';
+import { Transferencias } from './entity/transferencias.entity';
 
 export const transferenciasProviders = [
   {

@@ -1,7 +1,8 @@
-import { Injectable, Inject, BadRequestException } from '@nestjs/common';
+import { Injectable, Inject, BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Receitas } from '../entity/receitas.entity';
 import { ReceitasDTO } from '../dto/receitas.dto';
+import { ERROR_MESSAGES } from 'src/users/constants/messages.constants';
 
 const select = [
   'receitas.id',
@@ -10,6 +11,7 @@ const select = [
   'receitas.pago',
   'receitas.pagamento',
   'carteira',
+  'user',
 ];
 
 function CriaWhereMes(mes: number) {
@@ -23,7 +25,9 @@ function CriaWherePago(pago: boolean) {
 }
 
 function CriaWhereAno(ano: number) {
-  return !ano || ano == 0 ? 'TRUE' : "date_part('year',receitas.pagamento)=" + String(ano);
+  return !ano || ano == 0
+    ? 'TRUE'
+    : "date_part('year',receitas.pagamento)=" + String(ano);
 }
 
 @Injectable()
@@ -33,7 +37,12 @@ export class ReceitaService {
     private receitaRepository: Repository<Receitas>,
   ) {}
 
-  async retornaTodasReceitas(ano?: number, mes?: number, pago?: boolean) {
+  async retornaTodasReceitas(
+    ano?: number,
+    mes?: number,
+    pago?: boolean,
+    userId?: string
+  ): Promise<Receitas[]> {
     mes = mes ?? 0;
     ano = ano ?? 0;
 
@@ -42,11 +51,14 @@ export class ReceitaService {
         .createQueryBuilder('receitas')
         .select(select)
         .innerJoin('receitas.carteira', 'carteira')
-        .where(CriaWhereAno(ano))
+        .innerJoin('receitas.user', 'user')
+        .where('user.id= :userId', { userId: userId })
+        .andWhere(CriaWhereAno(ano))
         .andWhere(CriaWhereMes(mes))
         .andWhere(CriaWherePago(pago))
         .orderBy('receitas.valor', 'DESC')
         .getMany();
+
       return receitas;
     } catch (error) {
       throw new BadRequestException(error);
@@ -57,6 +69,7 @@ export class ReceitaService {
     ano?: number,
     mes?: number,
     pago?: boolean,
+    userId?: string
   ) {
     try {
       let receitas = await this.receitaRepository
@@ -67,7 +80,9 @@ export class ReceitaService {
           'carteira.id id',
         ])
         .innerJoin('receitas.carteira', 'carteira')
-        .where(CriaWhereAno(ano))
+        .innerJoin('receitas.user', 'user')
+        .where('user.id= :userId', { userId: userId })
+        .andWhere(CriaWhereAno(ano))
         .andWhere(CriaWhereMes(mes))
         .andWhere(CriaWherePago(pago))
         .groupBy('carteira.id')
@@ -79,12 +94,14 @@ export class ReceitaService {
     }
   }
 
-  async retornaTotalReceitas(ano?: number, mes?: number, pago?: boolean) {
+  async retornaTotalReceitas(ano?: number, mes?: number, pago?: boolean, userId?: string) {
     try {
       let { sum } = await this.receitaRepository
         .createQueryBuilder('receitas')
         .select('SUM(receitas.valor)', 'sum')
-        .where(CriaWhereAno(ano))
+        .innerJoin('receitas.user', 'user')
+        .where('user.id= :userId', { userId: userId })
+        .andWhere(CriaWhereAno(ano))
         .andWhere(CriaWhereMes(mes))
         .andWhere(CriaWherePago(pago))
         .getRawOne();
@@ -94,12 +111,17 @@ export class ReceitaService {
     }
   }
 
-  async retornaDespesasAgrupadasPorMes(ano?: number, pago?: boolean) {
+  async retornaDespesasAgrupadasPorMes(ano?: number, pago?: boolean, userId?: string) {
     try {
       let receitas = await this.receitaRepository
         .createQueryBuilder('receitas')
-        .select(['SUM(receitas.valor) valor', "date_part('month',receitas.pagamento) mes"])
-        .where(CriaWhereAno(ano))
+        .select([
+          'SUM(receitas.valor) valor',
+          "date_part('month',receitas.pagamento) mes",
+        ])
+        .innerJoin('receitas.user', 'user')
+        .where('user.id= :userId', { userId: userId })
+        .andWhere(CriaWhereAno(ano))
         .andWhere(CriaWherePago(pago))
         .groupBy("date_part('month',receitas.pagamento)")
         .getRawMany();
@@ -108,20 +130,32 @@ export class ReceitaService {
       throw new BadRequestException(error);
     }
   }
-
-  async getOne(id: number): Promise<Receitas> {
+  /**
+   *
+   * @param id
+   * @returns Receitas
+   */
+  async getOne(id: number, userId?:string): Promise<Receitas> {
     try {
-      return this.receitaRepository.findOneOrFail(
+      const receita = await this.receitaRepository.findOneOrFail(
         { id },
-        { relations: ['carteira'] },
+        { relations: ['carteira', 'user'] },
       );
+
+      if (userId && receita.user.id !== userId) {
+        throw new UnauthorizedException(
+          ERROR_MESSAGES.USER_TOKEN_NOT_EQUALS_TO_PARAM_URL,
+        );
+      }
+
+      return receita
     } catch (error) {
       throw new BadRequestException(error);
     }
   }
 
   async insereReceita(receita: ReceitasDTO): Promise<Receitas> {
-    const newReceitas = this.receitaRepository.create(receita);
+    const newReceitas = await this.receitaRepository.create(receita);
     try {
       await this.receitaRepository.save(newReceitas);
     } catch (error) {
@@ -131,21 +165,21 @@ export class ReceitaService {
     return newReceitas;
   }
 
-  async alteraReceita(receita: ReceitasDTO): Promise<Receitas> {
-    const { id } = receita;
+  async alteraReceita(receitaDto: ReceitasDTO, id: number, userId: string): Promise<Receitas> {
     try {
-      await this.receitaRepository.update({ id }, receita);
-      return this.getOne(id);
+      const receita = await this.getOne(id, userId);
+      await this.receitaRepository.update({ id }, receitaDto);
+      return receita;
     } catch (error) {
       throw new BadRequestException(error);
     }
   }
 
-  async alteraFlagPago(receita) {
-    const { id } = receita;
+  async alteraFlagPago(receitaDto, id: number, userId: string): Promise<Receitas> {
     try {
-      await this.receitaRepository.update({ id }, receita);
-      return this.getOne(id);
+      const receita = await this.getOne(id, userId);
+      await this.receitaRepository.update({ id }, receitaDto);
+      return receita
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -153,8 +187,10 @@ export class ReceitaService {
 
   async deletaReceita(
     id: number,
+    userId: string
   ): Promise<{ deleted: boolean; message?: string }> {
     try {
+      await this.getOne(id, userId);
       await this.receitaRepository.delete({ id });
       return { deleted: true };
     } catch (error) {

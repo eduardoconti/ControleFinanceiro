@@ -8,13 +8,17 @@ import {
   Put,
   Delete,
   Post,
+  UseGuards,
 } from '@nestjs/common';
-import { TransferenciaService } from './transferencias.service';
-import { TransferenciasDTO } from './transferencias.dto';
-import { Transferencias } from './transferencias.entity';
+
+import { TransferenciasDTO } from './dto/transferencias.dto';
+import { Transferencias } from './entity/transferencias.entity';
 import { ApiTags } from '@nestjs/swagger';
+import { TransferenciaService } from './service/transferencias.service';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 @Controller('transferencias')
 @ApiTags('transferencias')
+@UseGuards(JwtAuthGuard)
 export class TransferenciasController {
   constructor(private readonly transferenciaService: TransferenciaService) {}
   @Get()
@@ -74,7 +78,7 @@ export class TransferenciasController {
     @Param('id') id: number,
     @Body() transferencia: TransferenciasDTO,
   ): Promise<Transferencias> {
-    return this.transferenciaService.alteraTransferencia(transferencia);
+    return this.transferenciaService.alteraTransferencia(transferencia, id);
   }
   @Delete('/:id')
   async deletaTransferencia(

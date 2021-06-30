@@ -6,32 +6,43 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsUUID,
   Length,
 } from 'class-validator';
-import { CONSTRAINTS_MESSAGES } from 'src/shared/constants';
+import { Carteiras } from 'src/carteiras/entity/carteiras.entity';
+import { Categorias } from 'src/categorias/entity/categorias.entity';
+import { CONSTRAINTS_LIMITS, CONSTRAINTS_MESSAGES } from 'src/shared/constants';
+import { Users } from 'src/users/entity/users.entity';
 
 export class DespesasDTO {
-  id?: number;
+  @ApiProperty({
+    description: 'uuid do usuario',
+  })
+  @IsUUID('4')
+  @IsNotEmpty({ message: CONSTRAINTS_MESSAGES.IS_NOT_EMPTY })
+  user: Users;
 
   @ApiProperty({
     description: 'Descrição da despesa',
-    minLength: 2,
-    maxLength: 50,
+    minLength: CONSTRAINTS_LIMITS.DESCRICAO.min,
+    maxLength: CONSTRAINTS_LIMITS.DESCRICAO.max,
   })
   @IsString({ message: CONSTRAINTS_MESSAGES.IS_STRING })
-  @Length(2, 50, { message: CONSTRAINTS_MESSAGES.IS_LENGTH })
+  @Length(CONSTRAINTS_LIMITS.DESCRICAO.min, CONSTRAINTS_LIMITS.DESCRICAO.max, {
+    message: CONSTRAINTS_MESSAGES.IS_LENGTH,
+  })
   @IsNotEmpty({ message: CONSTRAINTS_MESSAGES.IS_NOT_EMPTY })
   descricao: string;
 
   @ApiProperty({ description: 'Id da categoria' })
   @IsNotEmpty({ message: CONSTRAINTS_MESSAGES.IS_NOT_EMPTY })
-  @IsNumber({}, { message: CONSTRAINTS_MESSAGES.IS_NUMBER })
-  categoria: number;
+  //@IsNumber({}, { message: CONSTRAINTS_MESSAGES.IS_NUMBER })
+  categoria: Categorias;
 
   @ApiProperty({ description: 'Id da carteira' })
   @IsNotEmpty({ message: CONSTRAINTS_MESSAGES.IS_NOT_EMPTY })
-  @IsNumber({}, { message: CONSTRAINTS_MESSAGES.IS_NUMBER })
-  carteira: number;
+  //@IsNumber({}, { message: CONSTRAINTS_MESSAGES.IS_NUMBER })
+  carteira: Carteiras;
 
   @ApiProperty({ description: 'Valor da despesa', default: 0 })
   @IsNumber({}, { message: CONSTRAINTS_MESSAGES.IS_NUMBER })

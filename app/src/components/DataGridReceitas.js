@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import DataGrid from "./DataGrid";
 import IconButton from "@material-ui/core/IconButton";
 import CreateTwoToneIcon from "@material-ui/icons/CreateTwoTone";
@@ -24,6 +24,9 @@ import {
   retornaStateAlertExclusao,
   retornaStateAlertCadastro,
 } from "../common/AlertFuncoes";
+import { ContextTotais } from "../Context/TotaisContext";
+import { ContextChecked } from "../Context/CheckedContext";
+import { ContextAnoMes } from "../Context/AnoMesContext";
 
 const useStyles = makeStyles({
   operacoes: {
@@ -32,18 +35,21 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DataGridComponent({
-  stateCheckedReceitas,
-  setStateTotais,
-  stateCheckedDespesas,
-  stateTotais,
-  setFormulario,
-  stateMesAtual,
-  stateAnoAtual,
-}) {
+export default function DataGridComponent({ setFormulario }) {
   const [rows, setRows] = useState([]);
   const classes = useStyles();
   const [alert, setAlert] = useState(emptyAlertState);
+  const ctxTotais = useContext(ContextTotais);
+  const ctxChecked = useContext(ContextChecked);
+  const ctxAnoMes = useContext(ContextAnoMes);
+
+  const setStateTotais = ctxTotais.setStateTotais;
+  const stateTotais = ctxTotais.stateTotais;
+  const stateCheckedDespesas = ctxChecked.stateCheckedDespesas;
+  const stateCheckedReceitas = ctxChecked.stateCheckedReceitas;
+  const stateMesAtual = ctxAnoMes.stateMesAtual;
+  const stateAnoAtual = ctxAnoMes.stateAnoAtual;
+
   const columns = [
     { field: "descricao", headerName: "Descricao", width: 150 },
 
@@ -113,6 +119,7 @@ export default function DataGridComponent({
                 receita.pagamento = new Date(stateAnoAtual, stateMesAtual, 10);
                 receita.id = 0;
                 receita.pago = false;
+                receita.user = receita.user.id;
                 const response = await insereReceita(
                   formataDadosParaFormulario(receita)
                 );

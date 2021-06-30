@@ -7,6 +7,8 @@ import { CategoriasModule } from '../categorias/categorias.module';
 import { CarteirasModule } from '../carteiras/carteiras.module';
 import { TransferenciasModule } from '../transferencias/transferencias.module';
 import { ConfigModule } from '@nestjs/config';
+import { UsersModule } from 'src/users/users.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { ConfigModule } from '@nestjs/config';
     CategoriasModule,
     CarteirasModule,
     TransferenciasModule,
+    UsersModule,
+    AuthModule,
     ConfigModule.forRoot(),
   ],
   controllers: [AppController],

@@ -1,1 +1,2 @@
-export * from './class-validator-messages';
+export * from './class-validator';
+export * from './password-messages';

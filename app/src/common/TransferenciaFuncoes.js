@@ -85,12 +85,10 @@ export function formataDadosParaLinhasDataGrid(transferencia) {
   return transferencia.map((transferencia) => {
     return {
       ...transferencia,
-      carteiraOrigem: transferencia.carteiraOrigem.descricao,
-      carteiraDestino: transferencia.carteiraDestino.descricao,
       dataTransferencia: new Date(transferencia.dataTransferencia)
         .toISOString()
         .slice(0, 10),
-      valor:transferencia.valor.toFixed(2)  
+      valor: transferencia.valor.toFixed(2),
     };
   });
 }
@@ -98,8 +96,6 @@ export function formataDadosParaLinhasDataGrid(transferencia) {
 export function formataDadosParaFormulario(transferencia) {
   return {
     ...transferencia,
-    carteiraOrigem: transferencia.carteiraOrigem.id,
-    carteiraDestino: transferencia.carteiraDestino.id,
     dataTransferencia: new Date(transferencia.dataTransferencia)
       .toISOString()
       .slice(0, 10),

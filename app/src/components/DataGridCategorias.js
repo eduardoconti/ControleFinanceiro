@@ -66,7 +66,7 @@ export default function DataGridCategorias({ rows, setRows, setFormulario }) {
   useEffect(() => {
     retornaCategorias().then((categorias) => {
       setRows(categorias);
-    });// eslint-disable-next-line
+    }); // eslint-disable-next-line
   }, []);
 
   return (
