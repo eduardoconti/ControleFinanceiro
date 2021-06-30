@@ -8,7 +8,7 @@ import {
   retornaValoresTransferenciasOrigem,
   retornaValoresTransferenciasDestino,
 } from "../common/TransferenciaFuncoes";
-import { ContextAnoMes } from "../Context/AnoMesContext";
+
 async function RetornaCards(stateAnoAtual, stateMesAtual) {
   let object = await retornaDadosParaCard();
 
